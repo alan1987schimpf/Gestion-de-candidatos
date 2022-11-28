@@ -291,6 +291,10 @@ public class EliminarVacante extends javax.swing.JFrame {
             txt_identificador.setText("");
             
             JOptionPane.showMessageDialog(null, "La vacante fue eliminada");
+            
+            Vacantes newFrame = new Vacantes();
+            newFrame.setVisible(true);                                     //hace visible la vantana
+            this.dispose();
              
         } catch (SQLException e) {
             
@@ -313,6 +317,7 @@ public class EliminarVacante extends javax.swing.JFrame {
         Vacantes newFrame = new Vacantes();
         newFrame.setVisible(true);                                     //hace visible la vantana
         this.dispose();
+        
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed

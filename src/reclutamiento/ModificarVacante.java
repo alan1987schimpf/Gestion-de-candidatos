@@ -323,23 +323,10 @@ public class ModificarVacante extends javax.swing.JFrame {
                     
                     JOptionPane.showMessageDialog(null, "Modificacion Exitosa");
                     
-                    choice_cliente.setBackground(Color.white);
-                    choice_vacante.setBackground(Color.white);
-                    txt_fechacomienzo.setBackground(Color.white);
-                    txt_cantidad.setBackground(Color.white);
-                    choice_estado.setBackground(Color.white);
-                    txt_fechacierre.setBackground(Color.white);
-                    txt_identificador.setBackground(Color.white);
-                    
-                    choice_cliente.select(0); 
-                    choice_vacante.select(0); 
-                    txt_fechacomienzo.setText("");
-                    txt_cantidad.setText("");
-                    choice_estado.select(0); 
-                    txt_fechacierre.setText("");
-                    txt_identificador.setText("");
-                    
-                      
+                    Vacantes newFrame = new Vacantes();
+                    newFrame.setVisible(true);                                     //hace visible la vantana
+                    this.dispose();
+                             
             }
              
         } catch (SQLException e) {

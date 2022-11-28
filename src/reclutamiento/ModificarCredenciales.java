@@ -18,12 +18,17 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import javax.swing.JOptionPane;
 import org.apache.commons.codec.binary.Base64;
+import static reclutamiento.Inicio.password;
+import static reclutamiento.Inicio.permiso;
+import static reclutamiento.Inicio.user;
 
 /**
  * @author Giuliana Carnevalle, Bautista Venier y Alan Sebastian Schimpf
  */
 
 public class ModificarCredenciales extends javax.swing.JFrame {
+    
+    public int ID;
 
     /**
      * Creates new form ModificarCredenciales
@@ -51,15 +56,17 @@ public class ModificarCredenciales extends javax.swing.JFrame {
             ResultSet rs = pst.executeQuery();
             
                 while(rs.next()){
+                    
+                    String secretKey = "hrzhgua";
+                    Inicio mMain = new Inicio();
+                    String cadenaDesencriptada = mMain.decode(secretKey, rs.getString("contraseña"));
             
-                    if (rs.getString("permiso").equalsIgnoreCase("superadministrador")) {
-                        
-                        String secretKey = "hrzhgua";
-                        Inicio mMain = new Inicio();
-                        String cadenaDesencriptada = mMain.decode(secretKey, rs.getString("contraseña"));
+                    if (rs.getString("email").equalsIgnoreCase(user) 
+                            && cadenaDesencriptada.equalsIgnoreCase(password)) {
                     
                         txt_email.setText(rs.getString("email"));
                         txt_contraseña.setText(cadenaDesencriptada);
+                        ID = rs.getInt("id");
                     
                     }           
                 }
@@ -179,9 +186,19 @@ public class ModificarCredenciales extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
 
-        SuperAdministrador newFrame = new SuperAdministrador();
-        newFrame.setVisible(true);                                     //hace visible la vantana
-        this.dispose();
+        if (permiso.equalsIgnoreCase("superadministrador")) {
+                        
+            SuperAdministrador newFrame = new SuperAdministrador();
+            newFrame.setVisible(true);                                     //hace visible la vantana
+            this.dispose();
+                    
+        } else {
+                        
+            Principal newFrame = new Principal();
+            newFrame.setVisible(true);                                     //hace visible la vantana
+            this.dispose();
+                        
+        }
 
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -203,7 +220,7 @@ public class ModificarCredenciales extends javax.swing.JFrame {
             
             }else{
                 
-                PreparedStatement pst1 = cn.prepareStatement("update usuarios set email = ?, contraseña = ? where permiso = 'superadministrador'");
+                PreparedStatement pst1 = cn.prepareStatement("update usuarios set email = ?, contraseña = ? where id = " + ID);
                 
                     String secretKey = "hrzhgua";
                     Inicio mMain = new Inicio();
@@ -219,12 +236,25 @@ public class ModificarCredenciales extends javax.swing.JFrame {
                     txt_email.setBackground(Color.GREEN);
                     txt_contraseña.setBackground(Color.GREEN);
                     
+                    user = txt_email.getText().trim();
+                    password = txt_contraseña.getText().trim();     
+                    
                     JOptionPane.showMessageDialog(null, "Modificacion Exitosa");
                     
-                    SuperAdministrador newFrame = new SuperAdministrador();
-                    newFrame.setVisible(true);                                     //hace visible la vantana
-                    this.dispose();
-   
+                    if (permiso.equalsIgnoreCase("superadministrador")) {
+                        
+                        SuperAdministrador newFrame = new SuperAdministrador();
+                        newFrame.setVisible(true);                                     //hace visible la vantana
+                        this.dispose();
+                    
+                    } else {
+                        
+                        Principal newFrame = new Principal();
+                        newFrame.setVisible(true);                                     //hace visible la vantana
+                        this.dispose();
+                        
+                    }
+                    
             }
 
         } catch (SQLException e) {

@@ -26,7 +26,8 @@ import org.apache.commons.codec.binary.Base64;
 public class Inicio extends javax.swing.JFrame {
     
     public static String user = "";
-    String password = "";
+    public static String password = "";
+    public static String permiso = "";
 
     /**
      * Creates new form Inicio
@@ -153,13 +154,15 @@ public class Inicio extends javax.swing.JFrame {
             
                 if (rs.next()) {
                     
+                    permiso = rs.getString("permiso");
+                    
                     String secretKey = "hrzhgua";
                     Inicio mMain = new Inicio();
                     String cadenaDesencriptada = mMain.decode(secretKey, rs.getString("contraseña"));
                     
                     if (cadenaDesencriptada.equalsIgnoreCase(txt_contraseña.getText())) {
                         
-                        if (txt_email.getText().equalsIgnoreCase("adrian") && txt_contraseña.getText().equalsIgnoreCase("adrian")) {
+                        if (rs.getString("permiso").equalsIgnoreCase("superadministrador")) {
                             
                             cn.close();
                             SuperAdministrador newFrame = new SuperAdministrador();

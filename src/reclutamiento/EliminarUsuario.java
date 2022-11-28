@@ -1,14 +1,25 @@
 
 package reclutamiento;
 
+import java.awt.Color;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  * @author Giuliana Carnevalle, Bautista Venier y Alan Sebastian Schimpf
  */
 
 public class EliminarUsuario extends javax.swing.JFrame {
+    
+    public int ID;
 
     /**
      * Creates new form EliminarUsuario
@@ -21,6 +32,9 @@ public class EliminarUsuario extends javax.swing.JFrame {
         setResizable(false);                                        //el usuario no puede modificar las dimensiones del jframeform
         setTitle("Eliminar Usuario");
         setLocationRelativeTo(null);
+        
+        GestionUsuariosAdministradores modificar = new GestionUsuariosAdministradores();
+        txt_email.setText(modificar.valor);
         
     }
     
@@ -43,6 +57,10 @@ public class EliminarUsuario extends javax.swing.JFrame {
 
         jButton2 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        txt_email = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setIconImage(getIconImage());
@@ -56,25 +74,72 @@ public class EliminarUsuario extends javax.swing.JFrame {
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/logo.png"))); // NOI18N
 
+        txt_email.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_emailActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setText("Email:");
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        jLabel3.setText("Eliminar Usuario");
+
+        jButton1.setText("Eliminar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jButton2)
-                .addContainerGap(673, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jLabel1))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButton2)
+                        .addContainerGap(673, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addGap(241, 241, 241))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jButton1)
+                                .addGap(161, 161, 161))))))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(160, 160, 160)
+                    .addComponent(jLabel2)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(txt_email, javax.swing.GroupLayout.PREFERRED_SIZE, 342, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(160, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jButton2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 293, Short.MAX_VALUE)
+                .addGap(49, 49, 49)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 162, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addGap(28, 28, 28)
                 .addComponent(jLabel1))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(189, 189, 189)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txt_email, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel2))
+                    .addContainerGap(189, Short.MAX_VALUE)))
         );
 
         pack();
@@ -87,6 +152,71 @@ public class EliminarUsuario extends javax.swing.JFrame {
         this.dispose();
         
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void txt_emailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_emailActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_emailActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        
+        try {
+            
+            Class.forName("oracle.jdbc.driver.OracleDriver");
+            String url = "";
+            String usuario = "system";
+            String pass = "admin";
+            
+            Connection cn = DriverManager.getConnection(url, usuario, pass);
+              
+            if (txt_email.getText().isEmpty()) {
+                
+                JOptionPane.showMessageDialog(null, "Debe introducir el Email");
+              
+            } else {
+                
+                PreparedStatement pst1 = cn.prepareStatement("select id from usuarios where email = ?");
+                pst1.setString(1, txt_email.getText().trim().toLowerCase());
+                ResultSet rs1 = pst1.executeQuery();
+
+                if (rs1.next()) {
+                    
+                    ID = rs1.getInt("id");
+                    
+                    PreparedStatement pst = cn.prepareStatement("delete from usuarios where id = " + ID);   
+
+                    pst.executeUpdate();                                          //se ejecutan las lineas que le enviamos a la base de datos
+                    cn.close();
+                    
+                    txt_email.setBackground(Color.GREEN);
+                    JOptionPane.showMessageDialog(null, "Usuario Eliminado");   
+                    
+                    txt_email.setBackground(Color.white);
+                    txt_email.setText("");
+                    
+                }else{
+                
+                    txt_email.setBackground(Color.RED);
+                    JOptionPane.showMessageDialog(null, "El Usuario no existe");
+                    
+                    txt_email.setBackground(Color.white);
+                    txt_email.setText("");
+                
+                }
+                     
+            }
+             
+        } catch (SQLException e) {
+            
+            System.err.println("Error con el boton eliminar candidato. " + e );
+            JOptionPane.showMessageDialog(null, "Error al eliminar el/la candidato/a!!. Contacte al administrador");
+            
+        } catch (ClassNotFoundException ex) {
+            
+            Logger.getLogger(AgregarCandidato.class.getName()).log(Level.SEVERE, null, ex);
+            
+        }
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -124,7 +254,11 @@ public class EliminarUsuario extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    public static javax.swing.JTextField txt_email;
     // End of variables declaration//GEN-END:variables
 }
