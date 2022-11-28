@@ -280,14 +280,13 @@ public class AgregarVacante extends javax.swing.JFrame {
                 txt_fechacierre.setText("");
                 
                 JOptionPane.showMessageDialog(null, "Registro Exitoso");
-                
-                Vacantes newFrame = new Vacantes();
-                newFrame.setVisible(true);                                     //hace visible la vantana
-                this.dispose();
             
             }
 
         } catch (SQLException e) {
+            
+            System.err.println("Error con el boton agregar. " + e );
+            JOptionPane.showMessageDialog(null, "Error al agregar la vacante!!. Contacte al administrador");
             
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(AgregarCandidato.class.getName()).log(Level.SEVERE, null, ex);

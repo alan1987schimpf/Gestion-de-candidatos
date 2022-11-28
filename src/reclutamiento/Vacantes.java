@@ -3,12 +3,24 @@ package reclutamiento;
 
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 /**
  * @author Giuliana Carnevalle, Bautista Venier y Alan Sebastian Schimpf
  */
 
 public class Vacantes extends javax.swing.JFrame {
+    
+    JTable tabla;
 
     /**
      * Creates new form Clientes
@@ -46,7 +58,7 @@ public class Vacantes extends javax.swing.JFrame {
         jTable1 = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
+        txt_buscar = new javax.swing.JTextField();
         jButton3 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
@@ -67,7 +79,7 @@ public class Vacantes extends javax.swing.JFrame {
                 {null, null, null, null, null, null}
             },
             new String [] {
-                "Cliente", "Vacante", "Fecha comienzo", "Cantidad", "Estado", "Fecha de cierre"
+                "Cliente", "Vacante", "Fecha de comienzo", "Cantidad", "Estado", "Fecha de cierre"
             }
         ));
         jScrollPane1.setViewportView(jTable1);
@@ -76,6 +88,11 @@ public class Vacantes extends javax.swing.JFrame {
         jLabel2.setText("jLabel2");
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/lupa.png"))); // NOI18N
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("Agregar Vacante");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -120,7 +137,7 @@ public class Vacantes extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 281, Short.MAX_VALUE)
+                                .addComponent(txt_buscar, javax.swing.GroupLayout.DEFAULT_SIZE, 281, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jButton1))))
                     .addGroup(layout.createSequentialGroup()
@@ -144,7 +161,7 @@ public class Vacantes extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jTextField1))
+                            .addComponent(txt_buscar))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel2))
                     .addGroup(layout.createSequentialGroup()
@@ -179,6 +196,74 @@ public class Vacantes extends javax.swing.JFrame {
         this.dispose(); 
         
     }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        
+        try {
+
+            Class.forName("oracle.jdbc.driver.OracleDriver");
+            String url = "";
+            String usuario = "system";
+            String pass = "admin";
+
+            Connection cn = DriverManager.getConnection(url, usuario, pass);
+            
+            PreparedStatement pst1 = cn.prepareStatement("select * from vacantes where cliente = ?");
+            PreparedStatement pst2 = cn.prepareStatement("select * from vacantes where vacante = ?");
+            
+            pst1.setString(1, txt_buscar.getText().trim().toLowerCase());
+            pst2.setString(1, txt_buscar.getText().trim().toLowerCase());
+            
+            ResultSet rs1 = pst1.executeQuery();
+            ResultSet rs2 = pst2.executeQuery();
+            
+            DefaultTableModel dfm = new DefaultTableModel();
+            tabla = this.jTable1;
+            tabla.setModel(dfm);
+            
+            dfm.setColumnIdentifiers(new Object[]{"Cliente","Vacante","Fecha de comienzo",
+                "Cantidad","Estado","Fecha de cierre"});
+            
+            if (rs1.next()) {
+                
+                dfm.addRow(new Object[]{rs1.getString("cliente"),rs1.getString("vacante"),rs1.getString("fechacomienzo"),
+                        rs1.getString("cantidad"),rs1.getString("estado"),rs1.getString("fechacierre")});
+                
+                while(rs1.next()){
+                
+                    dfm.addRow(new Object[]{rs1.getString("cliente"),rs1.getString("vacante"),rs1.getString("fechacomienzo"),
+                        rs1.getString("cantidad"),rs1.getString("estado"),rs1.getString("fechacierre")});
+                          
+                } 
+                
+            }else if(rs2.next()){
+            
+                dfm.addRow(new Object[]{rs2.getString("cliente"),rs2.getString("vacante"),rs2.getString("fechacomienzo"),
+                        rs2.getString("cantidad"),rs2.getString("estado"),rs2.getString("fechacierre")});
+                
+                while(rs2.next()){
+                
+                    dfm.addRow(new Object[]{rs2.getString("cliente"),rs2.getString("vacante"),rs2.getString("fechacomienzo"),
+                        rs2.getString("cantidad"),rs2.getString("estado"),rs2.getString("fechacierre")});
+                          
+                }
+    
+            }else {
+ 
+                JOptionPane.showMessageDialog(null, "No se encontraron resultados");
+                
+            }
+            
+        } catch (SQLException e) {
+            
+            System.err.println("Error con el boton buscar. " + e );
+            JOptionPane.showMessageDialog(null, "Error al realizar la busqueda!!. Contacte al administrador");
+            
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(AgregarCandidato.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -230,6 +315,6 @@ public class Vacantes extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField txt_buscar;
     // End of variables declaration//GEN-END:variables
 }
