@@ -35,8 +35,8 @@ public class AgregarCandidato extends javax.swing.JFrame {
     String estado [] = {"", "Pre-selección", "Entrevista Interna", "Presentado al cliente",              
         "Entrevista con el cliente", "Examen médico/psico", "Contratado", "En espera", "No interesado", "No se considera"};
     
-    String reclutadora [] = {"", "Florencia", "Micaela", "Constanza",              
-        "Giuliana", "Lucia", "Priscila"};
+    String reclutadora [] = {"", "Constanza", "Florencia", "Giuliana",              
+        "Lucia", "Micaela", "Priscila"};
      
     /**
      * Creates new form AgregarCandidato
@@ -45,6 +45,7 @@ public class AgregarCandidato extends javax.swing.JFrame {
     public AgregarCandidato() {
         initComponents();
         
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
         setResizable(false);                                        //el usuario no puede modificar las dimensiones del jframeform
         setTitle("Agregar Candidato");
         setLocationRelativeTo(null);

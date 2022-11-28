@@ -29,6 +29,7 @@ public class Candidatos extends javax.swing.JFrame {
     public Candidatos() {
         initComponents();
         
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
         setResizable(false);                                        //el usuario no puede modificar las dimensiones del jframeform
         setTitle("Candidatos");
         setLocationRelativeTo(null);
@@ -61,6 +62,7 @@ public class Candidatos extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         txt_buscar = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
+        jButton3 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -102,6 +104,13 @@ public class Candidatos extends javax.swing.JFrame {
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/logo.png"))); // NOI18N
         jLabel4.setText("jLabel4");
 
+        jButton3.setText("Tabla Completa");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
         jMenu1.setText("Opciones");
 
         jMenuItem1.setText("Vacantes");
@@ -135,7 +144,9 @@ public class Candidatos extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jLabel1)
-                        .addGap(536, 536, 536)
+                        .addGap(388, 388, 388)
+                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton1))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 951, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -159,7 +170,8 @@ public class Candidatos extends javax.swing.JFrame {
                 .addGap(23, 23, 23)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -300,6 +312,62 @@ public class Candidatos extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        
+        try {
+
+            Class.forName("oracle.jdbc.driver.OracleDriver");
+            String url = "";
+            String usuario = "system";
+            String pass = "admin";
+
+            Connection cn = DriverManager.getConnection(url, usuario, pass);
+            
+            PreparedStatement pst1 = cn.prepareStatement("select * from candidatos");
+            
+            ResultSet rs1 = pst1.executeQuery();
+  
+            DefaultTableModel dfm = new DefaultTableModel();
+            tabla = this.jTable1;
+            tabla.setModel(dfm);
+            
+            dfm.setColumnIdentifiers(new Object[]{"Nombre","Apellido","Telefono","E-mail","Linkedin","Perfil",
+                "Seniority","Nivel de Ingles","Rate","Cliente","Estado","Observaciones","Fecha","Reclutadora"});
+            
+            if (rs1.next()) {
+                
+                dfm.addRow(new Object[]{rs1.getString("nombre"),rs1.getString("apellido"),rs1.getString("telefono"),
+                        rs1.getString("email"),rs1.getString("linkedin"),rs1.getString("perfil"),rs1.getString("seniority"),
+                        rs1.getString("niveldeingles"),rs1.getString("rate"),rs1.getString("cliente"),rs1.getString("estado"),
+                        rs1.getString("observacion"),rs1.getString("fecha"),rs1.getString("reclutador"),});
+                
+                while(rs1.next()){
+                
+                    dfm.addRow(new Object[]{rs1.getString("nombre"),rs1.getString("apellido"),rs1.getString("telefono"),
+                        rs1.getString("email"),rs1.getString("linkedin"),rs1.getString("perfil"),rs1.getString("seniority"),
+                        rs1.getString("niveldeingles"),rs1.getString("rate"),rs1.getString("cliente"),rs1.getString("estado"),
+                        rs1.getString("observacion"),rs1.getString("fecha"),rs1.getString("reclutador"),});
+                          
+                } 
+                
+            }else {
+ 
+                JOptionPane.showMessageDialog(null, "No se encontraron resultados");
+                
+            }
+            
+        } catch (SQLException e) {
+            
+            System.err.println("Error con el boton buscar. " + e );
+            JOptionPane.showMessageDialog(null, "Error al realizar la busqueda!!. Contacte al administrador");
+            
+        } catch (ClassNotFoundException ex) {
+            
+            Logger.getLogger(AgregarCandidato.class.getName()).log(Level.SEVERE, null, ex);
+            
+        }   
+    }//GEN-LAST:event_jButton3ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -339,6 +407,7 @@ public class Candidatos extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
