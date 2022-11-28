@@ -467,8 +467,6 @@ public class ModificarCandidato extends javax.swing.JFrame {
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         
         try {
-
-            int A = 0;
             
             Class.forName("oracle.jdbc.driver.OracleDriver");
             String url = "";
