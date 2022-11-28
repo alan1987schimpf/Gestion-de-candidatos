@@ -320,8 +320,8 @@ public class Vacantes extends javax.swing.JFrame {
             
         } catch (SQLException e) {
             
-            System.err.println("Error con el boton buscar. " + e );
-            JOptionPane.showMessageDialog(null, "Error al realizar la busqueda!!. Contacte al administrador");
+            System.err.println("Error con el boton Tabla Completa. " + e );
+            JOptionPane.showMessageDialog(null, "Error al mostrar la tabla!!. Contacte al administrador");
             
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(AgregarCandidato.class.getName()).log(Level.SEVERE, null, ex);

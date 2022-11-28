@@ -345,8 +345,8 @@ public class AgregarCandidato extends javax.swing.JFrame {
                     txt_email.getText().isEmpty() || txt_linkedin.getText().isEmpty() || choice_perfil.getSelectedItem().isEmpty() ||
                     choice_seniority.getSelectedItem().isEmpty() || choice_niveldeingles.getSelectedItem().isEmpty() 
                     || txt_rate.getText().isEmpty() || choice_cliente.getSelectedItem().isEmpty() || 
-                    choice_estado.getSelectedItem().isEmpty() || txt_observacion.getText().isEmpty() ||
-                    txt_fecha.getText().isEmpty() || choice_reclutadora.getSelectedItem().isEmpty()){
+                    choice_estado.getSelectedItem().isEmpty() || txt_fecha.getText().isEmpty() || 
+                    choice_reclutadora.getSelectedItem().isEmpty()){
             
                 JOptionPane.showMessageDialog(null, "Debe Completar todos los campos");
                 
@@ -354,11 +354,11 @@ public class AgregarCandidato extends javax.swing.JFrame {
             }else{
             
                 pst.setString(1, txt_nombre.getText().trim().toLowerCase());
-                pst.setString(2, txt_apellido.getText().trim());
+                pst.setString(2, txt_apellido.getText().trim().toLowerCase());
                 pst.setString(3, txt_telefono.getText().trim());
                 pst.setString(4, txt_email.getText().trim());
                 pst.setString(5, txt_linkedin.getText().trim());
-                pst.setString(6, choice_perfil.getSelectedItem());
+                pst.setString(6, choice_perfil.getSelectedItem().toLowerCase());
                 pst.setString(7, choice_seniority.getSelectedItem().toLowerCase());
                 pst.setString(8, choice_niveldeingles.getSelectedItem());
                 pst.setString(9, txt_rate.getText().trim());

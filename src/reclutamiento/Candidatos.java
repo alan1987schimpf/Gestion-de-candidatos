@@ -214,16 +214,19 @@ public class Candidatos extends javax.swing.JFrame {
             Connection cn = DriverManager.getConnection(url, usuario, pass);
             
             PreparedStatement pst1 = cn.prepareStatement("select * from candidatos where nombre = ?");
-            PreparedStatement pst2 = cn.prepareStatement("select * from candidatos where telefono = ?");
-            PreparedStatement pst3 = cn.prepareStatement("select * from candidatos where seniority = ?");
+            PreparedStatement pst2 = cn.prepareStatement("select * from candidatos where apellido = ?");
+            PreparedStatement pst3 = cn.prepareStatement("select * from candidatos where perfil = ?");
+            PreparedStatement pst4 = cn.prepareStatement("select * from candidatos where seniority = ?");
             
             pst1.setString(1, txt_buscar.getText().trim().toLowerCase());
-            pst2.setString(1, txt_buscar.getText().trim());
+            pst2.setString(1, txt_buscar.getText().trim().toLowerCase());
             pst3.setString(1, txt_buscar.getText().trim().toLowerCase());
+            pst4.setString(1, txt_buscar.getText().trim().toLowerCase());
             
             ResultSet rs1 = pst1.executeQuery();
             ResultSet rs2 = pst2.executeQuery();
             ResultSet rs3 = pst3.executeQuery();
+            ResultSet rs4 = pst4.executeQuery();
             
             DefaultTableModel dfm = new DefaultTableModel();
             tabla = this.jTable1;
@@ -280,6 +283,22 @@ public class Candidatos extends javax.swing.JFrame {
                           
                 }
                 
+            }else if(rs4.next()){
+            
+                dfm.addRow(new Object[]{rs4.getString("nombre"),rs4.getString("apellido"),rs4.getString("telefono"),
+                        rs4.getString("email"),rs4.getString("linkedin"),rs4.getString("perfil"),rs4.getString("seniority"),
+                        rs4.getString("niveldeingles"),rs4.getString("rate"),rs4.getString("cliente"),rs4.getString("estado"),
+                        rs4.getString("observacion"),rs4.getString("fecha"),rs4.getString("reclutador"),});
+                
+                while(rs4.next()){
+                
+                    dfm.addRow(new Object[]{rs4.getString("nombre"),rs4.getString("apellido"),rs4.getString("telefono"),
+                        rs4.getString("email"),rs4.getString("linkedin"),rs4.getString("perfil"),rs4.getString("seniority"),
+                        rs4.getString("niveldeingles"),rs4.getString("rate"),rs4.getString("cliente"),rs4.getString("estado"),
+                        rs4.getString("observacion"),rs4.getString("fecha"),rs4.getString("reclutador"),});
+                          
+                }
+    
             }else {
  
                 JOptionPane.showMessageDialog(null, "No se encontraron resultados");
@@ -352,14 +371,14 @@ public class Candidatos extends javax.swing.JFrame {
                 
             }else {
  
-                JOptionPane.showMessageDialog(null, "No se encontraron resultados");
+                JOptionPane.showMessageDialog(null, "La tabla esta vacia");
                 
             }
             
         } catch (SQLException e) {
             
-            System.err.println("Error con el boton buscar. " + e );
-            JOptionPane.showMessageDialog(null, "Error al realizar la busqueda!!. Contacte al administrador");
+            System.err.println("Error con el boton Tabla Completa. " + e );
+            JOptionPane.showMessageDialog(null, "Error al mostrar la tabla!!. Contacte al administrador");
             
         } catch (ClassNotFoundException ex) {
             
