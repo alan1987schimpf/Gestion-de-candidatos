@@ -3,12 +3,24 @@ package reclutamiento;
 
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 /**
  * @author Giuliana Carnevalle, Bautista Venier y Alan Sebastian Schimpf
  */
 
 public class Candidatos extends javax.swing.JFrame {
+    
+    JTable tabla;
 
     /**
      * Creates new form Candidatos
@@ -47,7 +59,7 @@ public class Candidatos extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
+        txt_buscar = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
@@ -132,7 +144,7 @@ public class Candidatos extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
                                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 228, Short.MAX_VALUE)
+                                .addComponent(txt_buscar, javax.swing.GroupLayout.DEFAULT_SIZE, 228, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -160,7 +172,7 @@ public class Candidatos extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txt_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jButton2))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 464, Short.MAX_VALUE)
                                 .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -179,7 +191,97 @@ public class Candidatos extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-         
+        
+        try {
+
+            Class.forName("oracle.jdbc.driver.OracleDriver");
+            String url = "";
+            String usuario = "system";
+            String pass = "admin";
+
+            Connection cn = DriverManager.getConnection(url, usuario, pass);
+            
+            PreparedStatement pst1 = cn.prepareStatement("select * from candidatos where nombre = ?");
+            PreparedStatement pst2 = cn.prepareStatement("select * from candidatos where telefono = ?");
+            PreparedStatement pst3 = cn.prepareStatement("select * from candidatos where seniority = ?");
+            
+            pst1.setString(1, txt_buscar.getText().trim().toLowerCase());
+            pst2.setString(1, txt_buscar.getText().trim());
+            pst3.setString(1, txt_buscar.getText().trim().toLowerCase());
+            
+            ResultSet rs1 = pst1.executeQuery();
+            ResultSet rs2 = pst2.executeQuery();
+            ResultSet rs3 = pst3.executeQuery();
+            
+            DefaultTableModel dfm = new DefaultTableModel();
+            tabla = this.jTable1;
+            tabla.setModel(dfm);
+            
+            dfm.setColumnIdentifiers(new Object[]{"Nombre","Apellido","Telefono","E-mail","Linkedin","Perfil",
+                "Seniority","Nivel de Ingles","Rate","Cliente","Estado","Observaciones","Fecha","Reclutadora"});
+            
+            if (rs1.next()) {
+                
+                dfm.addRow(new Object[]{rs1.getString("nombre"),rs1.getString("apellido"),rs1.getString("telefono"),
+                        rs1.getString("email"),rs1.getString("linkedin"),rs1.getString("perfil"),rs1.getString("seniority"),
+                        rs1.getString("niveldeingles"),rs1.getString("rate"),rs1.getString("cliente"),rs1.getString("estado"),
+                        rs1.getString("observacion"),rs1.getString("fecha"),rs1.getString("reclutador"),});
+                
+                while(rs1.next()){
+                
+                    dfm.addRow(new Object[]{rs1.getString("nombre"),rs1.getString("apellido"),rs1.getString("telefono"),
+                        rs1.getString("email"),rs1.getString("linkedin"),rs1.getString("perfil"),rs1.getString("seniority"),
+                        rs1.getString("niveldeingles"),rs1.getString("rate"),rs1.getString("cliente"),rs1.getString("estado"),
+                        rs1.getString("observacion"),rs1.getString("fecha"),rs1.getString("reclutador"),});
+                          
+                } 
+                
+            }else if(rs2.next()){
+            
+                dfm.addRow(new Object[]{rs2.getString("nombre"),rs2.getString("apellido"),rs2.getString("telefono"),
+                        rs2.getString("email"),rs2.getString("linkedin"),rs2.getString("perfil"),rs2.getString("seniority"),
+                        rs2.getString("niveldeingles"),rs2.getString("rate"),rs2.getString("cliente"),rs2.getString("estado"),
+                        rs2.getString("observacion"),rs2.getString("fecha"),rs2.getString("reclutador"),});
+                
+                while(rs2.next()){
+                
+                    dfm.addRow(new Object[]{rs2.getString("nombre"),rs2.getString("apellido"),rs2.getString("telefono"),
+                        rs2.getString("email"),rs2.getString("linkedin"),rs2.getString("perfil"),rs2.getString("seniority"),
+                        rs2.getString("niveldeingles"),rs2.getString("rate"),rs2.getString("cliente"),rs2.getString("estado"),
+                        rs2.getString("observacion"),rs2.getString("fecha"),rs2.getString("reclutador"),});
+                          
+                }
+    
+            }else if(rs3.next()){
+            
+                dfm.addRow(new Object[]{rs3.getString("nombre"),rs3.getString("apellido"),rs3.getString("telefono"),
+                        rs3.getString("email"),rs3.getString("linkedin"),rs3.getString("perfil"),rs3.getString("seniority"),
+                        rs3.getString("niveldeingles"),rs3.getString("rate"),rs3.getString("cliente"),rs3.getString("estado"),
+                        rs3.getString("observacion"),rs3.getString("fecha"),rs3.getString("reclutador"),});
+                
+                while(rs3.next()){
+                
+                    dfm.addRow(new Object[]{rs3.getString("nombre"),rs3.getString("apellido"),rs3.getString("telefono"),
+                        rs3.getString("email"),rs3.getString("linkedin"),rs3.getString("perfil"),rs3.getString("seniority"),
+                        rs3.getString("niveldeingles"),rs3.getString("rate"),rs3.getString("cliente"),rs3.getString("estado"),
+                        rs3.getString("observacion"),rs3.getString("fecha"),rs3.getString("reclutador"),});
+                          
+                }
+                
+            }else {
+ 
+                JOptionPane.showMessageDialog(null, "No se encontraron resultados");
+                
+            }
+            
+        } catch (SQLException e) {
+            
+            System.err.println("Error con el boton buscar. " + e );
+            JOptionPane.showMessageDialog(null, "Error al realizar la busqueda!!. Contacte al administrador");
+            
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(AgregarCandidato.class.getName()).log(Level.SEVERE, null, ex);
+        } 
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
@@ -247,6 +349,6 @@ public class Candidatos extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField txt_buscar;
     // End of variables declaration//GEN-END:variables
 }

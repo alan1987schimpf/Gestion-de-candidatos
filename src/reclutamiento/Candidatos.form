@@ -73,7 +73,7 @@
                               <EmptySpace pref="15" max="32767" attributes="0"/>
                               <Component id="jLabel3" min="-2" pref="37" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jTextField1" pref="228" max="32767" attributes="0"/>
+                              <Component id="txt_buscar" pref="228" max="32767" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="jButton2" min="-2" pref="38" max="-2" attributes="0"/>
                           </Group>
@@ -110,7 +110,7 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jTextField1" alignment="0" min="-2" pref="26" max="-2" attributes="0"/>
+                                  <Component id="txt_buscar" alignment="0" min="-2" pref="26" max="-2" attributes="0"/>
                                   <Component id="jButton2" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace pref="464" max="32767" attributes="0"/>
@@ -186,7 +186,7 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton2ActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JTextField" name="jTextField1">
+    <Component class="javax.swing.JTextField" name="txt_buscar">
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel4">
       <Properties>
