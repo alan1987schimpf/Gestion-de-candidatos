@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import static reclutamiento.Inicio.permiso;
 
 /**
  * @author Giuliana Carnevalle, Bautista Venier y Alan Sebastian Schimpf
@@ -18,6 +19,8 @@ import javax.swing.table.DefaultTableModel;
 
 public class Vacantes extends javax.swing.JFrame {
     
+    public String buscar = "";
+    public int A = 1, B = 50, C = 1, D = 50, busqueda = 0;
     JTable tabla;
     public static String clientemodificar = "";
     public static String vacantemodificar = "";
@@ -27,10 +30,6 @@ public class Vacantes extends javax.swing.JFrame {
     public static String fechacierremodificar = "";
     public static String identificadormodificar = "";
 
-    /**
-     * Creates new form Clientes
-     */
-    
     public Vacantes() {
         initComponents();
         
@@ -43,8 +42,14 @@ public class Vacantes extends javax.swing.JFrame {
 
             Connection cn = conexion.conectar();
             
-            PreparedStatement pst1 = cn.prepareStatement("select * from vacantes");
+            PreparedStatement pst1 = cn.prepareStatement("SELECT * FROM \n" +
+                                      "(SELECT identificador, cliente, vacante, fechacomienzo, cantidad, estado, fechacierre, ROW_NUMBER()" +
+                                      "over (order by cliente) R FROM vacantes)\n" +
+                                      "WHERE R BETWEEN ? and ?");
 
+            pst1.setInt(1, A);
+            pst1.setInt(2, B);
+            
             ResultSet rs1 = pst1.executeQuery();
 
             
@@ -67,9 +72,15 @@ public class Vacantes extends javax.swing.JFrame {
                           
                 } 
                 
-            }
+                cn.close();
+                
+            }else{
             
-            cn.close();
+                Estado.setText("La tabla esta vacia");
+                
+                cn.close();
+            
+            }
             
         } catch (SQLException e) {
             
@@ -109,6 +120,7 @@ public class Vacantes extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jButton5 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
+        Estado = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -185,6 +197,8 @@ public class Vacantes extends javax.swing.JFrame {
             }
         });
 
+        Estado.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+
         jMenu1.setText("Opciones");
 
         jMenuItem1.setText("Candidatos");
@@ -215,6 +229,17 @@ public class Vacantes extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(14, 14, 14)
+                        .addComponent(Estado, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(103, 103, 103)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton3))
+                    .addGroup(layout.createSequentialGroup()
                         .addGap(15, 15, 15)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 781, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -232,18 +257,9 @@ public class Vacantes extends javax.swing.JFrame {
                                         .addComponent(jLabel3)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addGroup(layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(487, 487, 487)
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton3)))
+                                .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -254,7 +270,8 @@ public class Vacantes extends javax.swing.JFrame {
                     .addComponent(jLabel1)
                     .addComponent(jButton3)
                     .addComponent(jButton2)
-                    .addComponent(jButton4))
+                    .addComponent(jButton4)
+                    .addComponent(Estado))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -268,13 +285,11 @@ public class Vacantes extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel2))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(txt_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(2, 2, 2)
-                                .addComponent(jLabel3)))
-                        .addGap(0, 35, Short.MAX_VALUE)))
+                        .addComponent(txt_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(2, 2, 2)
+                        .addComponent(jLabel3)
+                        .addGap(0, 414, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1))
                 .addContainerGap())
         );
 
@@ -299,9 +314,19 @@ public class Vacantes extends javax.swing.JFrame {
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         
-        Principal newFrame = new Principal();
-        newFrame.setVisible(true);                                     //hace visible la vantana
-        this.dispose(); 
+        if (permiso.equalsIgnoreCase("superadministrador")) {
+                        
+            SuperAdministrador newFrame = new SuperAdministrador();
+            newFrame.setVisible(true);                                     //hace visible la vantana
+            this.dispose();
+                    
+        } else {
+                        
+            Principal newFrame = new Principal();
+            newFrame.setVisible(true);                                     //hace visible la vantana
+            this.dispose();
+                        
+        }
         
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
@@ -310,17 +335,15 @@ public class Vacantes extends javax.swing.JFrame {
         if (!txt_buscar.getText().isEmpty()) {
             
             try {
-
+                
             Connection cn = conexion.conectar();
-            
-            PreparedStatement pst1 = cn.prepareStatement("select * from vacantes where cliente = ?");
-            PreparedStatement pst2 = cn.prepareStatement("select * from vacantes where vacante = ?");
+             
+            PreparedStatement pst1 = cn.prepareStatement("select * from vacantes where cliente = ? or vacante = ?");
             
             pst1.setString(1, txt_buscar.getText().trim().toLowerCase());
-            pst2.setString(1, txt_buscar.getText().trim().toLowerCase());
+            pst1.setString(2, txt_buscar.getText().trim().toLowerCase());
             
             ResultSet rs1 = pst1.executeQuery();
-            ResultSet rs2 = pst2.executeQuery();
             
             DefaultTableModel dfm = new DefaultTableModel();
             tabla = this.jTable1;
@@ -345,20 +368,8 @@ public class Vacantes extends javax.swing.JFrame {
                     
                     cn.close();
                 
-                }else if(rs2.next()){
-            
-                    dfm.addRow(new Object[]{rs2.getString("identificador"),rs2.getString("cliente"),rs2.getString("vacante"),rs2.getString("fechacomienzo"),
-                            rs2.getString("cantidad"),rs2.getString("estado"),rs2.getString("fechacierre")});
-                
-                    while(rs2.next()){
-                
-                        dfm.addRow(new Object[]{rs2.getString("identificador"),rs2.getString("cliente"),rs2.getString("vacante"),rs2.getString("fechacomienzo"),
-                            rs2.getString("cantidad"),rs2.getString("estado"),rs2.getString("fechacierre")});
-                          
-                    }
-    
                 }else {
- 
+                    
                     JOptionPane.showMessageDialog(null, "No se encontraron resultados");
                     cn.close();
                 
@@ -369,6 +380,8 @@ public class Vacantes extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Debe ingresar un cliente o una vacante");
                 
             }
+            
+            busqueda = 1;
             
             } catch (SQLException e) {
             
@@ -442,12 +455,29 @@ public class Vacantes extends javax.swing.JFrame {
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         
         try {
+            
+            if(busqueda == 1){
+                
+                C = -49;
+                D = 0;
+                busqueda = 0;
+                
+            }
+            
+            C = C + 50;
+            D = D + 50;
                             
             txt_buscar.setText("");
 
             Connection cn = conexion.conectar();
             
-            PreparedStatement pst1 = cn.prepareStatement("select * from vacantes");
+            PreparedStatement pst1 = cn.prepareStatement("select * from \n" +
+                                      "(select identificador, cliente, vacante, fechacomienzo, cantidad, estado, fechacierre, ROW_NUMBER()" +
+                                      "over (order by cliente) R FROM vacantes)\n" +
+                                      "where R between ? and ?");
+            
+            pst1.setInt(1, C);
+            pst1.setInt(2, D);
 
             ResultSet rs1 = pst1.executeQuery();
 
@@ -470,6 +500,13 @@ public class Vacantes extends javax.swing.JFrame {
                         rs1.getString("cantidad"),rs1.getString("estado"),rs1.getString("fechacierre")});
                           
                 } 
+                
+            }else {
+ 
+                C = -51;
+                D = 0;
+                    
+                JOptionPane.showMessageDialog(null, "La tabla esta vacia");
                 
             }
             
@@ -530,6 +567,7 @@ public class Vacantes extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel Estado;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;

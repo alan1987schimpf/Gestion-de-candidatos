@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import static reclutamiento.Inicio.permiso;
 
 /**
  * @author Giuliana Carnevalle, Bautista Venier y Alan Sebastian Schimpf
@@ -18,8 +19,25 @@ import javax.swing.table.DefaultTableModel;
 
 public class Candidatos extends javax.swing.JFrame {
     
+    public String buscar = "";
+    public int A = 1, B = 50, C = 1, D = 50, busqueda = 0;
     JTable tabla;
-    public static String valor = ""; 
+    public static String valor = "";
+    public static String valor1 = ""; 
+    public static String valor2 = ""; 
+    public static String valor3 = ""; 
+    public static String valor4 = ""; 
+    public static String valor5 = ""; 
+    public static String valor6 = ""; 
+    public static String valor7 = ""; 
+    public static String valor8 = ""; 
+    public static String valor9 = ""; 
+    public static String valor10 = ""; 
+    public static String valor11 = ""; 
+    public static String valor12 = ""; 
+    public static String valor13 = ""; 
+    public static String valor14 = ""; 
+    
     public static int columna = 0;
     String identificador = "";
 
@@ -39,7 +57,14 @@ public class Candidatos extends javax.swing.JFrame {
 
             Connection cn = conexion.conectar();
             
-            PreparedStatement pst1 = cn.prepareStatement("select * from candidatos");
+            PreparedStatement pst1 = cn.prepareStatement("select * from \n" +
+                                      "(select id, nombre, apellido, telefono, email, linkedin, perfil, seniority, \n" +
+                                      "niveldeingles, rate, cliente, estado, observacion, fecha, reclutador, ROW_NUMBER()" +
+                                      "over (order by nombre) R from candidatos)\n" +
+                                      "where R between ? and ?");
+            
+            pst1.setInt(1, A);
+            pst1.setInt(2, B);
             
             ResultSet rs1 = pst1.executeQuery();
   
@@ -47,29 +72,31 @@ public class Candidatos extends javax.swing.JFrame {
             tabla = this.jTable1;
             tabla.setModel(dfm);
             
-            dfm.setColumnIdentifiers(new Object[]{"Nombre","Apellido","Telefono","E-mail","Linkedin","Perfil",
+            dfm.setColumnIdentifiers(new Object[]{"Id","Nombre","Apellido","Telefono","E-mail","Linkedin","Perfil",
                 "Seniority","Nivel de Ingles","Rate","Cliente","Estado","Observaciones","Fecha","Reclutadora"});
             
             if (rs1.next()) {
                 
-                dfm.addRow(new Object[]{rs1.getString("nombre"),rs1.getString("apellido"),rs1.getString("telefono"),
+                dfm.addRow(new Object[]{rs1.getString("id"),rs1.getString("nombre"),rs1.getString("apellido"),rs1.getString("telefono"),
                         rs1.getString("email"),rs1.getString("linkedin"),rs1.getString("perfil"),rs1.getString("seniority"),
                         rs1.getString("niveldeingles"),rs1.getString("rate"),rs1.getString("cliente"),rs1.getString("estado"),
                         rs1.getString("observacion"),rs1.getString("fecha"),rs1.getString("reclutador"),});
                 
                 while(rs1.next()){
                 
-                    dfm.addRow(new Object[]{rs1.getString("nombre"),rs1.getString("apellido"),rs1.getString("telefono"),
+                    dfm.addRow(new Object[]{rs1.getString("id"),rs1.getString("nombre"),rs1.getString("apellido"),rs1.getString("telefono"),
                         rs1.getString("email"),rs1.getString("linkedin"),rs1.getString("perfil"),rs1.getString("seniority"),
                         rs1.getString("niveldeingles"),rs1.getString("rate"),rs1.getString("cliente"),rs1.getString("estado"),
                         rs1.getString("observacion"),rs1.getString("fecha"),rs1.getString("reclutador"),});
                           
                 } 
+                
                 cn.close();
                 
             }else {
- 
-                JOptionPane.showMessageDialog(null, "La tabla esta vacia");
+                
+                Estado.setText("La tabla esta vacia");
+                
                 cn.close();
                 
             }
@@ -113,6 +140,8 @@ public class Candidatos extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jButton6 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
+        jButton8 = new javax.swing.JButton();
+        Estado = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -126,13 +155,13 @@ public class Candidatos extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Nombre", "Apellido", "Télefono", "E-mail", "Linkedin", "Perfil", "Seniority", "Nivel de Inglés", "Rate", "Cliente", "Estado", "Observaciones", "Fecha", "Reclutadora"
+                "Id", "Nombre", "Apellido", "Télefono", "E-mail", "Linkedin", "Perfil", "Seniority", "Nivel de Inglés", "Rate", "Cliente", "Estado", "Observaciones", "Fecha", "Reclutadora"
             }
         ));
         jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -189,6 +218,15 @@ public class Candidatos extends javax.swing.JFrame {
             }
         });
 
+        jButton8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/CSV.png"))); // NOI18N
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
+
+        Estado.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+
         jMenu1.setText("Opciones");
 
         jMenuItem1.setText("Vacantes");
@@ -217,9 +255,11 @@ public class Candidatos extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jSeparator1)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(Estado, javax.swing.GroupLayout.PREFERRED_SIZE, 396, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel1)
                         .addGap(374, 374, 374)
                         .addComponent(jButton4)
@@ -228,7 +268,6 @@ public class Candidatos extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton1))
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(20, Short.MAX_VALUE)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1021, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -250,7 +289,10 @@ public class Candidatos extends javax.swing.JFrame {
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                         .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(8, 8, 8))
-                                    .addComponent(jButton7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                    .addComponent(jButton7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -261,7 +303,8 @@ public class Candidatos extends javax.swing.JFrame {
                     .addComponent(jLabel1)
                     .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton3)
-                    .addComponent(jButton4))
+                    .addComponent(jButton4)
+                    .addComponent(Estado))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -277,6 +320,8 @@ public class Candidatos extends javax.swing.JFrame {
                             .addComponent(jLabel2))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -305,106 +350,48 @@ public class Candidatos extends javax.swing.JFrame {
 
             Connection cn = conexion.conectar();
             
-            PreparedStatement pst1 = cn.prepareStatement("select * from candidatos where nombre = ?");
-            PreparedStatement pst2 = cn.prepareStatement("select * from candidatos where apellido = ?");
-            PreparedStatement pst3 = cn.prepareStatement("select * from candidatos where perfil = ?");
-            PreparedStatement pst4 = cn.prepareStatement("select * from candidatos where seniority = ?");
+            PreparedStatement pst1 = cn.prepareStatement("select * from candidatos where nombre = ? or apellido = ? or perfil = ? or seniority = ?");
             
             pst1.setString(1, txt_buscar.getText().trim().toLowerCase());
-            pst2.setString(1, txt_buscar.getText().trim().toLowerCase());
-            pst3.setString(1, txt_buscar.getText().trim().toLowerCase());
-            pst4.setString(1, txt_buscar.getText().trim().toLowerCase());
+            pst1.setString(2, txt_buscar.getText().trim().toLowerCase());
+            pst1.setString(3, txt_buscar.getText().trim().toLowerCase());
+            pst1.setString(4, txt_buscar.getText().trim().toLowerCase());
             
             ResultSet rs1 = pst1.executeQuery();
-            ResultSet rs2 = pst2.executeQuery();
-            ResultSet rs3 = pst3.executeQuery();
-            ResultSet rs4 = pst4.executeQuery();
             
             DefaultTableModel dfm = new DefaultTableModel();
             tabla = this.jTable1;
             tabla.setModel(dfm);
             
-            dfm.setColumnIdentifiers(new Object[]{"Nombre","Apellido","Telefono","E-mail","Linkedin","Perfil",
+            dfm.setColumnIdentifiers(new Object[]{"Id","Nombre","Apellido","Telefono","E-mail","Linkedin","Perfil",
                 "Seniority","Nivel de Ingles","Rate","Cliente","Estado","Observaciones","Fecha","Reclutadora"});
             
             if (rs1.next()) {
                 
-                dfm.addRow(new Object[]{rs1.getString("nombre"),rs1.getString("apellido"),rs1.getString("telefono"),
+                dfm.addRow(new Object[]{rs1.getString("id"),rs1.getString("nombre"),rs1.getString("apellido"),rs1.getString("telefono"),
                         rs1.getString("email"),rs1.getString("linkedin"),rs1.getString("perfil"),rs1.getString("seniority"),
                         rs1.getString("niveldeingles"),rs1.getString("rate"),rs1.getString("cliente"),rs1.getString("estado"),
-                        rs1.getString("observacion"),rs1.getString("fecha"),rs1.getString("reclutador"),});
+                        rs1.getString("observacion"),rs1.getString("fecha"),rs1.getString("reclutador")});
                 
                 while(rs1.next()){
                 
-                    dfm.addRow(new Object[]{rs1.getString("nombre"),rs1.getString("apellido"),rs1.getString("telefono"),
+                    dfm.addRow(new Object[]{rs1.getString("id"),rs1.getString("nombre"),rs1.getString("apellido"),rs1.getString("telefono"),
                         rs1.getString("email"),rs1.getString("linkedin"),rs1.getString("perfil"),rs1.getString("seniority"),
                         rs1.getString("niveldeingles"),rs1.getString("rate"),rs1.getString("cliente"),rs1.getString("estado"),
-                        rs1.getString("observacion"),rs1.getString("fecha"),rs1.getString("reclutador"),});
+                        rs1.getString("observacion"),rs1.getString("fecha"),rs1.getString("reclutador")});
                           
                 } 
                 
                 cn.close();
                 
-            }else if(rs2.next()){
-            
-                dfm.addRow(new Object[]{rs2.getString("nombre"),rs2.getString("apellido"),rs2.getString("telefono"),
-                        rs2.getString("email"),rs2.getString("linkedin"),rs2.getString("perfil"),rs2.getString("seniority"),
-                        rs2.getString("niveldeingles"),rs2.getString("rate"),rs2.getString("cliente"),rs2.getString("estado"),
-                        rs2.getString("observacion"),rs2.getString("fecha"),rs2.getString("reclutador"),});
-                
-                while(rs2.next()){
-                
-                    dfm.addRow(new Object[]{rs2.getString("nombre"),rs2.getString("apellido"),rs2.getString("telefono"),
-                        rs2.getString("email"),rs2.getString("linkedin"),rs2.getString("perfil"),rs2.getString("seniority"),
-                        rs2.getString("niveldeingles"),rs2.getString("rate"),rs2.getString("cliente"),rs2.getString("estado"),
-                        rs2.getString("observacion"),rs2.getString("fecha"),rs2.getString("reclutador"),});
-                          
-                }
-                
-                cn.close();
-    
-            }else if(rs3.next()){
-            
-                dfm.addRow(new Object[]{rs3.getString("nombre"),rs3.getString("apellido"),rs3.getString("telefono"),
-                        rs3.getString("email"),rs3.getString("linkedin"),rs3.getString("perfil"),rs3.getString("seniority"),
-                        rs3.getString("niveldeingles"),rs3.getString("rate"),rs3.getString("cliente"),rs3.getString("estado"),
-                        rs3.getString("observacion"),rs3.getString("fecha"),rs3.getString("reclutador"),});
-                
-                while(rs3.next()){
-                
-                    dfm.addRow(new Object[]{rs3.getString("nombre"),rs3.getString("apellido"),rs3.getString("telefono"),
-                        rs3.getString("email"),rs3.getString("linkedin"),rs3.getString("perfil"),rs3.getString("seniority"),
-                        rs3.getString("niveldeingles"),rs3.getString("rate"),rs3.getString("cliente"),rs3.getString("estado"),
-                        rs3.getString("observacion"),rs3.getString("fecha"),rs3.getString("reclutador"),});
-                          
-                }
-                
-                cn.close();
-                
-            }else if(rs4.next()){
-            
-                dfm.addRow(new Object[]{rs4.getString("nombre"),rs4.getString("apellido"),rs4.getString("telefono"),
-                        rs4.getString("email"),rs4.getString("linkedin"),rs4.getString("perfil"),rs4.getString("seniority"),
-                        rs4.getString("niveldeingles"),rs4.getString("rate"),rs4.getString("cliente"),rs4.getString("estado"),
-                        rs4.getString("observacion"),rs4.getString("fecha"),rs4.getString("reclutador"),});
-                
-                while(rs4.next()){
-                
-                    dfm.addRow(new Object[]{rs4.getString("nombre"),rs4.getString("apellido"),rs4.getString("telefono"),
-                        rs4.getString("email"),rs4.getString("linkedin"),rs4.getString("perfil"),rs4.getString("seniority"),
-                        rs4.getString("niveldeingles"),rs4.getString("rate"),rs4.getString("cliente"),rs4.getString("estado"),
-                        rs4.getString("observacion"),rs4.getString("fecha"),rs4.getString("reclutador"),});
-                          
-                }
-                
-                cn.close();
-    
             }else {
- 
+                
                 JOptionPane.showMessageDialog(null, "No se encontraron resultados");
                 cn.close();
                 
             }
+            
+            busqueda = 1;
             
             } catch (SQLException e) {
             
@@ -431,15 +418,25 @@ public class Candidatos extends javax.swing.JFrame {
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         
-        Principal newFrame = new Principal();
-        newFrame.setVisible(true);                                     //hace visible la vantana
-        this.dispose(); 
+        if (permiso.equalsIgnoreCase("superadministrador")) {
+                        
+            SuperAdministrador newFrame = new SuperAdministrador();
+            newFrame.setVisible(true);                                     //hace visible la vantana
+            this.dispose();
+                    
+        } else {
+                        
+            Principal newFrame = new Principal();
+            newFrame.setVisible(true);                                     //hace visible la vantana
+            this.dispose();
+                        
+        }
         
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         
-        if (jTable1.getSelectedColumn() == 3) {
+        if (0 <= jTable1.getSelectedColumn() &&  jTable1.getSelectedColumn() <= 13) {
             
             ModificarCandidato newFrame = new ModificarCandidato();
             newFrame.setVisible(true);                                     //hace visible la vantana
@@ -447,7 +444,7 @@ public class Candidatos extends javax.swing.JFrame {
             
         } else {
             
-            JOptionPane.showMessageDialog(null, "Debe seleccionar un email");
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un candidato");
             
         } 
         
@@ -457,80 +454,99 @@ public class Candidatos extends javax.swing.JFrame {
 
         
         int fila = jTable1.getSelectedRow();              //toma el valor de la fila seleccionada
-        int col = jTable1.getSelectedColumn();          //toma el valor de la celda seleccionada
+            
+        valor = (String) jTable1.getValueAt( fila , 0 );  
         
-        String valorCelda = (String) jTable1.getValueAt(fila,col);
+        valor1 = (String) jTable1.getValueAt( fila , 1 );
+        valor2 = (String) jTable1.getValueAt( fila , 2 );
+        valor3 = (String) jTable1.getValueAt( fila , 3 );
+        valor4 = (String) jTable1.getValueAt( fila , 4 );
+        valor5 = (String) jTable1.getValueAt( fila , 5 );
+        valor6 = (String) jTable1.getValueAt( fila , 6 );
+        valor7 = (String) jTable1.getValueAt( fila , 7 );
+        valor8 = (String) jTable1.getValueAt( fila , 8 );
+        valor9 = (String) jTable1.getValueAt( fila , 9 );
+        valor10 = (String) jTable1.getValueAt( fila , 10 );
+        valor11 = (String) jTable1.getValueAt( fila , 11 );
+        valor12 = (String) jTable1.getValueAt( fila , 12 );
+        valor13 = (String) jTable1.getValueAt( fila , 13 );
+        valor14 = (String) jTable1.getValueAt( fila , 14 );
         
-        if (col == 3) {
             
-            valor = valorCelda;
-            
-        } else {
-            
-            JOptionPane.showMessageDialog(null, "Debe seleccionar un email");
-            
-        }      
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         
-        if (jTable1.getSelectedColumn() == 3) {
-            
-            EliminarCandidato newFrame = new EliminarCandidato();
-            newFrame.setVisible(true);                                     //hace visible la vantana
-            this.dispose();
-            
-        } else {
-            
-            JOptionPane.showMessageDialog(null, "Debe seleccionar un email");
-            
-        } 
+        EliminarCandidato newFrame = new EliminarCandidato();
+        newFrame.setVisible(true);                                     //hace visible la vantana
+        this.dispose();
         
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         
         try {
-                            
-            txt_buscar.setText("");
+            
+                if(busqueda == 1){
+                
+                    C = -49;
+                    D = 0;
+                    busqueda = 0;
+                
+                }
+            
+                C = C + 50;
+                D = D + 50;
+             
+                txt_buscar.setText("");
 
-            Connection cn = conexion.conectar();
+                Connection cn = conexion.conectar();
             
-            PreparedStatement pst1 = cn.prepareStatement("select * from candidatos");
-            
-            ResultSet rs1 = pst1.executeQuery();
-  
-            DefaultTableModel dfm = new DefaultTableModel();
-            tabla = this.jTable1;
-            tabla.setModel(dfm);
-            
-            dfm.setColumnIdentifiers(new Object[]{"Nombre","Apellido","Telefono","E-mail","Linkedin","Perfil",
-                "Seniority","Nivel de Ingles","Rate","Cliente","Estado","Observaciones","Fecha","Reclutadora"});
-            
-            if (rs1.next()) {
+                PreparedStatement pst1 = cn.prepareStatement("select * from \n" +
+                                      "(select id, nombre, apellido, telefono, email, linkedin, perfil, seniority, \n" +
+                                      "niveldeingles, rate, cliente, estado, observacion, fecha, reclutador, ROW_NUMBER()" +
+                                      "over (order by nombre) R from candidatos)\n" +
+                                      "where R between ? and ?");
                 
-                dfm.addRow(new Object[]{rs1.getString("nombre"),rs1.getString("apellido"),rs1.getString("telefono"),
-                        rs1.getString("email"),rs1.getString("linkedin"),rs1.getString("perfil"),rs1.getString("seniority"),
-                        rs1.getString("niveldeingles"),rs1.getString("rate"),rs1.getString("cliente"),rs1.getString("estado"),
-                        rs1.getString("observacion"),rs1.getString("fecha"),rs1.getString("reclutador"),});
+                pst1.setInt(1, C);
+                pst1.setInt(2, D);
+         
+                ResultSet rs1 = pst1.executeQuery();
                 
-                while(rs1.next()){
+                DefaultTableModel dfm = new DefaultTableModel();
+                    tabla = this.jTable1;
+                    tabla.setModel(dfm);
+            
+                    dfm.setColumnIdentifiers(new Object[]{"Id","Nombre","Apellido","Telefono","E-mail","Linkedin","Perfil",
+                        "Seniority","Nivel de Ingles","Rate","Cliente","Estado","Observaciones","Fecha","Reclutadora"});
                 
-                    dfm.addRow(new Object[]{rs1.getString("nombre"),rs1.getString("apellido"),rs1.getString("telefono"),
-                        rs1.getString("email"),rs1.getString("linkedin"),rs1.getString("perfil"),rs1.getString("seniority"),
-                        rs1.getString("niveldeingles"),rs1.getString("rate"),rs1.getString("cliente"),rs1.getString("estado"),
-                        rs1.getString("observacion"),rs1.getString("fecha"),rs1.getString("reclutador"),});
+            
+                if (rs1.next()) {
+                
+                    dfm.addRow(new Object[]{rs1.getString("id"),rs1.getString("nombre"),rs1.getString("apellido"),rs1.getString("telefono"),
+                            rs1.getString("email"),rs1.getString("linkedin"),rs1.getString("perfil"),rs1.getString("seniority"),
+                            rs1.getString("niveldeingles"),rs1.getString("rate"),rs1.getString("cliente"),rs1.getString("estado"),
+                            rs1.getString("observacion"),rs1.getString("fecha"),rs1.getString("reclutador")});
+                
+                    while(rs1.next()){
+                
+                        dfm.addRow(new Object[]{rs1.getString("id"),rs1.getString("nombre"),rs1.getString("apellido"),rs1.getString("telefono"),
+                            rs1.getString("email"),rs1.getString("linkedin"),rs1.getString("perfil"),rs1.getString("seniority"),
+                            rs1.getString("niveldeingles"),rs1.getString("rate"),rs1.getString("cliente"),rs1.getString("estado"),
+                            rs1.getString("observacion"),rs1.getString("fecha"),rs1.getString("reclutador")});
                           
-                } 
+                    } 
                 
-                cn.close();
-                
-            }else {
+                }else {
  
-                JOptionPane.showMessageDialog(null, "La tabla esta vacia");
-                cn.close();
+                    C = -51;
+                    D = 0;
+                    
+                    JOptionPane.showMessageDialog(null, "La tabla esta vacia");
                 
-            }
+                }
+                
+                cn.close();
             
         } catch (SQLException e) {
             
@@ -547,6 +563,14 @@ public class Candidatos extends javax.swing.JFrame {
         this.dispose();
         
     }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        
+        CargarCSV newFrame = new CargarCSV();
+        newFrame.setVisible(true);                                     //hace visible la vantana
+        this.dispose();
+        
+    }//GEN-LAST:event_jButton8ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -585,12 +609,14 @@ public class Candidatos extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel Estado;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
+    private javax.swing.JButton jButton8;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

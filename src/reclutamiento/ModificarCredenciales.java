@@ -27,7 +27,7 @@ import static reclutamiento.Inicio.permiso;
 import static reclutamiento.Inicio.user;
 
 /**
- * @author Giuliana Carnevalle, Bautista Venier y Alan Sebastian Schimpf
+ * @author Alan Schimpf
  */
 
 public class ModificarCredenciales extends javax.swing.JFrame {

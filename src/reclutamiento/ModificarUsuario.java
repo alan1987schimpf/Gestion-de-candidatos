@@ -18,7 +18,7 @@ import javax.swing.JOptionPane;
 public class ModificarUsuario extends javax.swing.JFrame {
     
     public int ID;
-    String permiso [] = {"", "Usuario", "Administrador", "SuperAdministrador"}; 
+    String permiso [] = {"", "Usuario", "SuperAdministrador"}; 
 
     /**
      * Creates new form ModificarUsuario

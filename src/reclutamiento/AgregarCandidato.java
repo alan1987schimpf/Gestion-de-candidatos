@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
+import static reclutamiento.Inicio.permiso;
 
 /**
  * @author Giuliana Carnevalle, Bautista Venier y Alan Sebastian Schimpf
@@ -17,7 +18,7 @@ import javax.swing.JOptionPane;
 
 public class AgregarCandidato extends javax.swing.JFrame {
     
-    int mayor = 1;
+    int mayor, ide = 1;
     
     //arreglo con las opciones del campo perfil
     String perfil [] = {"", "Java", "Angular", "Qa Manual", "Qa Automation", "iOS", "Android",       
@@ -38,7 +39,7 @@ public class AgregarCandidato extends javax.swing.JFrame {
         "Entrevista con el cliente", "Examen médico/psico", "Contratado", "En espera", "No interesado", "No se considera"};
     
     String reclutadora [] = {"", "Constanza", "Florencia", "Giuliana",              
-        "Lucia", "Micaela", "Priscila"};
+        "Lucia"};
      
     /**
      * Creates new form AgregarCandidato
@@ -63,28 +64,13 @@ public class AgregarCandidato extends javax.swing.JFrame {
 
             Connection cn = conexion.conectar();
             
-            PreparedStatement pst1 = cn.prepareStatement("select id from candidatos");
-            ResultSet rs1 = pst1.executeQuery();
+            PreparedStatement pst4 = cn.prepareStatement("select * from identificador");
+            ResultSet rs4 = pst4.executeQuery();    
             
-            if (rs1.next()) {
-                
-                if(mayor < rs1.getInt("id")){
-                    
-                    mayor = rs1.getInt("id");
-                        
-                }
-                
-                while(rs1.next()){
-                    
-                    if(mayor < rs1.getInt("id")){
-                    
-                        mayor = rs1.getInt("id");
-                        
-                    }           
-                } 
-                
-                mayor = mayor + 1;
-                
+            if(rs4.next()){
+            
+                mayor = Integer.parseInt(rs4.getString("identificador"));          
+                 
             }
             
         } catch (SQLException e) {
@@ -92,8 +78,7 @@ public class AgregarCandidato extends javax.swing.JFrame {
             System.err.println("Error con la busqueda del identificador. " + e );
             JOptionPane.showMessageDialog(null, "Error al buscar el identificador!!. Contacte al administrador");
             
-        }
-        
+        }  
     }
     
     @Override
@@ -399,6 +384,7 @@ public class AgregarCandidato extends javax.swing.JFrame {
                     
                     PreparedStatement pst = cn.prepareStatement("insert into candidatos values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
                     
+                    mayor = mayor + 1;
                     pst.setInt(1, mayor);
                     pst.setString(2, txt_nombre.getText().trim().toLowerCase());
                     pst.setString(3, txt_apellido.getText().trim().toLowerCase());
@@ -414,8 +400,12 @@ public class AgregarCandidato extends javax.swing.JFrame {
                     pst.setString(13, txt_observacion.getText().trim());
                     pst.setString(14, txt_fecha.getText().trim());
                     pst.setString(15, choice_reclutadora.getSelectedItem());
+                    
+                    PreparedStatement pst3 = cn.prepareStatement("update identificador set identificador = ? where id = " + ide);
+                    pst3.setInt(1, mayor);
 
                     pst.executeUpdate();                                          //se ejecutan las lineas que le enviamos a la base de datos               
+                    pst3.executeUpdate(); 
                     cn.close();
                     
                     txt_nombre.setBackground(Color.GREEN);
@@ -496,10 +486,20 @@ public class AgregarCandidato extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        
-        Principal newFrame = new Principal();
-        newFrame.setVisible(true);                                     //hace visible la vantana
-        this.dispose();
+
+        if (permiso.equalsIgnoreCase("superadministrador")) {
+                        
+            SuperAdministrador newFrame = new SuperAdministrador();
+            newFrame.setVisible(true);                                     //hace visible la vantana
+            this.dispose();
+                    
+        } else {
+                        
+            Principal newFrame = new Principal();
+            newFrame.setVisible(true);                                     //hace visible la vantana
+            this.dispose();
+                        
+        }
         
     }//GEN-LAST:event_jButton3ActionPerformed
 

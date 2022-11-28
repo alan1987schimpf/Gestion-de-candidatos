@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
+import static reclutamiento.Inicio.permiso;
 import static reclutamiento.Vacantes.identificadormodificar;
 
 /**
@@ -313,9 +314,19 @@ public class EliminarVacante extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
 
-        Principal newFrame = new Principal();
-        newFrame.setVisible(true);                                     //hace visible la vantana
-        this.dispose();
+        if (permiso.equalsIgnoreCase("superadministrador")) {
+                        
+            SuperAdministrador newFrame = new SuperAdministrador();
+            newFrame.setVisible(true);                                     //hace visible la vantana
+            this.dispose();
+                    
+        } else {
+                        
+            Principal newFrame = new Principal();
+            newFrame.setVisible(true);                                     //hace visible la vantana
+            this.dispose();
+                        
+        }
         
     }//GEN-LAST:event_jButton3ActionPerformed
 

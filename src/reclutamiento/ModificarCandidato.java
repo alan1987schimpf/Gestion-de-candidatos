@@ -7,9 +7,9 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
+import static reclutamiento.Inicio.permiso;
 
 /**
  * @author Giuliana Carnevalle, Bautista Venier y Alan Sebastian Schimpf
@@ -18,10 +18,6 @@ import javax.swing.JOptionPane;
 public class ModificarCandidato extends javax.swing.JFrame {
     
     public int ID;
-    
-        //arreglo con las opciones del campo perfil
-    String perfil [] = {"", "Java", "Angular", "Qa Manual", "Qa Automation", "iOS", "Android",       
-        ".Net", "Fullstack", "Analista Funcional", "Scrum Master", "Python"}; 
     
     //arreglo con las opciones del campo seniority
     String seniority [] = {"", "Trainee", "Jr", "Ssr", "Sr", "Lead"};
@@ -52,15 +48,47 @@ public class ModificarCandidato extends javax.swing.JFrame {
         setTitle("Modificar Candidato");
         setLocationRelativeTo(null);
         
-        for (String arStr1 : perfil) {choice_perfil.add(arStr1); }       //ciclo para llenar el choice con las opciones
-        for (String arStr2 : seniority) {choice_seniority.add(arStr2); }       //ciclo para llenar el choice con las opciones
-        for (String arStr3 : niveldeingles) {choice_niveldeingles.add(arStr3); }       //ciclo para llenar el choice con las opciones
-        for (String arStr4 : cliente) {choice_cliente.add(arStr4); }       //ciclo para llenar el choice con las opciones
-        for (String arStr5 : estado) {choice_estado.add(arStr5); }       //ciclo para llenar el choice con las opciones
-        for (String arStr6 : reclutadora) {choice_reclutadora.add(arStr6); }       //ciclo para llenar el choice con las opciones
+        for (String arStr1 : seniority) {choice_seniority.add(arStr1); }       //ciclo para llenar el choice con las opciones
+        for (String arStr2 : niveldeingles) {choice_niveldeingles.add(arStr2); }       //ciclo para llenar el choice con las opciones
+        for (String arStr3 : cliente) {choice_cliente.add(arStr3); }       //ciclo para llenar el choice con las opciones
+        for (String arStr4 : estado) {choice_estado.add(arStr4); }       //ciclo para llenar el choice con las opciones
+        for (String arStr5 : reclutadora) {choice_reclutadora.add(arStr5); }       //ciclo para llenar el choice con las opciones
         
         Candidatos eliminar = new Candidatos();
-        txt_email.setText(eliminar.valor);
+        
+        ID = Integer.parseInt(eliminar.valor);
+        
+        txt_nombre.setText(eliminar.valor1);
+        txt_apellido.setText(eliminar.valor2);
+        txt_telefono.setText(eliminar.valor3);
+        txt_email.setText(eliminar.valor4);
+        txt_linkedin.setText(eliminar.valor5);
+        txt_perfil.setText(eliminar.valor6);
+        
+        for (int i = 0; i < seniority.length; i++) {                         
+            if(seniority[i].toLowerCase().equals(eliminar.valor7)){
+                choice_seniority.select(i);}}
+        
+        for (int i = 0; i < niveldeingles.length; i++) {                                                     
+            if(niveldeingles[i].equals(eliminar.valor8)){
+                choice_niveldeingles.select(i);}}
+        
+        txt_rate.setText(eliminar.valor9);
+        
+        for (int i = 0; i < cliente.length; i++) {                                
+            if(cliente[i].equals(eliminar.valor10)){
+                choice_cliente.select(i);}}
+        
+        for (int i = 0; i < estado.length; i++) {                                       
+            if(estado[i].equals(eliminar.valor11)){
+                choice_estado.select(i);}}
+        
+        txt_observacion.setText(eliminar.valor12);
+        txt_fecha.setText(eliminar.valor13);
+        
+        for (int i = 0; i < reclutadora.length; i++) {                                  
+            if(reclutadora[i].equals(eliminar.valor14)){
+                choice_reclutadora.select(i);}}
         
     }
     
@@ -85,7 +113,6 @@ public class ModificarCandidato extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
         txt_nombre = new javax.swing.JTextField();
-        choice_perfil = new java.awt.Choice();
         txt_apellido = new javax.swing.JTextField();
         jButton2 = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
@@ -112,10 +139,10 @@ public class ModificarCandidato extends javax.swing.JFrame {
         jLabel14 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
-        jButton4 = new javax.swing.JButton();
         txt_telefono = new javax.swing.JTextField();
         txt_rate = new javax.swing.JTextField();
         txt_fecha = new javax.swing.JTextField();
+        txt_perfil = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setIconImage(getIconImage());
@@ -174,13 +201,6 @@ public class ModificarCandidato extends javax.swing.JFrame {
         jLabel1.setText("Modificar Candidato");
 
         jLabel15.setText("Fecha:");
-
-        jButton4.setText("Buscar");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -242,9 +262,9 @@ public class ModificarCandidato extends javax.swing.JFrame {
                                 .addComponent(txt_linkedin))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(choice_cliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(choice_perfil, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
-                                    .addComponent(choice_niveldeingles, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(choice_cliente, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
+                                    .addComponent(choice_niveldeingles, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(txt_perfil))
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(31, 31, 31)
@@ -263,13 +283,8 @@ public class ModificarCandidato extends javax.swing.JFrame {
                                         .addComponent(jLabel11)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(choice_estado, javax.swing.GroupLayout.DEFAULT_SIZE, 241, Short.MAX_VALUE)))))))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(70, 70, 70)
-                        .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton4))))
+                .addGap(70, 70, 70)
+                .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -281,33 +296,30 @@ public class ModificarCandidato extends javax.swing.JFrame {
                 .addGap(7, 7, 7)
                 .addComponent(jLabel1)
                 .addGap(9, 9, 9)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(36, 36, 36)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel2)
+                    .addComponent(txt_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_apellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel5)
+                    .addComponent(txt_email, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_telefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(txt_linkedin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(36, 36, 36)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel2)
-                            .addComponent(txt_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txt_apellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel5)
-                            .addComponent(txt_email, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton4)
-                            .addComponent(txt_telefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel6)
-                            .addComponent(txt_linkedin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel7)
-                                .addComponent(jLabel8))
-                            .addComponent(choice_seniority, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(choice_perfil, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel7)
+                        .addComponent(jLabel8)
+                        .addComponent(txt_perfil, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(choice_seniority, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -357,9 +369,19 @@ public class ModificarCandidato extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
 
-        Principal newFrame = new Principal();
-        newFrame.setVisible(true);                                     //hace visible la vantana
-        this.dispose();
+        if (permiso.equalsIgnoreCase("superadministrador")) {
+                        
+            SuperAdministrador newFrame = new SuperAdministrador();
+            newFrame.setVisible(true);                                     //hace visible la vantana
+            this.dispose();
+                    
+        } else {
+                        
+            Principal newFrame = new Principal();
+            newFrame.setVisible(true);                                     //hace visible la vantana
+            this.dispose();
+                        
+        }
 
     }//GEN-LAST:event_jButton3ActionPerformed
 
@@ -370,7 +392,7 @@ public class ModificarCandidato extends javax.swing.JFrame {
             Connection cn = conexion.conectar();
             
             if (txt_nombre.getText().isEmpty() || txt_apellido.getText().isEmpty() ||txt_telefono.getText().isEmpty() ||
-                    txt_email.getText().isEmpty() || txt_linkedin.getText().isEmpty() || choice_perfil.getSelectedItem().isEmpty() ||
+                    txt_email.getText().isEmpty() || txt_linkedin.getText().isEmpty() || txt_perfil.getText().isEmpty() ||
                     choice_seniority.getSelectedItem().isEmpty() || choice_niveldeingles.getSelectedItem().isEmpty() 
                     || txt_rate.getText().isEmpty() || choice_cliente.getSelectedItem().isEmpty() || 
                     choice_estado.getSelectedItem().isEmpty() || txt_fecha.getText().isEmpty() || 
@@ -388,7 +410,7 @@ public class ModificarCandidato extends javax.swing.JFrame {
                     pst.setString(2, txt_apellido.getText().trim().toLowerCase());
                     pst.setString(3, txt_telefono.getText().trim());
                     pst.setString(4, txt_linkedin.getText().trim());
-                    pst.setString(5, choice_perfil.getSelectedItem().toLowerCase());
+                    pst.setString(5, txt_perfil.getText().trim().toLowerCase());
                     pst.setString(6, choice_seniority.getSelectedItem().toLowerCase());
                     pst.setString(7, choice_niveldeingles.getSelectedItem());
                     pst.setString(8, txt_rate.getText().trim());
@@ -407,7 +429,7 @@ public class ModificarCandidato extends javax.swing.JFrame {
                     txt_telefono.setBackground(Color.GREEN);
                     txt_email.setBackground(Color.GREEN);
                     txt_linkedin.setBackground(Color.GREEN);
-                    choice_perfil.setBackground(Color.GREEN);
+                    txt_perfil.setBackground(Color.GREEN);
                     choice_seniority.setBackground(Color.GREEN);
                     choice_niveldeingles.setBackground(Color.GREEN);
                     txt_rate.setBackground(Color.GREEN);
@@ -424,7 +446,7 @@ public class ModificarCandidato extends javax.swing.JFrame {
                     txt_telefono.setBackground(Color.WHITE);
                     txt_email.setBackground(Color.WHITE);
                     txt_linkedin.setBackground(Color.WHITE);
-                    choice_perfil.setBackground(Color.WHITE);
+                    txt_perfil.setBackground(Color.WHITE);
                     choice_seniority.setBackground(Color.WHITE);
                     choice_niveldeingles.setBackground(Color.WHITE);
                     txt_rate.setBackground(Color.WHITE);
@@ -439,7 +461,7 @@ public class ModificarCandidato extends javax.swing.JFrame {
                     txt_telefono.setText("");
                     txt_email.setText("");
                     txt_linkedin.setText("");
-                    choice_perfil.select(0); 
+                    txt_perfil.setText("");
                     choice_seniority.select(0); 
                     choice_niveldeingles.select(0); 
                     txt_rate.setText("");
@@ -458,81 +480,6 @@ public class ModificarCandidato extends javax.swing.JFrame {
             
         }   
     }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        
-        try {
-            
-            Connection cn = conexion.conectar();
-            
-            PreparedStatement pst = cn.prepareStatement("select * from candidatos where email = ?");
-            
-            pst.setString(1, txt_email.getText().trim().toLowerCase());
-
-            ResultSet rs = pst.executeQuery();
-
-            
-            if (rs.next()) {
-                
-                ID = rs.getInt("id");
-                txt_nombre.setText(rs.getString("nombre"));
-                txt_apellido.setText(rs.getString("apellido"));
-                txt_telefono.setText(rs.getString("telefono"));
-                txt_email.setText(rs.getString("email"));
-                
-                txt_linkedin.setText(rs.getString("linkedin"));
-         
-                //choice_perfil. Se deben convertir a minusculas
-                for (int i = 0; i < perfil.length; i++) {                         
-                    if(perfil[i].toLowerCase().equals(rs.getString("perfil"))){
-                        choice_perfil.select(i);}}
-                
-                //choice_seniority. Se deben convertir a minusculas.
-                for (int i = 0; i < seniority.length; i++) {                         
-                    if(seniority[i].toLowerCase().equals(rs.getString("seniority"))){
-                        choice_seniority.select(i);}}
-                                
-                //choice_niveldeingles.
-                for (int i = 0; i < niveldeingles.length; i++) {                         
-                    if(niveldeingles[i].equals(rs.getString("niveldeingles"))){
-                        choice_niveldeingles.select(i);}}
-                
-                txt_rate.setText(rs.getString("rate"));
-                
-                //choice_cliente.
-                for (int i = 0; i < cliente.length; i++) {                         
-                    if(cliente[i].equals(rs.getString("cliente"))){
-                        choice_cliente.select(i);}}
-                
-                //choice_estado.                
-                for (int i = 0; i < estado.length; i++) {                         
-                    if(estado[i].equals(rs.getString("estado"))){
-                        choice_estado.select(i);}}
-                
-                txt_observacion.setText(rs.getString("observacion"));
-                txt_fecha.setText(rs.getString("fecha"));
-                
-                //choice_reclutadora.
-                for (int i = 0; i < reclutadora.length; i++) {                         
-                    if(reclutadora[i].equals(rs.getString("reclutador"))){
-                        choice_reclutadora.select(i);}}
-                
-                cn.close();
-                
-            }else {
- 
-                JOptionPane.showMessageDialog(null, "El candidato no existe");
-                cn.close();
-                
-            }
-            
-        } catch (SQLException e) {
-            
-            System.err.println("Error con el boton buscar. " + e );
-            JOptionPane.showMessageDialog(null, "Error al realizar la busqueda!!. Contacte al administrador");
-            
-        }    
-    }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -571,13 +518,11 @@ public class ModificarCandidato extends javax.swing.JFrame {
     private java.awt.Choice choice_cliente;
     private java.awt.Choice choice_estado;
     private java.awt.Choice choice_niveldeingles;
-    private java.awt.Choice choice_perfil;
     private java.awt.Choice choice_reclutadora;
     private java.awt.Choice choice_seniority;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -601,6 +546,7 @@ public class ModificarCandidato extends javax.swing.JFrame {
     private javax.swing.JTextField txt_linkedin;
     private javax.swing.JTextField txt_nombre;
     private javax.swing.JTextField txt_observacion;
+    private javax.swing.JTextField txt_perfil;
     private javax.swing.JTextField txt_rate;
     private javax.swing.JTextField txt_telefono;
     // End of variables declaration//GEN-END:variables
