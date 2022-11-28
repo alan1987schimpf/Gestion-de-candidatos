@@ -11,12 +11,6 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import java.security.MessageDigest;
-import java.util.Arrays;
-import javax.crypto.Cipher;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
-import org.apache.commons.codec.binary.Base64;
 
 /**
  * @author Giuliana Carnevalle, Bautista Venier y Alan Sebastian Schimpf
@@ -34,7 +28,6 @@ public class Inicio extends javax.swing.JFrame {
     public Inicio() {
         initComponents();
         
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
         setResizable(false);                                        //el usuario no puede modificar las dimensiones del jframeform
         setTitle("Acceso al sistema");
         setLocationRelativeTo(null);
@@ -164,11 +157,7 @@ public class Inicio extends javax.swing.JFrame {
             
                 if (rs.next()) {
                     
-                    String secretKey = "hrzhgua";
-                    Inicio mMain = new Inicio();
-                    String cadenaDesencriptada = mMain.deecnode(secretKey, rs.getString("contraseña"));
-                    
-                    if (cadenaDesencriptada.equalsIgnoreCase(txt_contraseña.getText())) {
+                    if (rs.getString("contraseña").equalsIgnoreCase(txt_contraseña.getText())) {
                         
                         Principal newFrame = new Principal();
                         newFrame.setVisible(true);                                     //hace visible la vantana
@@ -228,14 +217,9 @@ public class Inicio extends javax.swing.JFrame {
                 
             
             }else{
-                
-                String secretKey = "hrzhgua";
-                Inicio mMain = new Inicio();
-                String cadenaAEncriptar = txt_contraseña.getText().trim();
-                String cadenaEncriptada = mMain.ecnode(secretKey, cadenaAEncriptar);
             
                 pst.setString(1, txt_email.getText().trim());
-                pst.setString(2, cadenaEncriptada);
+                pst.setString(2, txt_contraseña.getText().trim());
 
                 pst.executeUpdate();                                          //se ejecutan las lineas que le enviamos a la base de datos
 
@@ -291,57 +275,6 @@ public class Inicio extends javax.swing.JFrame {
                 new Inicio().setVisible(true);
             }
         });
-    }
-    
-    public String ecnode(String secretKey, String cadena) {
-        
-        String encriptacion = "";
-        
-        try {
-            
-            MessageDigest md5 = MessageDigest.getInstance("MD5");
-            byte[] llavePassword = md5.digest(secretKey.getBytes("utf-8"));
-            byte[] BytesKey = Arrays.copyOf(llavePassword, 24);
-            SecretKey key = new SecretKeySpec(BytesKey, "DESede");
-            Cipher cifrado = Cipher.getInstance("DESede");
-            cifrado.init(Cipher.ENCRYPT_MODE, key);
-            byte[] plainTextBytes = cadena.getBytes("utf-8");
-            byte[] buf = cifrado.doFinal(plainTextBytes);
-            byte[] base64Bytes = Base64.encodeBase64(buf);
-            encriptacion = new String(base64Bytes);
-            
-        } catch (Exception ex) {
-            
-            JOptionPane.showMessageDialog(null, "Algo salió mal");
-            
-        }
-        
-        return encriptacion;
-        
-    }
-        
-    public String deecnode(String secretKey, String cadenaEncriptada) {
-        
-        String desencriptacion = "";
-        
-        try {
-            
-            byte[] message = Base64.decodeBase64(cadenaEncriptada.getBytes("utf-8"));
-            MessageDigest md5 = MessageDigest.getInstance("MD5");
-            byte[] digestOfPassword = md5.digest(secretKey.getBytes("utf-8"));
-            byte[] keyBytes = Arrays.copyOf(digestOfPassword, 24);
-            SecretKey key = new SecretKeySpec(keyBytes, "DESede");
-            Cipher decipher = Cipher.getInstance("DESede");
-            decipher.init(Cipher.DECRYPT_MODE, key);
-            byte[] plainText = decipher.doFinal(message);
-            desencriptacion = new String(plainText, "UTF-8");
-
-        } catch (Exception e) {
-            
-            JOptionPane.showMessageDialog(null, "Algo salió mal");
-            
-        }
-        return desencriptacion;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

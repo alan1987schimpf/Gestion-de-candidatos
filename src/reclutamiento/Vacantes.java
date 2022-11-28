@@ -3,16 +3,12 @@ package reclutamiento;
 
 import java.awt.Image;
 import java.awt.Toolkit;
-import javax.swing.JTable;
-
 
 /**
  * @author Giuliana Carnevalle, Bautista Venier y Alan Sebastian Schimpf
  */
 
 public class Vacantes extends javax.swing.JFrame {
-    
-    JTable tabla;
 
     /**
      * Creates new form Clientes
@@ -21,10 +17,9 @@ public class Vacantes extends javax.swing.JFrame {
     public Vacantes() {
         initComponents();
         
-        setDefaultCloseOperation(EXIT_ON_CLOSE);                 //evita que las ventanas queden en segundo plano al cerrarlas
         setResizable(false);                                        //el usuario no puede modificar las dimensiones del jframeform
         setTitle("Vacantes");
-        setLocationRelativeTo(null);                         //evita que el usuario pueda redimensionar la ventana
+        setLocationRelativeTo(null);
         
     }
     
@@ -51,7 +46,7 @@ public class Vacantes extends javax.swing.JFrame {
         jTable1 = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        txt_buscar = new javax.swing.JTextField();
+        jTextField1 = new javax.swing.JTextField();
         jButton3 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
@@ -72,7 +67,7 @@ public class Vacantes extends javax.swing.JFrame {
                 {null, null, null, null, null, null}
             },
             new String [] {
-                "Cliente", "Vacante", "Fecha de comienzo", "Cantidad", "Estado", "Fecha de cierre"
+                "Cliente", "Vacante", "Fecha comienzo", "Cantidad", "Estado", "Fecha de cierre"
             }
         ));
         jScrollPane1.setViewportView(jTable1);
@@ -81,11 +76,6 @@ public class Vacantes extends javax.swing.JFrame {
         jLabel2.setText("jLabel2");
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/lupa.png"))); // NOI18N
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
 
         jButton3.setText("Agregar Vacante");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -130,7 +120,7 @@ public class Vacantes extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(txt_buscar, javax.swing.GroupLayout.DEFAULT_SIZE, 281, Short.MAX_VALUE)
+                                .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 281, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jButton1))))
                     .addGroup(layout.createSequentialGroup()
@@ -154,7 +144,7 @@ public class Vacantes extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txt_buscar))
+                            .addComponent(jTextField1))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel2))
                     .addGroup(layout.createSequentialGroup()
@@ -189,10 +179,6 @@ public class Vacantes extends javax.swing.JFrame {
         this.dispose(); 
         
     }//GEN-LAST:event_jMenuItem2ActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-             
-    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -244,6 +230,6 @@ public class Vacantes extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField txt_buscar;
+    private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }

@@ -35,8 +35,8 @@ public class AgregarCandidato extends javax.swing.JFrame {
     String estado [] = {"", "Pre-selección", "Entrevista Interna", "Presentado al cliente",              
         "Entrevista con el cliente", "Examen médico/psico", "Contratado", "En espera", "No interesado", "No se considera"};
     
-    String reclutadora [] = {"", "Constanza", "Florencia", "Giuliana",              
-        "Lucia", "Micaela", "Priscila"};
+    String reclutadora [] = {"", "Florencia", "Micaela", "Constanza",              
+        "Giuliana", "Lucia", "Priscila"};
      
     /**
      * Creates new form AgregarCandidato
@@ -45,7 +45,6 @@ public class AgregarCandidato extends javax.swing.JFrame {
     public AgregarCandidato() {
         initComponents();
         
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
         setResizable(false);                                        //el usuario no puede modificar las dimensiones del jframeform
         setTitle("Agregar Candidato");
         setLocationRelativeTo(null);
@@ -387,17 +386,19 @@ public class AgregarCandidato extends javax.swing.JFrame {
                 choice_reclutadora.select(0);
                 
                 JOptionPane.showMessageDialog(null, "Registro Exitoso");
+                
+                Candidatos newFrame = new Candidatos();
+                newFrame.setVisible(true);                                     //hace visible la vantana
+                this.dispose();
             
             }
 
         } catch (SQLException e) {
             
-            System.err.println("Error con el boton agregar. " + e );
-            JOptionPane.showMessageDialog(null, "Error al agregar el/la candidato/a!!. Contacte al administrador");
-            
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(AgregarCandidato.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
         
     }//GEN-LAST:event_jButton1ActionPerformed
 

@@ -17,7 +17,6 @@ public class Principal extends javax.swing.JFrame {
     public Principal() {
         initComponents();
         
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
         setResizable(false);                                        //el usuario no puede modificar las dimensiones del jframeform
         setTitle("Home");
         setLocationRelativeTo(null);
