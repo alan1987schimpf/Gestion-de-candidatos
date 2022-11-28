@@ -1,6 +1,16 @@
 
 package reclutamiento;
 
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /**
  * @author Giuliana Carnevalle, Bautista Venier y Alan Sebastian Schimpf
  */
@@ -13,6 +23,19 @@ public class Inicio extends javax.swing.JFrame {
     
     public Inicio() {
         initComponents();
+        
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setResizable(false);                                        //el usuario no puede modificar las dimensiones del jframeform
+        setTitle("Acceso al sistema");
+        setLocationRelativeTo(null);
+        
+    }
+    
+    @Override
+    public Image getIconImage(){                    //cambiamos el icono del jframeform
+    
+        Image retValue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("images/iconoAR.png"));
+        return retValue;
         
     }
 
@@ -113,6 +136,49 @@ public class Inicio extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
             
+        try {
+
+            Class.forName("oracle.jdbc.driver.OracleDriver");
+            String url = "";
+            String usuario = "system";
+            String pass = "admin";
+
+            Connection cn = DriverManager.getConnection(url, usuario, pass);
+            PreparedStatement pst = cn.prepareStatement("insert into usuarios values (?,?)");
+
+            if(txt_email.getText().isEmpty() || txt_contraseña.getText().isEmpty()){
+            
+                JOptionPane.showMessageDialog(null, "Debe Completar todos los campos");
+                
+            
+            }else{
+                
+                //String secretKey = "hrzhgua";
+                //Inicio mMain = new Inicio();
+                //String cadenaAEncriptar = txt_contraseña.getText().trim();
+                //String cadenaEncriptada = mMain.ecnode(secretKey, cadenaAEncriptar);
+            
+                pst.setString(1, txt_email.getText().trim());
+                pst.setString(2, txt_contraseña.getText().trim());
+
+                pst.executeUpdate();                                          //se ejecutan las lineas que le enviamos a la base de datos
+
+                txt_email.setText("");
+                txt_contraseña.setText("");
+                
+                JOptionPane.showMessageDialog(null, "Registro Exitoso");
+            
+            }
+
+        } catch (SQLException e) {
+            
+            System.err.println("Error con el boton registrar. " + e );
+            JOptionPane.showMessageDialog(null, "Error al registrar usuario!!. Contacte al administrador");
+            
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Inicio.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
