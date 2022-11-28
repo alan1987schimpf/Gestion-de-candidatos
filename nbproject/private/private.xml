@@ -3,22 +3,22 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Alan%20Schimpf/Desktop/Proyecto%20Candidato/18-Reclutamiento-SuperAdministrador-AgregarUsuario-Administrador/src/reclutamiento/AgregarVacante.java</file>
-            <file>file:/C:/Users/Alan%20Schimpf/Desktop/Proyecto%20Candidato/18-Reclutamiento-SuperAdministrador-AgregarUsuario-Administrador/src/reclutamiento/AgregarCandidato.java</file>
-            <file>file:/C:/Users/Alan%20Schimpf/Desktop/Proyecto%20Candidato/18-Reclutamiento-SuperAdministrador-AgregarUsuario-Administrador/src/reclutamiento/ModificarVacante.java</file>
-            <file>file:/C:/Users/Alan%20Schimpf/Desktop/Proyecto%20Candidato/18-Reclutamiento-SuperAdministrador-AgregarUsuario-Administrador/src/reclutamiento/Candidatos.java</file>
-            <file>file:/C:/Users/Alan%20Schimpf/Desktop/Proyecto%20Candidato/18-Reclutamiento-SuperAdministrador-AgregarUsuario-Administrador/src/reclutamiento/SuperAdministrador.java</file>
-            <file>file:/C:/Users/Alan%20Schimpf/Desktop/Proyecto%20Candidato/18-Reclutamiento-SuperAdministrador-AgregarUsuario-Administrador/src/reclutamiento/GestionUsuariosAdministradores.java</file>
-            <file>file:/C:/Users/Alan%20Schimpf/Desktop/Proyecto%20Candidato/18-Reclutamiento-SuperAdministrador-AgregarUsuario-Administrador/src/reclutamiento/Inicio.java</file>
-            <file>file:/C:/Users/Alan%20Schimpf/Desktop/Proyecto%20Candidato/18-Reclutamiento-SuperAdministrador-AgregarUsuario-Administrador/src/reclutamiento/Principal.java</file>
-            <file>file:/C:/Users/Alan%20Schimpf/Desktop/Proyecto%20Candidato/18-Reclutamiento-SuperAdministrador-AgregarUsuario-Administrador/src/reclutamiento/ModificarCredenciales.java</file>
-            <file>file:/C:/Users/Alan%20Schimpf/Desktop/Proyecto%20Candidato/18-Reclutamiento-SuperAdministrador-AgregarUsuario-Administrador/src/reclutamiento/EliminarCandidato.java</file>
-            <file>file:/C:/Users/Alan%20Schimpf/Desktop/Proyecto%20Candidato/18-Reclutamiento-SuperAdministrador-AgregarUsuario-Administrador/src/reclutamiento/AgregarUsuario.java</file>
-            <file>file:/C:/Users/Alan%20Schimpf/Desktop/Proyecto%20Candidato/18-Reclutamiento-SuperAdministrador-AgregarUsuario-Administrador/src/reclutamiento/EliminarVacante.java</file>
-            <file>file:/C:/Users/Alan%20Schimpf/Desktop/Proyecto%20Candidato/18-Reclutamiento-SuperAdministrador-AgregarUsuario-Administrador/src/reclutamiento/ModificarUsuario.java</file>
-            <file>file:/C:/Users/Alan%20Schimpf/Desktop/Proyecto%20Candidato/18-Reclutamiento-SuperAdministrador-AgregarUsuario-Administrador/src/reclutamiento/EliminarUsuario.java</file>
-            <file>file:/C:/Users/Alan%20Schimpf/Desktop/Proyecto%20Candidato/18-Reclutamiento-SuperAdministrador-AgregarUsuario-Administrador/src/reclutamiento/ModificarCandidato.java</file>
-            <file>file:/C:/Users/Alan%20Schimpf/Desktop/Proyecto%20Candidato/18-Reclutamiento-SuperAdministrador-AgregarUsuario-Administrador/src/reclutamiento/Vacantes.java</file>
+            <file>file:/C:/Users/Alan%20Schimpf/Desktop/Proyecto%20Candidato/19-Reclutamiento-SuperAdministrador-ModificarUsuario-Administrador/src/reclutamiento/AgregarVacante.java</file>
+            <file>file:/C:/Users/Alan%20Schimpf/Desktop/Proyecto%20Candidato/19-Reclutamiento-SuperAdministrador-ModificarUsuario-Administrador/src/reclutamiento/Principal.java</file>
+            <file>file:/C:/Users/Alan%20Schimpf/Desktop/Proyecto%20Candidato/19-Reclutamiento-SuperAdministrador-ModificarUsuario-Administrador/src/reclutamiento/AgregarCandidato.java</file>
+            <file>file:/C:/Users/Alan%20Schimpf/Desktop/Proyecto%20Candidato/19-Reclutamiento-SuperAdministrador-ModificarUsuario-Administrador/src/reclutamiento/ModificarCredenciales.java</file>
+            <file>file:/C:/Users/Alan%20Schimpf/Desktop/Proyecto%20Candidato/19-Reclutamiento-SuperAdministrador-ModificarUsuario-Administrador/src/reclutamiento/ModificarVacante.java</file>
+            <file>file:/C:/Users/Alan%20Schimpf/Desktop/Proyecto%20Candidato/19-Reclutamiento-SuperAdministrador-ModificarUsuario-Administrador/src/reclutamiento/Candidatos.java</file>
+            <file>file:/C:/Users/Alan%20Schimpf/Desktop/Proyecto%20Candidato/19-Reclutamiento-SuperAdministrador-ModificarUsuario-Administrador/src/reclutamiento/EliminarVacante.java</file>
+            <file>file:/C:/Users/Alan%20Schimpf/Desktop/Proyecto%20Candidato/19-Reclutamiento-SuperAdministrador-ModificarUsuario-Administrador/src/reclutamiento/Inicio.java</file>
+            <file>file:/C:/Users/Alan%20Schimpf/Desktop/Proyecto%20Candidato/19-Reclutamiento-SuperAdministrador-ModificarUsuario-Administrador/src/reclutamiento/SuperAdministrador.java</file>
+            <file>file:/C:/Users/Alan%20Schimpf/Desktop/Proyecto%20Candidato/19-Reclutamiento-SuperAdministrador-ModificarUsuario-Administrador/src/reclutamiento/AgregarUsuario.java</file>
+            <file>file:/C:/Users/Alan%20Schimpf/Desktop/Proyecto%20Candidato/19-Reclutamiento-SuperAdministrador-ModificarUsuario-Administrador/src/reclutamiento/GestionUsuariosAdministradores.java</file>
+            <file>file:/C:/Users/Alan%20Schimpf/Desktop/Proyecto%20Candidato/19-Reclutamiento-SuperAdministrador-ModificarUsuario-Administrador/src/reclutamiento/ModificarCandidato.java</file>
+            <file>file:/C:/Users/Alan%20Schimpf/Desktop/Proyecto%20Candidato/19-Reclutamiento-SuperAdministrador-ModificarUsuario-Administrador/src/reclutamiento/EliminarUsuario.java</file>
+            <file>file:/C:/Users/Alan%20Schimpf/Desktop/Proyecto%20Candidato/19-Reclutamiento-SuperAdministrador-ModificarUsuario-Administrador/src/reclutamiento/EliminarCandidato.java</file>
+            <file>file:/C:/Users/Alan%20Schimpf/Desktop/Proyecto%20Candidato/19-Reclutamiento-SuperAdministrador-ModificarUsuario-Administrador/src/reclutamiento/ModificarUsuario.java</file>
+            <file>file:/C:/Users/Alan%20Schimpf/Desktop/Proyecto%20Candidato/19-Reclutamiento-SuperAdministrador-ModificarUsuario-Administrador/src/reclutamiento/Vacantes.java</file>
         </group>
     </open-files>
 </project-private>

@@ -20,7 +20,7 @@ import static reclutamiento.Inicio.user;
 
 public class AgregarUsuario extends javax.swing.JFrame {
 
-    String permiso [] = {"", "Usuario", "Administrador"};  
+    String permiso [] = {"", "Usuario", "Administrador", "SuperAdministrador"};  
     int mayor = 1;
     
     /**
@@ -241,7 +241,7 @@ public class AgregarUsuario extends javax.swing.JFrame {
                     pst1.setInt(1, mayor);
                     pst1.setString(2, txt_email.getText().trim().toLowerCase());
                     pst1.setString(3, cadenaEncriptada.trim());
-                    pst1.setString(4, choice_permiso.getSelectedItem().trim());
+                    pst1.setString(4, choice_permiso.getSelectedItem().toLowerCase().trim());
 
                     pst1.executeUpdate();                                          //se ejecutan las lineas que le enviamos a la base de datos
                 

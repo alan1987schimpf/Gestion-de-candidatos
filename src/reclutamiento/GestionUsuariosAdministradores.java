@@ -22,7 +22,7 @@ public class GestionUsuariosAdministradores extends javax.swing.JFrame {
 
     JTable tabla;
     public static String valor = ""; 
-    public static int columna = 0;
+    public static String tipopermiso = ""; 
     
     /**
      * Creates new form GestionUsuariosAdministradores
@@ -219,9 +219,8 @@ public class GestionUsuariosAdministradores extends javax.swing.JFrame {
                         .addGap(8, 8, 8)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(txt_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(txt_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -352,9 +351,17 @@ public class GestionUsuariosAdministradores extends javax.swing.JFrame {
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         
-        EliminarUsuario newFrame = new EliminarUsuario();
-        newFrame.setVisible(true);                                     //hace visible la vantana
-        this.dispose();
+        if (jTable1.getSelectedColumn() == 0) {
+            
+            EliminarUsuario newFrame = new EliminarUsuario();
+            newFrame.setVisible(true);                                     //hace visible la vantana
+            this.dispose();
+            
+        } else {
+            
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un email");
+            
+        }
         
     }//GEN-LAST:event_jButton5ActionPerformed
 
@@ -368,9 +375,17 @@ public class GestionUsuariosAdministradores extends javax.swing.JFrame {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         
-        ModificarUsuario newFrame = new ModificarUsuario();
-        newFrame.setVisible(true);                                     //hace visible la vantana
-        this.dispose();
+        if (jTable1.getSelectedColumn() == 0) {
+            
+            ModificarUsuario newFrame = new ModificarUsuario();
+            newFrame.setVisible(true);                                     //hace visible la vantana
+            this.dispose();
+            
+        } else {
+            
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un email");
+            
+        }  
         
     }//GEN-LAST:event_jButton4ActionPerformed
 
@@ -384,6 +399,7 @@ public class GestionUsuariosAdministradores extends javax.swing.JFrame {
         if (col == 0) {
             
             valor = valorCelda;
+            tipopermiso = (String) jTable1.getValueAt(fila,1);
             
         } else {
             

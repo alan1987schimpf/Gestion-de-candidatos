@@ -1,14 +1,26 @@
 
 package reclutamiento;
 
+import java.awt.Color;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  * @author Giuliana Carnevalle, Bautista Venier y Alan Sebastian Schimpf
  */
 
 public class ModificarUsuario extends javax.swing.JFrame {
+    
+    public int ID;
+    String permiso [] = {"", "Usuario", "Administrador", "SuperAdministrador"}; 
 
     /**
      * Creates new form ModificarUsuario
@@ -21,6 +33,48 @@ public class ModificarUsuario extends javax.swing.JFrame {
         setResizable(false);                                        //el usuario no puede modificar las dimensiones del jframeform
         setTitle("Modificar Usuario");
         setLocationRelativeTo(null);
+        
+        for (String arStr1 : permiso) {choice_permiso.add(arStr1); }
+        
+        GestionUsuariosAdministradores modificar = new GestionUsuariosAdministradores();
+        txt_email.setText(modificar.valor);
+        
+        for (int i = 0; i < permiso.length; i++) {                         
+            if(permiso[i].toLowerCase().equals(modificar.tipopermiso)){
+                choice_permiso.select(i);}}
+        
+        try {
+
+            Class.forName("oracle.jdbc.driver.OracleDriver");
+            String url = "";
+            String usuario = "system";
+            String pass = "admin";
+
+            Connection cn = DriverManager.getConnection(url, usuario, pass);
+            
+            PreparedStatement pst1 = cn.prepareStatement("select id from usuarios where email = ?");
+            
+            pst1.setString(1, txt_email.getText().trim().toLowerCase());
+            ResultSet rs1 = pst1.executeQuery();
+            
+            if (rs1.next()) {
+                
+                ID = rs1.getInt("id");
+                
+            }else{
+            
+                JOptionPane.showMessageDialog(null, "El usuario o administrador no existe");
+            
+            }
+            
+        } catch (SQLException e) {
+            
+            System.err.println("Error con la busqueda del identificador. " + e );
+            JOptionPane.showMessageDialog(null, "Error al buscar el identificador!!. Contacte al administrador");
+            
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(AgregarCandidato.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
     }
     
@@ -72,6 +126,11 @@ public class ModificarUsuario extends javax.swing.JFrame {
         jLabel4.setText("Permiso:");
 
         jButton1.setText("Modificar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -133,6 +192,57 @@ public class ModificarUsuario extends javax.swing.JFrame {
     private void txt_emailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_emailActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_emailActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        
+        try {
+            
+            Class.forName("oracle.jdbc.driver.OracleDriver");
+            String url = "";
+            String usuario = "system";
+            String pass = "admin";
+            
+            Connection cn = DriverManager.getConnection(url, usuario, pass);
+            
+            if (txt_email.getText().isEmpty() || choice_permiso.getSelectedItem().isEmpty()) {
+                
+                JOptionPane.showMessageDialog(null, "Debe Completar todos los campos");
+                
+            } else {
+                    
+                    PreparedStatement pst = cn.prepareStatement("update usuarios set email = ?, permiso = ?"
+                            + "where id = " + ID);
+                    
+                    pst.setString(1, txt_email.getText().trim());
+                    pst.setString(2, choice_permiso.getSelectedItem().toLowerCase().trim());
+
+                    pst.executeUpdate();
+                    cn.close();                                      
+                    
+                    txt_email.setBackground(Color.green);
+                    choice_permiso.setBackground(Color.green);
+                    
+                    JOptionPane.showMessageDialog(null, "Modificacion Exitosa");
+                    
+                    GestionUsuariosAdministradores newFrame = new GestionUsuariosAdministradores();
+                    newFrame.setVisible(true);                                                         //hace visible la vantana
+                    this.dispose();
+                      
+            }
+             
+        } catch (SQLException e) {
+            
+            System.err.println("Error con el boton modificar vacante. " + e );
+            JOptionPane.showMessageDialog(null, "Error al modificar la vacante!!. Contacte al administrador");
+            
+        } catch (ClassNotFoundException ex) {
+            
+            Logger.getLogger(AgregarCandidato.class.getName()).log(Level.SEVERE, null, ex);
+            
+        }
+        
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
