@@ -6,6 +6,7 @@ import java.awt.Toolkit;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -57,8 +58,6 @@ public class AgregarCandidato extends javax.swing.JFrame {
         for (String arStr5 : estado) {choice_estado.add(arStr5); }       //ciclo para llenar el choice con las opciones
         for (String arStr6 : reclutadora) {choice_reclutadora.add(arStr6); }       //ciclo para llenar el choice con las opciones
             
-       
-        
     }
     
     @Override
@@ -332,73 +331,91 @@ public class AgregarCandidato extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         
         try {
-
+            
             Class.forName("oracle.jdbc.driver.OracleDriver");
             String url = "";
             String usuario = "system";
             String pass = "admin";
-
+            
             Connection cn = DriverManager.getConnection(url, usuario, pass);
-            PreparedStatement pst = cn.prepareStatement("insert into candidatos values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
-
-            if(txt_nombre.getText().isEmpty() || txt_apellido.getText().isEmpty() ||txt_telefono.getText().isEmpty() ||
+            
+            PreparedStatement pst1 = cn.prepareStatement("select * from candidatos where email = ?");
+            PreparedStatement pst2 = cn.prepareStatement("select * from candidatos where telefono = ?");
+            
+            pst1.setString(1, txt_email.getText().trim().toLowerCase());
+            pst2.setString(1, txt_telefono.getText().trim().toLowerCase());
+            
+            ResultSet rs1 = pst1.executeQuery();
+            ResultSet rs2 = pst2.executeQuery();
+            
+            if (txt_nombre.getText().isEmpty() || txt_apellido.getText().isEmpty() ||txt_telefono.getText().isEmpty() ||
                     txt_email.getText().isEmpty() || txt_linkedin.getText().isEmpty() || choice_perfil.getSelectedItem().isEmpty() ||
                     choice_seniority.getSelectedItem().isEmpty() || choice_niveldeingles.getSelectedItem().isEmpty() 
                     || txt_rate.getText().isEmpty() || choice_cliente.getSelectedItem().isEmpty() || 
                     choice_estado.getSelectedItem().isEmpty() || txt_fecha.getText().isEmpty() || 
-                    choice_reclutadora.getSelectedItem().isEmpty()){
-            
+                    choice_reclutadora.getSelectedItem().isEmpty()) {
+                
                 JOptionPane.showMessageDialog(null, "Debe Completar todos los campos");
+              
+            } else {
                 
-            
-            }else{
-            
-                pst.setString(1, txt_nombre.getText().trim().toLowerCase());
-                pst.setString(2, txt_apellido.getText().trim().toLowerCase());
-                pst.setString(3, txt_telefono.getText().trim());
-                pst.setString(4, txt_email.getText().trim());
-                pst.setString(5, txt_linkedin.getText().trim());
-                pst.setString(6, choice_perfil.getSelectedItem().toLowerCase());
-                pst.setString(7, choice_seniority.getSelectedItem().toLowerCase());
-                pst.setString(8, choice_niveldeingles.getSelectedItem());
-                pst.setString(9, txt_rate.getText().trim());
-                pst.setString(10, choice_cliente.getSelectedItem());
-                pst.setString(11, choice_estado.getSelectedItem());
-                pst.setString(12, txt_observacion.getText().trim());
-                pst.setString(13, txt_fecha.getText().trim());
-                pst.setString(14, choice_reclutadora.getSelectedItem());
+                    if (!rs1.next() && !rs2.next()) {
+                    
+                    PreparedStatement pst = cn.prepareStatement("insert into candidatos values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+                    
+                    pst.setString(1, txt_nombre.getText().trim().toLowerCase());
+                    pst.setString(2, txt_apellido.getText().trim().toLowerCase());
+                    pst.setString(3, txt_telefono.getText().trim());
+                    pst.setString(4, txt_email.getText().trim().toLowerCase());
+                    pst.setString(5, txt_linkedin.getText().trim());
+                    pst.setString(6, choice_perfil.getSelectedItem().toLowerCase());
+                    pst.setString(7, choice_seniority.getSelectedItem().toLowerCase());
+                    pst.setString(8, choice_niveldeingles.getSelectedItem());
+                    pst.setString(9, txt_rate.getText().trim());
+                    pst.setString(10, choice_cliente.getSelectedItem());
+                    pst.setString(11, choice_estado.getSelectedItem());
+                    pst.setString(12, txt_observacion.getText().trim());
+                    pst.setString(13, txt_fecha.getText().trim());
+                    pst.setString(14, choice_reclutadora.getSelectedItem());
                 
 
-                pst.executeUpdate();                                          //se ejecutan las lineas que le enviamos a la base de datos
+                    pst.executeUpdate();                                          //se ejecutan las lineas que le enviamos a la base de datos
 
-                txt_nombre.setText("");
-                txt_apellido.setText("");
-                txt_telefono.setText("");
-                txt_email.setText("");
-                txt_linkedin.setText("");
-                choice_perfil.select(0); 
-                choice_seniority.select(0); 
-                choice_niveldeingles.select(0); 
-                txt_rate.setText("");
-                choice_cliente.select(0); 
-                choice_estado.select(0);
-                txt_observacion.setText("");
-                txt_fecha.setText("");
-                choice_reclutadora.select(0);
+                    txt_nombre.setText("");
+                    txt_apellido.setText("");
+                    txt_telefono.setText("");
+                    txt_email.setText("");
+                    txt_linkedin.setText("");
+                    choice_perfil.select(0); 
+                    choice_seniority.select(0); 
+                    choice_niveldeingles.select(0); 
+                    txt_rate.setText("");
+                    choice_cliente.select(0); 
+                    choice_estado.select(0);
+                    txt_observacion.setText("");
+                    txt_fecha.setText("");
+                    choice_reclutadora.select(0);
                 
-                JOptionPane.showMessageDialog(null, "Registro Exitoso");
-            
+                    JOptionPane.showMessageDialog(null, "Registro Exitoso");
+                    
+                } else {
+                    
+                    JOptionPane.showMessageDialog(null, "El candidato ya fue ingresado");
+                      
+                }  
             }
-
+             
         } catch (SQLException e) {
             
             System.err.println("Error con el boton agregar. " + e );
             JOptionPane.showMessageDialog(null, "Error al agregar el/la candidato/a!!. Contacte al administrador");
             
         } catch (ClassNotFoundException ex) {
+            
             Logger.getLogger(AgregarCandidato.class.getName()).log(Level.SEVERE, null, ex);
+            
         }
-        
+    
         
     }//GEN-LAST:event_jButton1ActionPerformed
 

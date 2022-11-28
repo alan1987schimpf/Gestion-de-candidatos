@@ -34,6 +34,54 @@ public class Vacantes extends javax.swing.JFrame {
         setTitle("Vacantes");
         setLocationRelativeTo(null);                         //evita que el usuario pueda redimensionar la ventana
         
+        try {
+
+            Class.forName("oracle.jdbc.driver.OracleDriver");
+            String url = "";
+            String usuario = "system";
+            String pass = "admin";
+
+            Connection cn = DriverManager.getConnection(url, usuario, pass);
+            
+            PreparedStatement pst1 = cn.prepareStatement("select * from vacantes");
+
+            ResultSet rs1 = pst1.executeQuery();
+
+            
+            DefaultTableModel dfm = new DefaultTableModel();
+            tabla = this.jTable1;
+            tabla.setModel(dfm);
+            
+            dfm.setColumnIdentifiers(new Object[]{"Cliente","Vacante","Fecha de comienzo",
+                "Cantidad","Estado","Fecha de cierre"});
+            
+            if (rs1.next()) {
+                
+                dfm.addRow(new Object[]{rs1.getString("cliente"),rs1.getString("vacante"),rs1.getString("fechacomienzo"),
+                        rs1.getString("cantidad"),rs1.getString("estado"),rs1.getString("fechacierre")});
+                
+                while(rs1.next()){
+                
+                    dfm.addRow(new Object[]{rs1.getString("cliente"),rs1.getString("vacante"),rs1.getString("fechacomienzo"),
+                        rs1.getString("cantidad"),rs1.getString("estado"),rs1.getString("fechacierre")});
+                          
+                } 
+                
+            }else {
+ 
+                JOptionPane.showMessageDialog(null, "No se encontraron resultados");
+                
+            }
+            
+        } catch (SQLException e) {
+            
+            System.err.println("Error con el boton Tabla Completa. " + e );
+            JOptionPane.showMessageDialog(null, "Error al mostrar la tabla!!. Contacte al administrador");
+            
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(AgregarCandidato.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
     
     @Override
@@ -61,7 +109,6 @@ public class Vacantes extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         txt_buscar = new javax.swing.JTextField();
         jButton3 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -100,13 +147,6 @@ public class Vacantes extends javax.swing.JFrame {
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
-            }
-        });
-
-        jButton2.setText("Tabla Completa");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
             }
         });
 
@@ -153,8 +193,6 @@ public class Vacantes extends javax.swing.JFrame {
                         .addGap(487, 487, 487)
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton3)))
                 .addContainerGap())
         );
@@ -164,8 +202,7 @@ public class Vacantes extends javax.swing.JFrame {
                 .addGap(27, 27, 27)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jButton3)
-                    .addComponent(jButton2))
+                    .addComponent(jButton3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -277,58 +314,6 @@ public class Vacantes extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        
-        try {
-
-            Class.forName("oracle.jdbc.driver.OracleDriver");
-            String url = "";
-            String usuario = "system";
-            String pass = "admin";
-
-            Connection cn = DriverManager.getConnection(url, usuario, pass);
-            
-            PreparedStatement pst1 = cn.prepareStatement("select * from vacantes");
-
-            ResultSet rs1 = pst1.executeQuery();
-
-            
-            DefaultTableModel dfm = new DefaultTableModel();
-            tabla = this.jTable1;
-            tabla.setModel(dfm);
-            
-            dfm.setColumnIdentifiers(new Object[]{"Cliente","Vacante","Fecha de comienzo",
-                "Cantidad","Estado","Fecha de cierre"});
-            
-            if (rs1.next()) {
-                
-                dfm.addRow(new Object[]{rs1.getString("cliente"),rs1.getString("vacante"),rs1.getString("fechacomienzo"),
-                        rs1.getString("cantidad"),rs1.getString("estado"),rs1.getString("fechacierre")});
-                
-                while(rs1.next()){
-                
-                    dfm.addRow(new Object[]{rs1.getString("cliente"),rs1.getString("vacante"),rs1.getString("fechacomienzo"),
-                        rs1.getString("cantidad"),rs1.getString("estado"),rs1.getString("fechacierre")});
-                          
-                } 
-                
-            }else {
- 
-                JOptionPane.showMessageDialog(null, "No se encontraron resultados");
-                
-            }
-            
-        } catch (SQLException e) {
-            
-            System.err.println("Error con el boton Tabla Completa. " + e );
-            JOptionPane.showMessageDialog(null, "Error al mostrar la tabla!!. Contacte al administrador");
-            
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(AgregarCandidato.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-    }//GEN-LAST:event_jButton2ActionPerformed
-
     /**
      * @param args the command line arguments
      */
@@ -369,7 +354,6 @@ public class Vacantes extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
