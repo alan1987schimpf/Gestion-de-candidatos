@@ -9,9 +9,11 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.text.MaskFormatter;
 
 /**
  * @author Giuliana Carnevalle, Bautista Venier y Alan Sebastian Schimpf
@@ -52,6 +54,10 @@ public class ModificarCandidato extends javax.swing.JFrame {
         setTitle("Modificar Candidato");
         setLocationRelativeTo(null);
         
+        formatearFecha();
+        formatearTelefono();
+        formatearRate();
+        
         for (String arStr1 : perfil) {choice_perfil.add(arStr1); }       //ciclo para llenar el choice con las opciones
         for (String arStr2 : seniority) {choice_seniority.add(arStr2); }       //ciclo para llenar el choice con las opciones
         for (String arStr3 : niveldeingles) {choice_niveldeingles.add(arStr3); }       //ciclo para llenar el choice con las opciones
@@ -82,7 +88,6 @@ public class ModificarCandidato extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel2 = new javax.swing.JLabel();
-        txt_fecha = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
         txt_nombre = new javax.swing.JTextField();
@@ -93,7 +98,6 @@ public class ModificarCandidato extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
         choice_niveldeingles = new java.awt.Choice();
-        txt_telefono = new javax.swing.JTextField();
         choice_cliente = new java.awt.Choice();
         txt_email = new javax.swing.JTextField();
         choice_seniority = new java.awt.Choice();
@@ -105,7 +109,6 @@ public class ModificarCandidato extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        txt_rate = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         txt_observacion = new javax.swing.JTextField();
@@ -116,6 +119,9 @@ public class ModificarCandidato extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
         jButton4 = new javax.swing.JButton();
+        txt_telefono = new javax.swing.JFormattedTextField();
+        txt_rate = new javax.swing.JFormattedTextField();
+        txt_fecha = new javax.swing.JFormattedTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setIconImage(getIconImage());
@@ -143,8 +149,6 @@ public class ModificarCandidato extends javax.swing.JFrame {
                 jButton3ActionPerformed(evt);
             }
         });
-
-        txt_telefono.setToolTipText("");
 
         jLabel6.setText("Linkedin:");
 
@@ -201,23 +205,38 @@ public class ModificarCandidato extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGap(150, 150, 150)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel7)
-                            .addComponent(jLabel9)
-                            .addComponent(jLabel16)
-                            .addComponent(jLabel12))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(388, 388, 388)
+                        .addComponent(jLabel1)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(150, 150, 150)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel6)
+                                    .addComponent(jLabel7)
+                                    .addComponent(jLabel9)
+                                    .addComponent(jLabel16)
+                                    .addComponent(jLabel12)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jLabel15)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(txt_fecha, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel13)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(choice_reclutadora, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addComponent(txt_observacion)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addGroup(layout.createSequentialGroup()
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(txt_nombre)
-                                        .addComponent(txt_telefono, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(txt_nombre, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
+                                        .addComponent(txt_telefono))
                                     .addGap(29, 29, 29)
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                         .addComponent(jLabel3)
@@ -240,26 +259,13 @@ public class ModificarCandidato extends javax.swing.JFrame {
                                             .addComponent(jLabel10))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(txt_rate)
-                                            .addComponent(choice_seniority, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                            .addComponent(choice_seniority, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(txt_rate)))
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(44, 44, 44)
                                         .addComponent(jLabel11)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(choice_estado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGap(388, 388, 388)
-                        .addComponent(jLabel1)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGap(198, 198, 198)
-                        .addComponent(jLabel15)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txt_fecha, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel13)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(choice_reclutadora, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                        .addComponent(choice_estado, javax.swing.GroupLayout.DEFAULT_SIZE, 241, Short.MAX_VALUE)))))))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(70, 70, 70)
@@ -291,9 +297,9 @@ public class ModificarCandidato extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
                             .addComponent(jLabel5)
-                            .addComponent(txt_telefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txt_email, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton4))
+                            .addComponent(jButton4)
+                            .addComponent(txt_telefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel6)
@@ -334,16 +340,62 @@ public class ModificarCandidato extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(choice_reclutadora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(txt_fecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jLabel15)
-                                .addComponent(jLabel13)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                                .addComponent(jLabel13)
+                                .addComponent(txt_fecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 154, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void formatearFecha(){
+    
+        try {
+            
+            MaskFormatter mask = new MaskFormatter("##/##/####");
+            mask.install(txt_fecha);
+            
+        } catch (ParseException e) {
+            
+            Logger.getLogger(AgregarCandidato.class.getName()).log(Level.SEVERE, null, e);
+            JOptionPane.showMessageDialog(null, "Error al dat formato a la fecha");
+            
+        }
+    }
+    
+    private void formatearTelefono(){
+    
+        try {
+            
+            MaskFormatter mask = new MaskFormatter("##############");
+            mask.install(txt_telefono);
+            
+        } catch (ParseException e) {
+            
+            Logger.getLogger(AgregarCandidato.class.getName()).log(Level.SEVERE, null, e);
+            JOptionPane.showMessageDialog(null, "Error al dat formato a la fecha");
+            
+        }
+    }
+        
+    private void formatearRate(){
+    
+        try {
+            
+            MaskFormatter mask = new MaskFormatter("#######");
+            mask.install(txt_rate);
+            
+        } catch (ParseException e) {
+            
+            Logger.getLogger(AgregarCandidato.class.getName()).log(Level.SEVERE, null, e);
+            JOptionPane.showMessageDialog(null, "Error al dat formato a la fecha");
+            
+        }
+    }
+    
+    
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
 
         Candidatos newFrame = new Candidatos();
@@ -422,6 +474,8 @@ public class ModificarCandidato extends javax.swing.JFrame {
                     
                     JOptionPane.showMessageDialog(null, "Modificacion Exitosa");
                     
+                    txt_email.setEditable(true); 
+                    
                     txt_nombre.setBackground(Color.WHITE);
                     txt_apellido.setBackground(Color.WHITE);
                     txt_telefono.setBackground(Color.WHITE);
@@ -456,7 +510,7 @@ public class ModificarCandidato extends javax.swing.JFrame {
              
         } catch (SQLException e) {
             
-            System.err.println("Error con el boton modificar. " + e );
+            System.err.println("Error con el boton modificar candidato. " + e );
             JOptionPane.showMessageDialog(null, "Error al modificar el/la candidato/a!!. Contacte al administrador");
             
         } catch (ClassNotFoundException ex) {
@@ -614,11 +668,11 @@ public class ModificarCandidato extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextField txt_apellido;
     private javax.swing.JTextField txt_email;
-    private javax.swing.JTextField txt_fecha;
+    private javax.swing.JFormattedTextField txt_fecha;
     private javax.swing.JTextField txt_linkedin;
     private javax.swing.JTextField txt_nombre;
     private javax.swing.JTextField txt_observacion;
-    private javax.swing.JTextField txt_rate;
-    private javax.swing.JTextField txt_telefono;
+    private javax.swing.JFormattedTextField txt_rate;
+    private javax.swing.JFormattedTextField txt_telefono;
     // End of variables declaration//GEN-END:variables
 }

@@ -74,10 +74,6 @@ public class Vacantes extends javax.swing.JFrame {
                           
                 } 
                 
-            }else {
- 
-                JOptionPane.showMessageDialog(null, "La tabla esta vacia");
-                
             }
             
         } catch (SQLException e) {
@@ -117,6 +113,9 @@ public class Vacantes extends javax.swing.JFrame {
         txt_buscar = new javax.swing.JTextField();
         jButton3 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        jButton5 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -170,6 +169,22 @@ public class Vacantes extends javax.swing.JFrame {
             }
         });
 
+        jButton4.setText("Eliminar Vacante");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setText("Ej. Cliente, Vacante.");
+
+        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/tabla.png"))); // NOI18N
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+
         jMenu1.setText("Opciones");
 
         jMenuItem1.setText("Candidatos");
@@ -204,15 +219,23 @@ public class Vacantes extends javax.swing.JFrame {
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 781, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(12, 12, 12)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(txt_buscar, javax.swing.GroupLayout.DEFAULT_SIZE, 281, Short.MAX_VALUE)
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(txt_buscar, javax.swing.GroupLayout.DEFAULT_SIZE, 269, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton1))))
+                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(487, 487, 487)
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton3)))
@@ -225,19 +248,25 @@ public class Vacantes extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jButton3)
-                    .addComponent(jButton2))
+                    .addComponent(jButton2)
+                    .addComponent(jButton4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txt_buscar))
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel2))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(txt_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(2, 2, 2)
+                                .addComponent(jLabel3)))
                         .addGap(0, 35, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -347,10 +376,17 @@ public class Vacantes extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         
-        ModificarVacante newFrame = new ModificarVacante();
-        newFrame.setVisible(true);                                     //hace visible la vantana
-        this.dispose(); 
-        
+        if (jTable1.getSelectedColumn() == 1) {
+            
+            ModificarVacante newFrame = new ModificarVacante();
+            newFrame.setVisible(true);                                     //hace visible la vantana
+            this.dispose();
+            
+        } else {
+            
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un cliente");
+            
+        }  
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
@@ -369,19 +405,78 @@ public class Vacantes extends javax.swing.JFrame {
             cantidadmodificar = (String) jTable1.getValueAt(fila,4);
             estadomodificar = (String) jTable1.getValueAt(fila,5);
             fechacierremodificar = (String) jTable1.getValueAt(fila,6);
-            
-            
-            
+              
         } else {
             
             JOptionPane.showMessageDialog(null, "Debe seleccionar un cliente");
             
         }
-        
-        
-        
-        
     }//GEN-LAST:event_jTable1MouseClicked
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        
+        if (jTable1.getSelectedColumn() == 1) {
+            
+            EliminarVacante newFrame = new EliminarVacante();
+            newFrame.setVisible(true);                                     //hace visible la vantana
+            this.dispose();
+            
+        } else {
+            
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un cliente");
+            
+        } 
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        
+        try {
+                            
+            txt_buscar.setText("");
+
+            Class.forName("oracle.jdbc.driver.OracleDriver");
+            String url = "";
+            String usuario = "system";
+            String pass = "admin";
+
+            Connection cn = DriverManager.getConnection(url, usuario, pass);
+            
+            PreparedStatement pst1 = cn.prepareStatement("select * from vacantes");
+
+            ResultSet rs1 = pst1.executeQuery();
+
+            
+            DefaultTableModel dfm = new DefaultTableModel();
+            tabla = this.jTable1;
+            tabla.setModel(dfm);
+            
+            dfm.setColumnIdentifiers(new Object[]{"Identificador","Cliente","Vacante","Fecha de comienzo",
+                "Cantidad","Estado","Fecha de cierre"});
+            
+            if (rs1.next()) {
+                
+                dfm.addRow(new Object[]{rs1.getString("identificador"),rs1.getString("cliente"),rs1.getString("vacante"),rs1.getString("fechacomienzo"),
+                        rs1.getString("cantidad"),rs1.getString("estado"),rs1.getString("fechacierre")});
+                
+                while(rs1.next()){
+                
+                    dfm.addRow(new Object[]{rs1.getString("identificador"),rs1.getString("cliente"),rs1.getString("vacante"),rs1.getString("fechacomienzo"),
+                        rs1.getString("cantidad"),rs1.getString("estado"),rs1.getString("fechacierre")});
+                          
+                } 
+                
+            }
+            
+        } catch (SQLException e) {
+            
+            System.err.println("Error con el boton Tabla Completa. " + e );
+            JOptionPane.showMessageDialog(null, "Error al mostrar la tabla!!. Contacte al administrador");
+            
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(AgregarCandidato.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }//GEN-LAST:event_jButton5ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -425,8 +520,11 @@ public class Vacantes extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;

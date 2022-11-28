@@ -1,6 +1,7 @@
 
 package reclutamiento;
 
+import java.awt.Color;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.sql.Connection;
@@ -106,7 +107,7 @@ public class Inicio extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(txt_email, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
-                            .addComponent(txt_contraseña)))
+                            .addComponent(txt_contraseña, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(161, 161, 161)
                         .addComponent(jButton1)
@@ -125,11 +126,11 @@ public class Inicio extends javax.swing.JFrame {
                         .addGap(169, 169, 169)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
-                            .addComponent(txt_email, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txt_email, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(57, 57, 57)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
-                            .addComponent(txt_contraseña, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txt_contraseña, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(56, 56, 56)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jButton1)
@@ -166,17 +167,34 @@ public class Inicio extends javax.swing.JFrame {
                     
                     String secretKey = "hrzhgua";
                     Inicio mMain = new Inicio();
-                    String cadenaDesencriptada = mMain.deecnode(secretKey, rs.getString("contraseña"));
+                    String cadenaDesencriptada = mMain.decode(secretKey, rs.getString("contraseña"));
                     
                     if (cadenaDesencriptada.equalsIgnoreCase(txt_contraseña.getText())) {
                         
-                        Principal newFrame = new Principal();
-                        newFrame.setVisible(true);                                     //hace visible la vantana
-                        this.dispose();
+                        if (txt_email.getText().equalsIgnoreCase("adrian") && txt_contraseña.getText().equalsIgnoreCase("adrian")) {
+                            
+                            //SuperAdministrador newFrame = new SuperAdministrador();
+                            //newFrame.setVisible(true);                                     //hace visible la vantana
+                            //this.dispose();
+                            
+                        } else {
+                            
+                            //Principal newFrame = new Principal();
+                            //newFrame.setVisible(true);                                     //hace visible la vantana
+                            //this.dispose();
+                            
+                        }
                         
                     } else {
                         
+                        txt_email.setBackground(Color.red);
+                        txt_contraseña.setBackground(Color.red);
+                        
                         JOptionPane.showMessageDialog(null, "Datos de acceso incorrectos");
+                        
+                        txt_email.setBackground(Color.white);
+                        txt_contraseña.setBackground(Color.white);
+                        
                         txt_email.setText("");
                         txt_contraseña.setText("");
                         
@@ -184,9 +202,16 @@ public class Inicio extends javax.swing.JFrame {
                     
                 } else {
                     
-                    JOptionPane.showMessageDialog(null, "Datos de acceso incorrectos");
-                    txt_email.setText("");
-                    txt_contraseña.setText("");
+                        txt_email.setBackground(Color.red);
+                        txt_contraseña.setBackground(Color.red);
+                        
+                        JOptionPane.showMessageDialog(null, "Datos de acceso incorrectos");
+                        
+                        txt_email.setBackground(Color.white);
+                        txt_contraseña.setBackground(Color.white);
+                        
+                        txt_email.setText("");
+                        txt_contraseña.setText("");
                     
                 }
             
@@ -212,6 +237,8 @@ public class Inicio extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         
+        user = txt_email.getText().trim();
+        
         try {
 
             Class.forName("oracle.jdbc.driver.OracleDriver");
@@ -220,7 +247,10 @@ public class Inicio extends javax.swing.JFrame {
             String pass = "admin";
 
             Connection cn = DriverManager.getConnection(url, usuario, pass);
-            PreparedStatement pst = cn.prepareStatement("insert into usuarios values (?,?)");
+            PreparedStatement pst = cn.prepareStatement("select * from usuarios where email = ?");
+            pst.setString(1, txt_email.getText().trim());
+            
+            ResultSet rs = pst.executeQuery();
 
             if(txt_email.getText().isEmpty() || txt_contraseña.getText().isEmpty()){
             
@@ -229,20 +259,45 @@ public class Inicio extends javax.swing.JFrame {
             
             }else{
                 
-                String secretKey = "hrzhgua";
-                Inicio mMain = new Inicio();
-                String cadenaAEncriptar = txt_contraseña.getText().trim();
-                String cadenaEncriptada = mMain.ecnode(secretKey, cadenaAEncriptar);
-            
-                pst.setString(1, txt_email.getText().trim());
-                pst.setString(2, cadenaEncriptada);
-
-                pst.executeUpdate();                                          //se ejecutan las lineas que le enviamos a la base de datos
-
-                txt_email.setText("");
-                txt_contraseña.setText("");
+                if(!rs.next()){
                 
-                JOptionPane.showMessageDialog(null, "Registro Exitoso");
+                    PreparedStatement pst1 = cn.prepareStatement("insert into usuarios values (?,?)");
+                
+                    String secretKey = "hrzhgua";
+                    Inicio mMain = new Inicio();
+                    String cadenaAEncriptar = txt_contraseña.getText().trim();
+                    String cadenaEncriptada = mMain.encode(secretKey, cadenaAEncriptar);
+            
+                    pst1.setString(1, txt_email.getText().trim());
+                    pst1.setString(2, cadenaEncriptada);
+
+                    pst1.executeUpdate();                                          //se ejecutan las lineas que le enviamos a la base de datos
+                
+                    txt_email.setBackground(Color.green);
+                    txt_contraseña.setBackground(Color.green);
+                
+                    JOptionPane.showMessageDialog(null, "Registro Exitoso");
+                
+                    txt_email.setBackground(Color.white);
+                    txt_contraseña.setBackground(Color.white);
+                
+                    txt_email.setText("");
+                    txt_contraseña.setText("");
+                
+                }else{
+                
+                    txt_email.setBackground(Color.red);
+                    txt_contraseña.setBackground(Color.red);
+                    
+                    JOptionPane.showMessageDialog(null, "El usuario ya fue registrado");
+                    
+                    txt_email.setBackground(Color.white);
+                    txt_contraseña.setBackground(Color.white);
+                    
+                    txt_email.setText("");
+                    txt_contraseña.setText("");
+                
+                }
             
             }
 
@@ -293,7 +348,7 @@ public class Inicio extends javax.swing.JFrame {
         });
     }
     
-    public String ecnode(String secretKey, String cadena) {
+    public String encode(String secretKey, String cadena) {
         
         String encriptacion = "";
         
@@ -312,7 +367,7 @@ public class Inicio extends javax.swing.JFrame {
             
         } catch (Exception ex) {
             
-            JOptionPane.showMessageDialog(null, "Algo salió mal");
+            JOptionPane.showMessageDialog(null, "Error al codificar el password");
             
         }
         
@@ -320,7 +375,7 @@ public class Inicio extends javax.swing.JFrame {
         
     }
         
-    public String deecnode(String secretKey, String cadenaEncriptada) {
+    public String decode(String secretKey, String cadenaEncriptada) {
         
         String desencriptacion = "";
         
@@ -338,7 +393,7 @@ public class Inicio extends javax.swing.JFrame {
 
         } catch (Exception e) {
             
-            JOptionPane.showMessageDialog(null, "Algo salió mal");
+            JOptionPane.showMessageDialog(null, "Error al decodificar el password");
             
         }
         return desencriptacion;

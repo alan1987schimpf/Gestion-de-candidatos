@@ -1,80 +1,54 @@
 
 package reclutamiento;
 
-import java.awt.Color;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import javax.swing.text.MaskFormatter;
 import static reclutamiento.Vacantes.identificadormodificar;
 
 /**
  * @author Giuliana Carnevalle, Bautista Venier y Alan Sebastian Schimpf
  */
 
-public class ModificarVacante extends javax.swing.JFrame {
-    
-    //arreglo con las opciones del campo cliente
-    String cliente [] = {"", "Claro", "Claro Paraguay", "Fiat", "Tips Salud", "Naranja X", "Naranja Paraguay",
-        "Dominion", "PayPal", "Greenlight", "Health Equity", "Nike", "Adidas", "BlockFi", "Health Equity", "ClearCo", "Kforce"}; 
-   
-    //arreglo con las opciones del campo vacante
-    String vacante [] = {"", "Java", "Angular", "Qa Manual", "Qa Automation", "iOS", "Android",       
-        ".Net", "Fullstack", "Analista Funcional", "Scrum Master", "Python"};
-    
-    //arreglo con las opciones del campo estado
-    String estado [] = {"", "Activo", "En espera", "No Activo"};
+public class EliminarVacante extends javax.swing.JFrame {
 
     /**
-     * Creates new form ModificarVacante
+     * Creates new form EliminarVacante
      */
     
-    public ModificarVacante() {
+    public EliminarVacante() {
         initComponents();
         
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setResizable(false);                                        //el usuario no puede modificar las dimensiones del jframeform
-        setTitle("Modificar Vacante");
+        setTitle("Eliminar Vacante");
         setLocationRelativeTo(null);
-        
-        formatearFechaComienzo();
-        formatearFechaCierre();
-        
-        for (String arStr1 : cliente) {choice_cliente.add(arStr1); }       //ciclo para llenar el choice con las opciones
-        for (String arStr2 : vacante) {choice_vacante.add(arStr2); }   
-        for (String arStr3 : estado) {choice_estado.add(arStr3); } 
         
         Vacantes modificar = new Vacantes();
         
         //se carga la opcion seleccionada en la tabla
-        for (int i = 0; i < cliente.length; i++) {                         
-            if(cliente[i].toLowerCase().equals(modificar.clientemodificar)){
-                choice_cliente.select(i);}}
         
-        for (int i = 0; i < vacante.length; i++) {                         
-            if(vacante[i].toLowerCase().equals(modificar.vacantemodificar)){
-                choice_vacante.select(i);}}
-        
+        txt_cliente.setText(modificar.clientemodificar);
+        txt_vacante.setText(modificar.vacantemodificar);
         txt_fechacomienzo.setText(modificar.fechadecomienzomodificar);
         txt_cantidad.setText(modificar.cantidadmodificar);
-        
-        for (int i = 0; i < estado.length; i++) {                         
-            if(estado[i].equals(modificar.estadomodificar)){
-                choice_estado.select(i);}}
-        
+        txt_estado.setText(modificar.estadomodificar);
         txt_fechacierre.setText(modificar.fechacierremodificar);
         txt_identificador.setText(modificar.identificadormodificar);
         
+        txt_cliente.setEditable(false);
+        txt_vacante.setEditable(false);
+        txt_fechacomienzo.setEditable(false);
+        txt_cantidad.setEditable(false);
+        txt_estado.setEditable(false);
+        txt_fechacierre.setEditable(false);
         txt_identificador.setEditable(false);
-        
-        
         
     }
     
@@ -95,35 +69,29 @@ public class ModificarVacante extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel10 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        choice_cliente = new java.awt.Choice();
-        jLabel5 = new javax.swing.JLabel();
-        choice_vacante = new java.awt.Choice();
         txt_cantidad = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        choice_estado = new java.awt.Choice();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jLabel7 = new javax.swing.JLabel();
-        jSeparator1 = new javax.swing.JSeparator();
-        jLabel1 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
         txt_identificador = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        txt_fechacomienzo = new javax.swing.JFormattedTextField();
-        txt_fechacierre = new javax.swing.JFormattedTextField();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        txt_fechacomienzo = new javax.swing.JTextField();
+        jSeparator1 = new javax.swing.JSeparator();
+        jLabel5 = new javax.swing.JLabel();
+        txt_fechacierre = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        txt_vacante = new javax.swing.JTextField();
+        txt_estado = new javax.swing.JTextField();
+        txt_cliente = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setIconImage(getIconImage());
-
-        jLabel10.setText("Cantidad:");
-
-        jLabel3.setText("Cliente:");
-
-        jLabel5.setText("Fecha Comienzo:");
 
         txt_cantidad.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -131,14 +99,27 @@ public class ModificarVacante extends javax.swing.JFrame {
             }
         });
 
+        jLabel8.setText("Fecha Cierre:");
+
         jLabel4.setText("Vacante:");
 
-        jButton1.setText("Modificar");
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/logo.png"))); // NOI18N
+        jLabel2.setText("jLabel2");
+
+        jButton1.setText("Eliminar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
+
+        txt_identificador.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_identificadorActionPerformed(evt);
+            }
+        });
+
+        jLabel6.setText("Identificador:");
 
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/flechaatras.jpg"))); // NOI18N
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -154,23 +135,28 @@ public class ModificarVacante extends javax.swing.JFrame {
             }
         });
 
+        jLabel10.setText("Cantidad:");
+
         jLabel7.setText("Estado:");
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        jLabel1.setText("Modificar Vacante");
+        jLabel3.setText("Cliente:");
 
-        jLabel8.setText("Fecha Cierre:");
+        jLabel5.setText("Fecha Comienzo:");
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/logo.png"))); // NOI18N
-        jLabel2.setText("jLabel2");
-
-        txt_identificador.addActionListener(new java.awt.event.ActionListener() {
+        txt_fechacierre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txt_identificadorActionPerformed(evt);
+                txt_fechacierreActionPerformed(evt);
             }
         });
 
-        jLabel6.setText("Identificador:");
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        jLabel1.setText("Eliminar Vacante");
+
+        txt_vacante.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_vacanteActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -192,26 +178,27 @@ public class ModificarVacante extends javax.swing.JFrame {
                                     .addComponent(jLabel5)
                                     .addComponent(jLabel7))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(choice_cliente, javax.swing.GroupLayout.DEFAULT_SIZE, 251, Short.MAX_VALUE)
-                                    .addComponent(choice_estado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(txt_fechacomienzo, javax.swing.GroupLayout.Alignment.TRAILING))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txt_fechacomienzo, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txt_estado, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txt_cliente, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(jLabel10)
                                     .addComponent(jLabel4)
                                     .addComponent(jLabel8)))
                             .addComponent(jLabel6))
-                        .addGap(9, 9, 9)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 14, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txt_cantidad)
-                            .addComponent(choice_vacante, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(jButton1)
-                                    .addComponent(txt_identificador, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 3, Short.MAX_VALUE))
-                            .addComponent(txt_fechacierre))))
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(txt_identificador, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(txt_fechacierre, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(0, 2, Short.MAX_VALUE))
+                            .addComponent(txt_vacante))))
                 .addGap(34, 34, 34)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -236,10 +223,10 @@ public class ModificarVacante extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(29, 29, 29)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(choice_cliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(choice_vacante, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel4)
+                            .addComponent(txt_vacante, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txt_cliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jLabel3))
                 .addGap(5, 5, 5)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -247,24 +234,23 @@ public class ModificarVacante extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txt_cantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel10))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 89, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 84, Short.MAX_VALUE)
                         .addComponent(jLabel2)
                         .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel5)
-                            .addComponent(txt_fechacomienzo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txt_fechacomienzo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(txt_fechacierre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel8)
-                                    .addComponent(txt_fechacierre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(txt_estado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(6, 6, 6)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel7)
-                                    .addComponent(choice_estado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(jLabel7)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel6)
@@ -277,38 +263,6 @@ public class ModificarVacante extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void formatearFechaComienzo(){
-    
-        try {
-            
-            MaskFormatter mask = new MaskFormatter("##/##/####");
-            mask.install(txt_fechacomienzo);
-            
-            
-        } catch (ParseException e) {
-            
-            Logger.getLogger(AgregarCandidato.class.getName()).log(Level.SEVERE, null, e);
-            JOptionPane.showMessageDialog(null, "Error al dat formato a la fecha");
-            
-        }
-    }
-    
-        private void formatearFechaCierre(){
-    
-        try {
-            
-            MaskFormatter mask = new MaskFormatter("##/##/####");
-            mask.install(txt_fechacierre);
-            
-            
-        } catch (ParseException e) {
-            
-            Logger.getLogger(AgregarCandidato.class.getName()).log(Level.SEVERE, null, e);
-            JOptionPane.showMessageDialog(null, "Error al dat formato a la fecha");
-            
-        }
-    }
-    
     private void txt_cantidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_cantidadActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_cantidadActionPerformed
@@ -323,62 +277,25 @@ public class ModificarVacante extends javax.swing.JFrame {
             String pass = "admin";
             
             Connection cn = DriverManager.getConnection(url, usuario, pass);
+                
+            PreparedStatement pst = cn.prepareStatement("delete from vacantes where identificador = " + identificadormodificar);
             
-            if (choice_cliente.getSelectedItem().isEmpty() || choice_vacante.getSelectedItem().isEmpty()
-                    || txt_fechacomienzo.getText().isEmpty() || txt_cantidad.getText().isEmpty() ||
-                    choice_estado.getSelectedItem().isEmpty() || txt_fechacierre.getText().isEmpty()) {
-                
-                JOptionPane.showMessageDialog(null, "Debe Completar todos los campos");
-                
-            } else {
-                    
-                    PreparedStatement pst = cn.prepareStatement("update vacantes set cliente = ?, vacante = ?,"
-                            + "fechacomienzo = ?, cantidad = ?, estado = ?, fechacierre = ?"
-                            + "where identificador = " + identificadormodificar);
-                    
-                    pst.setString(1, choice_cliente.getSelectedItem().trim().toLowerCase());
-                    pst.setString(2, choice_vacante.getSelectedItem().trim().toLowerCase());
-                    pst.setString(3, txt_fechacomienzo.getText().trim());
-                    pst.setString(4, txt_cantidad.getText().trim());
-                    pst.setString(5, choice_estado.getSelectedItem().trim());
-                    pst.setString(6, txt_fechacierre.getText().trim());
-
-                    pst.executeUpdate();
-                    cn.close();                                      
-                    
-                    choice_cliente.setBackground(Color.green);
-                    choice_vacante.setBackground(Color.green);
-                    txt_fechacomienzo.setBackground(Color.green);
-                    txt_cantidad.setBackground(Color.green);
-                    choice_estado.setBackground(Color.green);
-                    txt_fechacierre.setBackground(Color.green);
-                    txt_identificador.setBackground(Color.green);
-                    
-                    JOptionPane.showMessageDialog(null, "Modificacion Exitosa");
-                    
-                    choice_cliente.setBackground(Color.white);
-                    choice_vacante.setBackground(Color.white);
-                    txt_fechacomienzo.setBackground(Color.white);
-                    txt_cantidad.setBackground(Color.white);
-                    choice_estado.setBackground(Color.white);
-                    txt_fechacierre.setBackground(Color.white);
-                    txt_identificador.setBackground(Color.white);
-                    
-                    choice_cliente.select(0); 
-                    choice_vacante.select(0); 
-                    txt_fechacomienzo.setText("");
-                    txt_cantidad.setText("");
-                    choice_estado.select(0); 
-                    txt_fechacierre.setText("");
-                    txt_identificador.setText("");
-                    
-                      
-            }
+            pst.executeUpdate();                                          //se ejecutan las lineas que le enviamos a la base de datos
+            
+            txt_cliente.setText("");
+            txt_vacante.setText(""); 
+            txt_fechacomienzo.setText("");
+            txt_cantidad.setText("");
+            txt_estado.setText(""); 
+            txt_fechacierre.setText("");
+            txt_identificador.setText("");
+            
+            JOptionPane.showMessageDialog(null, "La vacante fue eliminada");
              
         } catch (SQLException e) {
             
-            System.err.println("Error con el boton modificar vacante. " + e );
-            JOptionPane.showMessageDialog(null, "Error al modificar la vacante!!. Contacte al administrador");
+            System.err.println("Error con el boton eliminar vacante. " + e );
+            JOptionPane.showMessageDialog(null, "Error al eliminar la vacante!!. Contacte al administrador");
             
         } catch (ClassNotFoundException ex) {
             
@@ -387,12 +304,15 @@ public class ModificarVacante extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void txt_identificadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_identificadorActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_identificadorActionPerformed
+
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
 
         Vacantes newFrame = new Vacantes();
         newFrame.setVisible(true);                                     //hace visible la vantana
         this.dispose();
-
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -400,12 +320,16 @@ public class ModificarVacante extends javax.swing.JFrame {
         Principal newFrame = new Principal();
         newFrame.setVisible(true);                                     //hace visible la vantana
         this.dispose();
-
+        
     }//GEN-LAST:event_jButton3ActionPerformed
 
-    private void txt_identificadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_identificadorActionPerformed
+    private void txt_fechacierreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_fechacierreActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txt_identificadorActionPerformed
+    }//GEN-LAST:event_txt_fechacierreActionPerformed
+
+    private void txt_vacanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_vacanteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_vacanteActionPerformed
 
     /**
      * @param args the command line arguments
@@ -424,28 +348,25 @@ public class ModificarVacante extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ModificarVacante.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EliminarVacante.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ModificarVacante.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EliminarVacante.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ModificarVacante.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EliminarVacante.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ModificarVacante.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EliminarVacante.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ModificarVacante().setVisible(true);
+                new EliminarVacante().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private java.awt.Choice choice_cliente;
-    private java.awt.Choice choice_estado;
-    private java.awt.Choice choice_vacante;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
@@ -460,8 +381,11 @@ public class ModificarVacante extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextField txt_cantidad;
-    private javax.swing.JFormattedTextField txt_fechacierre;
-    private javax.swing.JFormattedTextField txt_fechacomienzo;
+    private javax.swing.JTextField txt_cliente;
+    private javax.swing.JTextField txt_estado;
+    private javax.swing.JTextField txt_fechacierre;
+    private javax.swing.JTextField txt_fechacomienzo;
     private javax.swing.JTextField txt_identificador;
+    private javax.swing.JTextField txt_vacante;
     // End of variables declaration//GEN-END:variables
 }

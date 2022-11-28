@@ -23,6 +23,7 @@ public class Candidatos extends javax.swing.JFrame {
     JTable tabla;
     public static String valor = ""; 
     public static int columna = 0;
+    String identificador = "";
 
     /**
      * Creates new form Candidatos
@@ -80,7 +81,7 @@ public class Candidatos extends javax.swing.JFrame {
             
         } catch (SQLException e) {
             
-            System.err.println("Error con el boton Tabla Completa. " + e );
+            System.err.println("Error al cargar la tabla. " + e );
             JOptionPane.showMessageDialog(null, "Error al mostrar la tabla!!. Contacte al administrador");
             
         } catch (ClassNotFoundException ex) {
@@ -119,6 +120,8 @@ public class Candidatos extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        jButton6 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -179,6 +182,15 @@ public class Candidatos extends javax.swing.JFrame {
             }
         });
 
+        jLabel2.setText("Ej. Nombre, Apellido, Perfil, Seniority");
+
+        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/tabla.png"))); // NOI18N
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+
         jMenu1.setText("Opciones");
 
         jMenuItem1.setText("Vacantes");
@@ -219,20 +231,24 @@ public class Candidatos extends javax.swing.JFrame {
                         .addComponent(jButton1))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1021, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(32, 32, 32)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(0, 0, Short.MAX_VALUE))
-                                    .addComponent(txt_buscar, javax.swing.GroupLayout.DEFAULT_SIZE, 202, Short.MAX_VALUE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGap(143, 143, 143)
+                                .addGap(175, 181, Short.MAX_VALUE)
                                 .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(8, 8, 8)))))
+                                .addGap(8, 8, 8))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(32, 32, 32)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txt_buscar, javax.swing.GroupLayout.DEFAULT_SIZE, 202, Short.MAX_VALUE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel2))
+                                        .addGap(0, 0, Short.MAX_VALUE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jButton6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -251,15 +267,19 @@ public class Candidatos extends javax.swing.JFrame {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 547, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton2)
-                            .addComponent(txt_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 285, Short.MAX_VALUE)
+                            .addComponent(txt_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 254, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(48, 48, 48)
                                 .addComponent(jLabel3)
-                                .addContainerGap(308, Short.MAX_VALUE))))))
+                                .addContainerGap(307, Short.MAX_VALUE))))))
         );
 
         pack();
@@ -378,7 +398,7 @@ public class Candidatos extends javax.swing.JFrame {
             
         } catch (SQLException e) {
             
-            System.err.println("Error con el boton buscar. " + e );
+            System.err.println("Error con el boton buscar candidato. " + e );
             JOptionPane.showMessageDialog(null, "Error al realizar la busqueda!!. Contacte al administrador");
             
         } catch (ClassNotFoundException ex) {
@@ -406,7 +426,7 @@ public class Candidatos extends javax.swing.JFrame {
         
         ModificarCandidato newFrame = new ModificarCandidato();
         newFrame.setVisible(true);                                     //hace visible la vantana
-        this.dispose(); 
+        this.dispose();
         
     }//GEN-LAST:event_jButton3ActionPerformed
 
@@ -426,19 +446,82 @@ public class Candidatos extends javax.swing.JFrame {
             
             JOptionPane.showMessageDialog(null, "Debe seleccionar un email");
             
-        }
-       
-
-           
+        }      
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         
-        EliminarCandidato newFrame = new EliminarCandidato();
-        newFrame.setVisible(true);                                     //hace visible la vantana
-        this.dispose(); 
+        if (jTable1.getSelectedColumn() == 3) {
+            
+            EliminarCandidato newFrame = new EliminarCandidato();
+            newFrame.setVisible(true);                                     //hace visible la vantana
+            this.dispose();
+            
+        } else {
+            
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un email");
+            
+        } 
         
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        
+        try {
+                            
+            txt_buscar.setText("");
+
+            Class.forName("oracle.jdbc.driver.OracleDriver");
+            String url = "";
+            String usuario = "system";
+            String pass = "admin";
+
+            Connection cn = DriverManager.getConnection(url, usuario, pass);
+            
+            PreparedStatement pst1 = cn.prepareStatement("select * from candidatos");
+            
+            ResultSet rs1 = pst1.executeQuery();
+  
+            DefaultTableModel dfm = new DefaultTableModel();
+            tabla = this.jTable1;
+            tabla.setModel(dfm);
+            
+            dfm.setColumnIdentifiers(new Object[]{"Nombre","Apellido","Telefono","E-mail","Linkedin","Perfil",
+                "Seniority","Nivel de Ingles","Rate","Cliente","Estado","Observaciones","Fecha","Reclutadora"});
+            
+            if (rs1.next()) {
+                
+                dfm.addRow(new Object[]{rs1.getString("nombre"),rs1.getString("apellido"),rs1.getString("telefono"),
+                        rs1.getString("email"),rs1.getString("linkedin"),rs1.getString("perfil"),rs1.getString("seniority"),
+                        rs1.getString("niveldeingles"),rs1.getString("rate"),rs1.getString("cliente"),rs1.getString("estado"),
+                        rs1.getString("observacion"),rs1.getString("fecha"),rs1.getString("reclutador"),});
+                
+                while(rs1.next()){
+                
+                    dfm.addRow(new Object[]{rs1.getString("nombre"),rs1.getString("apellido"),rs1.getString("telefono"),
+                        rs1.getString("email"),rs1.getString("linkedin"),rs1.getString("perfil"),rs1.getString("seniority"),
+                        rs1.getString("niveldeingles"),rs1.getString("rate"),rs1.getString("cliente"),rs1.getString("estado"),
+                        rs1.getString("observacion"),rs1.getString("fecha"),rs1.getString("reclutador"),});
+                          
+                } 
+                
+            }else {
+ 
+                JOptionPane.showMessageDialog(null, "La tabla esta vacia");
+                
+            }
+            
+        } catch (SQLException e) {
+            
+            System.err.println("Error al cargar la tabla. " + e );
+            JOptionPane.showMessageDialog(null, "Error al mostrar la tabla!!. Contacte al administrador");
+            
+        } catch (ClassNotFoundException ex) {
+            
+            Logger.getLogger(AgregarCandidato.class.getName()).log(Level.SEVERE, null, ex);
+            
+        }
+    }//GEN-LAST:event_jButton6ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -481,7 +564,9 @@ public class Candidatos extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JMenu jMenu1;
