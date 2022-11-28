@@ -5,7 +5,7 @@ import java.awt.Image;
 import java.awt.Toolkit;
 
 /**
- * @author Alan Schimpf
+ * @author Giuliana Carnevalle, Bautista Venier y Alan Sebastian Schimpf
  */
 
 public class EliminarUsuario extends javax.swing.JFrame {
@@ -82,7 +82,7 @@ public class EliminarUsuario extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
 
-        SuperAdministrador newFrame = new SuperAdministrador();
+        GestionUsuariosAdministradores newFrame = new GestionUsuariosAdministradores();
         newFrame.setVisible(true);                                     //hace visible la vantana
         this.dispose();
         

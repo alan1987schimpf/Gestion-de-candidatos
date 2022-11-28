@@ -19,6 +19,8 @@ import javax.swing.JOptionPane;
 
 public class AgregarCandidato extends javax.swing.JFrame {
     
+    int mayor = 1;
+    
     //arreglo con las opciones del campo perfil
     String perfil [] = {"", "Java", "Angular", "Qa Manual", "Qa Automation", "iOS", "Android",       
         ".Net", "Fullstack", "Analista Funcional", "Scrum Master", "Python"}; 
@@ -58,6 +60,48 @@ public class AgregarCandidato extends javax.swing.JFrame {
         for (String arStr4 : cliente) {choice_cliente.add(arStr4); }       //ciclo para llenar el choice con las opciones
         for (String arStr5 : estado) {choice_estado.add(arStr5); }       //ciclo para llenar el choice con las opciones
         for (String arStr6 : reclutadora) {choice_reclutadora.add(arStr6); }       //ciclo para llenar el choice con las opciones
+        
+        try {
+
+            Class.forName("oracle.jdbc.driver.OracleDriver");
+            String url = "";
+            String usuario = "system";
+            String pass = "admin";
+
+            Connection cn = DriverManager.getConnection(url, usuario, pass);
+            
+            PreparedStatement pst1 = cn.prepareStatement("select id from candidatos");
+            ResultSet rs1 = pst1.executeQuery();
+            
+            if (rs1.next()) {
+                
+                if(mayor < rs1.getInt("id")){
+                    
+                    mayor = rs1.getInt("id");
+                        
+                }
+                
+                while(rs1.next()){
+                    
+                    if(mayor < rs1.getInt("id")){
+                    
+                        mayor = rs1.getInt("id");
+                        
+                    }           
+                } 
+                
+                mayor = mayor + 1;
+                
+            }
+            
+        } catch (SQLException e) {
+            
+            System.err.println("Error con la busqueda del identificador. " + e );
+            JOptionPane.showMessageDialog(null, "Error al buscar el identificador!!. Contacte al administrador");
+            
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(AgregarCandidato.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
     }
     
@@ -108,10 +152,10 @@ public class AgregarCandidato extends javax.swing.JFrame {
         choice_seniority = new java.awt.Choice();
         choice_estado = new java.awt.Choice();
         choice_reclutadora = new java.awt.Choice();
-        txt_fecha = new javax.swing.JFormattedTextField();
-        txt_telefono = new javax.swing.JFormattedTextField();
-        txt_rate = new javax.swing.JFormattedTextField();
         txt_email = new javax.swing.JTextField();
+        txt_telefono = new javax.swing.JTextField();
+        txt_fecha = new javax.swing.JTextField();
+        txt_rate = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setIconImage(getIconImage());
@@ -171,12 +215,6 @@ public class AgregarCandidato extends javax.swing.JFrame {
             }
         });
 
-        txt_fecha.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter()));
-
-        txt_telefono.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("##############"))));
-
-        txt_rate.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#######"))));
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -211,22 +249,19 @@ public class AgregarCandidato extends javax.swing.JFrame {
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                             .addComponent(jLabel10)
                                             .addComponent(jLabel8))
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addGap(12, 12, 12)
-                                                .addComponent(txt_rate))
-                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(choice_seniority, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(choice_seniority, javax.swing.GroupLayout.DEFAULT_SIZE, 249, Short.MAX_VALUE)
+                                            .addComponent(txt_rate)))
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(44, 44, 44)
                                         .addComponent(jLabel11)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(choice_estado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txt_telefono, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txt_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(txt_nombre, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
+                                    .addComponent(txt_telefono))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(jLabel3)
@@ -285,8 +320,8 @@ public class AgregarCandidato extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
                             .addComponent(jLabel5)
-                            .addComponent(txt_telefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txt_email, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txt_email, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txt_telefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel6)
@@ -307,8 +342,8 @@ public class AgregarCandidato extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel9)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(txt_rate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel10)))
+                                .addComponent(jLabel10)
+                                .addComponent(txt_rate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -335,7 +370,7 @@ public class AgregarCandidato extends javax.swing.JFrame {
                                 .addComponent(jLabel15)
                                 .addComponent(jLabel13)
                                 .addComponent(txt_fecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 154, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -375,22 +410,23 @@ public class AgregarCandidato extends javax.swing.JFrame {
                 
                     if (!rs1.next() && !rs2.next()) {
                     
-                    PreparedStatement pst = cn.prepareStatement("insert into candidatos values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+                    PreparedStatement pst = cn.prepareStatement("insert into candidatos values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
                     
-                    pst.setString(1, txt_nombre.getText().trim().toLowerCase());
-                    pst.setString(2, txt_apellido.getText().trim().toLowerCase());
-                    pst.setString(3, txt_telefono.getText().trim());
-                    pst.setString(4, txt_email.getText().trim().toLowerCase());
-                    pst.setString(5, txt_linkedin.getText().trim());
-                    pst.setString(6, choice_perfil.getSelectedItem().toLowerCase());
-                    pst.setString(7, choice_seniority.getSelectedItem().toLowerCase());
-                    pst.setString(8, choice_niveldeingles.getSelectedItem());
-                    pst.setString(9, txt_rate.getText().trim());
-                    pst.setString(10, choice_cliente.getSelectedItem());
-                    pst.setString(11, choice_estado.getSelectedItem());
-                    pst.setString(12, txt_observacion.getText().trim());
-                    pst.setString(13, txt_fecha.getText().trim());
-                    pst.setString(14, choice_reclutadora.getSelectedItem());
+                    pst.setInt(1, mayor);
+                    pst.setString(2, txt_nombre.getText().trim().toLowerCase());
+                    pst.setString(3, txt_apellido.getText().trim().toLowerCase());
+                    pst.setString(4, txt_telefono.getText().trim());
+                    pst.setString(5, txt_email.getText().trim().toLowerCase());
+                    pst.setString(6, txt_linkedin.getText().trim());
+                    pst.setString(7, choice_perfil.getSelectedItem().toLowerCase());
+                    pst.setString(8, choice_seniority.getSelectedItem().toLowerCase());
+                    pst.setString(9, choice_niveldeingles.getSelectedItem());
+                    pst.setString(10, txt_rate.getText().trim());
+                    pst.setString(11, choice_cliente.getSelectedItem());
+                    pst.setString(12, choice_estado.getSelectedItem());
+                    pst.setString(13, txt_observacion.getText().trim());
+                    pst.setString(14, txt_fecha.getText().trim());
+                    pst.setString(15, choice_reclutadora.getSelectedItem());
 
                     pst.executeUpdate();                                          //se ejecutan las lineas que le enviamos a la base de datos
                     cn.close();
@@ -440,7 +476,9 @@ public class AgregarCandidato extends javax.swing.JFrame {
                     choice_estado.select(0);
                     txt_observacion.setText("");
                     txt_fecha.setText("");
-                    choice_reclutadora.select(0);                 
+                    choice_reclutadora.select(0);  
+                    
+                    mayor = mayor + 1;
                     
                 } else {
                     
@@ -547,11 +585,11 @@ public class AgregarCandidato extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextField txt_apellido;
     private javax.swing.JTextField txt_email;
-    private javax.swing.JFormattedTextField txt_fecha;
+    private javax.swing.JTextField txt_fecha;
     private javax.swing.JTextField txt_linkedin;
     private javax.swing.JTextField txt_nombre;
     private javax.swing.JTextField txt_observacion;
-    private javax.swing.JFormattedTextField txt_rate;
-    private javax.swing.JFormattedTextField txt_telefono;
+    private javax.swing.JTextField txt_rate;
+    private javax.swing.JTextField txt_telefono;
     // End of variables declaration//GEN-END:variables
 }

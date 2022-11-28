@@ -18,6 +18,8 @@ import javax.swing.JOptionPane;
 
 public class EliminarCandidato extends javax.swing.JFrame {
     
+    public int ID;
+    
     /**
      * Creates new form EliminarCandidato
      */
@@ -191,14 +193,15 @@ public class EliminarCandidato extends javax.swing.JFrame {
               
             } else {
                 
-                PreparedStatement pst1 = cn.prepareStatement("select * from candidatos where email = ?");
+                PreparedStatement pst1 = cn.prepareStatement("select id from candidatos where email = ?");
                 pst1.setString(1, txt_email.getText().trim().toLowerCase());
                 ResultSet rs1 = pst1.executeQuery();
 
                 if (rs1.next()) {
                     
-                    PreparedStatement pst = cn.prepareStatement("delete from candidatos where email = ?");   
-                    pst.setString(1, txt_email.getText().trim().toLowerCase());
+                    ID = rs1.getInt("id");
+                    
+                    PreparedStatement pst = cn.prepareStatement("delete from candidatos where id = " + ID);   
 
                     pst.executeUpdate();                                          //se ejecutan las lineas que le enviamos a la base de datos
                     cn.close();
