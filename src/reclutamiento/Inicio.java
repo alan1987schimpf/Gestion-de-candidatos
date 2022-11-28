@@ -64,7 +64,6 @@ public class Inicio extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         txt_email = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
         txt_contraseña = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -81,13 +80,6 @@ public class Inicio extends javax.swing.JFrame {
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
-            }
-        });
-
-        jButton2.setText("Registrar");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
             }
         });
 
@@ -110,10 +102,8 @@ public class Inicio extends javax.swing.JFrame {
                             .addComponent(txt_contraseña, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(161, 161, 161)
-                        .addComponent(jButton1)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton2)))
-                .addContainerGap(113, Short.MAX_VALUE))
+                        .addComponent(jButton1)))
+                .addContainerGap(118, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -132,9 +122,7 @@ public class Inicio extends javax.swing.JFrame {
                             .addComponent(jLabel3)
                             .addComponent(txt_contraseña, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(56, 56, 56)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton1)
-                            .addComponent(jButton2))))
+                        .addComponent(jButton1)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -173,15 +161,17 @@ public class Inicio extends javax.swing.JFrame {
                         
                         if (txt_email.getText().equalsIgnoreCase("adrian") && txt_contraseña.getText().equalsIgnoreCase("adrian")) {
                             
-                            //SuperAdministrador newFrame = new SuperAdministrador();
-                            //newFrame.setVisible(true);                                     //hace visible la vantana
-                            //this.dispose();
+                            cn.close();
+                            SuperAdministrador newFrame = new SuperAdministrador();
+                            newFrame.setVisible(true);                                     //hace visible la vantana
+                            this.dispose();
                             
                         } else {
                             
-                            //Principal newFrame = new Principal();
-                            //newFrame.setVisible(true);                                     //hace visible la vantana
-                            //this.dispose();
+                            cn.close();
+                            Principal newFrame = new Principal();
+                            newFrame.setVisible(true);                                     //hace visible la vantana
+                            this.dispose();
                             
                         }
                         
@@ -234,83 +224,6 @@ public class Inicio extends javax.swing.JFrame {
 
         
     }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        
-        user = txt_email.getText().trim();
-        
-        try {
-
-            Class.forName("oracle.jdbc.driver.OracleDriver");
-            String url = "";
-            String usuario = "system";
-            String pass = "admin";
-
-            Connection cn = DriverManager.getConnection(url, usuario, pass);
-            PreparedStatement pst = cn.prepareStatement("select * from usuarios where email = ?");
-            pst.setString(1, txt_email.getText().trim());
-            
-            ResultSet rs = pst.executeQuery();
-
-            if(txt_email.getText().isEmpty() || txt_contraseña.getText().isEmpty()){
-            
-                JOptionPane.showMessageDialog(null, "Debe Completar todos los campos");
-                
-            
-            }else{
-                
-                if(!rs.next()){
-                
-                    PreparedStatement pst1 = cn.prepareStatement("insert into usuarios values (?,?)");
-                
-                    String secretKey = "hrzhgua";
-                    Inicio mMain = new Inicio();
-                    String cadenaAEncriptar = txt_contraseña.getText().trim();
-                    String cadenaEncriptada = mMain.encode(secretKey, cadenaAEncriptar);
-            
-                    pst1.setString(1, txt_email.getText().trim());
-                    pst1.setString(2, cadenaEncriptada);
-
-                    pst1.executeUpdate();                                          //se ejecutan las lineas que le enviamos a la base de datos
-                
-                    txt_email.setBackground(Color.green);
-                    txt_contraseña.setBackground(Color.green);
-                
-                    JOptionPane.showMessageDialog(null, "Registro Exitoso");
-                
-                    txt_email.setBackground(Color.white);
-                    txt_contraseña.setBackground(Color.white);
-                
-                    txt_email.setText("");
-                    txt_contraseña.setText("");
-                
-                }else{
-                
-                    txt_email.setBackground(Color.red);
-                    txt_contraseña.setBackground(Color.red);
-                    
-                    JOptionPane.showMessageDialog(null, "El usuario ya fue registrado");
-                    
-                    txt_email.setBackground(Color.white);
-                    txt_contraseña.setBackground(Color.white);
-                    
-                    txt_email.setText("");
-                    txt_contraseña.setText("");
-                
-                }
-            
-            }
-
-        } catch (SQLException e) {
-            
-            System.err.println("Error con el boton registrar. " + e );
-            JOptionPane.showMessageDialog(null, "Error al registrar usuario!!. Contacte al administrador");
-            
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Inicio.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -401,7 +314,6 @@ public class Inicio extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
