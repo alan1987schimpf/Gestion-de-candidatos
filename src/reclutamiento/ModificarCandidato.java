@@ -14,12 +14,12 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
- * @author Giuliana Carnevalle, Bautista Venier y Alan Sebastian Schimpf
+ * @author Alan Schimpf
  */
 
-public class AgregarCandidato extends javax.swing.JFrame {
+public class ModificarCandidato extends javax.swing.JFrame {
     
-    //arreglo con las opciones del campo perfil
+        //arreglo con las opciones del campo perfil
     String perfil [] = {"", "Java", "Angular", "Qa Manual", "Qa Automation", "iOS", "Android",       
         ".Net", "Fullstack", "Analista Funcional", "Scrum Master", "Python"}; 
     
@@ -39,17 +39,17 @@ public class AgregarCandidato extends javax.swing.JFrame {
     
     String reclutadora [] = {"", "Constanza", "Florencia", "Giuliana",              
         "Lucia", "Micaela", "Priscila"};
-     
+
     /**
-     * Creates new form AgregarCandidato
+     * Creates new form ModificarCandidato
      */
     
-    public AgregarCandidato() {
+    public ModificarCandidato() {
         initComponents();
         
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setResizable(false);                                        //el usuario no puede modificar las dimensiones del jframeform
-        setTitle("Agregar Candidato");
+        setTitle("Modificar Candidato");
         setLocationRelativeTo(null);
         
         for (String arStr1 : perfil) {choice_perfil.add(arStr1); }       //ciclo para llenar el choice con las opciones
@@ -58,7 +58,10 @@ public class AgregarCandidato extends javax.swing.JFrame {
         for (String arStr4 : cliente) {choice_cliente.add(arStr4); }       //ciclo para llenar el choice con las opciones
         for (String arStr5 : estado) {choice_estado.add(arStr5); }       //ciclo para llenar el choice con las opciones
         for (String arStr6 : reclutadora) {choice_reclutadora.add(arStr6); }       //ciclo para llenar el choice con las opciones
-            
+        
+        Candidatos eliminar = new Candidatos();
+        txt_email.setText(eliminar.valor);
+        
     }
     
     @Override
@@ -78,18 +81,26 @@ public class AgregarCandidato extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jSeparator1 = new javax.swing.JSeparator();
-        jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        txt_fecha = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
         txt_nombre = new javax.swing.JTextField();
+        choice_perfil = new java.awt.Choice();
         txt_apellido = new javax.swing.JTextField();
+        jButton2 = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
+        jButton3 = new javax.swing.JButton();
+        choice_niveldeingles = new java.awt.Choice();
         txt_telefono = new javax.swing.JTextField();
+        choice_cliente = new java.awt.Choice();
         txt_email = new javax.swing.JTextField();
+        choice_seniority = new java.awt.Choice();
         jLabel6 = new javax.swing.JLabel();
+        choice_estado = new java.awt.Choice();
         txt_linkedin = new javax.swing.JTextField();
+        choice_reclutadora = new java.awt.Choice();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
@@ -100,32 +111,37 @@ public class AgregarCandidato extends javax.swing.JFrame {
         txt_observacion = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+        jSeparator1 = new javax.swing.JSeparator();
         jLabel14 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
-        txt_fecha = new javax.swing.JTextField();
-        jLabel16 = new javax.swing.JLabel();
-        choice_perfil = new java.awt.Choice();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        choice_niveldeingles = new java.awt.Choice();
-        choice_cliente = new java.awt.Choice();
-        choice_seniority = new java.awt.Choice();
-        choice_estado = new java.awt.Choice();
-        choice_reclutadora = new java.awt.Choice();
+        jButton4 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setIconImage(getIconImage());
-
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        jLabel1.setText("Agregar Candidato");
 
         jLabel2.setText("Nombre:");
 
         jLabel3.setText("Apellido:");
 
+        jLabel16.setText("Cliente:");
+
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/flechaatras.jpg"))); // NOI18N
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         jLabel4.setText("Télefono:");
 
         jLabel5.setText("Email:");
+
+        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/hogar.jpg"))); // NOI18N
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         txt_telefono.setToolTipText("");
 
@@ -145,7 +161,7 @@ public class AgregarCandidato extends javax.swing.JFrame {
 
         jLabel13.setText("Reclutadora:");
 
-        jButton1.setText("Agregar");
+        jButton1.setText("Modificar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -155,21 +171,15 @@ public class AgregarCandidato extends javax.swing.JFrame {
         jLabel14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/logo.png"))); // NOI18N
         jLabel14.setText("jLabel14");
 
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        jLabel1.setText("Modificar Candidato");
+
         jLabel15.setText("Fecha:");
 
-        jLabel16.setText("Cliente:");
-
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/flechaatras.jpg"))); // NOI18N
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        jButton4.setText("Buscar");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/hogar.jpg"))); // NOI18N
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                jButton4ActionPerformed(evt);
             }
         });
 
@@ -178,11 +188,17 @@ public class AgregarCandidato extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jSeparator1)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jButton2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton3)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGap(150, 150, 150)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -230,9 +246,6 @@ public class AgregarCandidato extends javax.swing.JFrame {
                                         .addComponent(jLabel11)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(choice_estado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGap(388, 388, 388)
                         .addComponent(jLabel1)
@@ -246,13 +259,13 @@ public class AgregarCandidato extends javax.swing.JFrame {
                         .addComponent(jLabel13)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(choice_reclutadora, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addGap(165, 165, 165))
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jButton2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton3)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(70, 70, 70)
+                        .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton4))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -278,7 +291,8 @@ public class AgregarCandidato extends javax.swing.JFrame {
                             .addComponent(jLabel4)
                             .addComponent(jLabel5)
                             .addComponent(txt_telefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txt_email, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txt_email, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton4))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel6)
@@ -309,10 +323,10 @@ public class AgregarCandidato extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel12)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 73, Short.MAX_VALUE)
-                        .addComponent(jButton1)
-                        .addGap(19, 19, 19)
-                        .addComponent(jLabel14))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 114, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel14)
+                            .addComponent(jButton1)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(txt_observacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -329,8 +343,24 @@ public class AgregarCandidato extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+
+        Candidatos newFrame = new Candidatos();
+        newFrame.setVisible(true);                                     //hace visible la vantana
+        this.dispose();
+
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+
+        Principal newFrame = new Principal();
+        newFrame.setVisible(true);                                     //hace visible la vantana
+        this.dispose();
+
+    }//GEN-LAST:event_jButton3ActionPerformed
+
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        
+
         try {
             
             Class.forName("oracle.jdbc.driver.OracleDriver");
@@ -340,15 +370,6 @@ public class AgregarCandidato extends javax.swing.JFrame {
             
             Connection cn = DriverManager.getConnection(url, usuario, pass);
             
-            PreparedStatement pst1 = cn.prepareStatement("select * from candidatos where email = ?");
-            PreparedStatement pst2 = cn.prepareStatement("select * from candidatos where telefono = ?");
-            
-            pst1.setString(1, txt_email.getText().trim().toLowerCase());
-            pst2.setString(1, txt_telefono.getText().trim().toLowerCase());
-            
-            ResultSet rs1 = pst1.executeQuery();
-            ResultSet rs2 = pst2.executeQuery();
-            
             if (txt_nombre.getText().isEmpty() || txt_apellido.getText().isEmpty() ||txt_telefono.getText().isEmpty() ||
                     txt_email.getText().isEmpty() || txt_linkedin.getText().isEmpty() || choice_perfil.getSelectedItem().isEmpty() ||
                     choice_seniority.getSelectedItem().isEmpty() || choice_niveldeingles.getSelectedItem().isEmpty() 
@@ -357,30 +378,30 @@ public class AgregarCandidato extends javax.swing.JFrame {
                     choice_reclutadora.getSelectedItem().isEmpty()) {
                 
                 JOptionPane.showMessageDialog(null, "Debe Completar todos los campos");
-              
-            } else {
                 
-                    if (!rs1.next() && !rs2.next()) {
+            } else {
                     
-                    PreparedStatement pst = cn.prepareStatement("insert into candidatos values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+                    PreparedStatement pst = cn.prepareStatement("update candidatos set nombre = ?, apellido = ?, telefono = ?, "
+                            + "linkedin = ?, perfil = ?, seniority = ?, niveldeingles = ?, rate = ?, cliente = ?,"
+                            + "estado = ?, observacion = ?, fecha = ?, reclutador = ? where email = ?");
                     
                     pst.setString(1, txt_nombre.getText().trim().toLowerCase());
                     pst.setString(2, txt_apellido.getText().trim().toLowerCase());
                     pst.setString(3, txt_telefono.getText().trim());
-                    pst.setString(4, txt_email.getText().trim().toLowerCase());
-                    pst.setString(5, txt_linkedin.getText().trim());
-                    pst.setString(6, choice_perfil.getSelectedItem().toLowerCase());
-                    pst.setString(7, choice_seniority.getSelectedItem().toLowerCase());
-                    pst.setString(8, choice_niveldeingles.getSelectedItem());
-                    pst.setString(9, txt_rate.getText().trim());
-                    pst.setString(10, choice_cliente.getSelectedItem());
-                    pst.setString(11, choice_estado.getSelectedItem());
-                    pst.setString(12, txt_observacion.getText().trim());
-                    pst.setString(13, txt_fecha.getText().trim());
-                    pst.setString(14, choice_reclutadora.getSelectedItem());
+                    pst.setString(4, txt_linkedin.getText().trim());
+                    pst.setString(5, choice_perfil.getSelectedItem().toLowerCase());
+                    pst.setString(6, choice_seniority.getSelectedItem().toLowerCase());
+                    pst.setString(7, choice_niveldeingles.getSelectedItem());
+                    pst.setString(8, txt_rate.getText().trim());
+                    pst.setString(9, choice_cliente.getSelectedItem());
+                    pst.setString(10, choice_estado.getSelectedItem());
+                    pst.setString(11, txt_observacion.getText().trim());
+                    pst.setString(12, txt_fecha.getText().trim());
+                    pst.setString(13, choice_reclutadora.getSelectedItem());           
+                    pst.setString(14, txt_email.getText().trim());
 
-                    pst.executeUpdate();                                          //se ejecutan las lineas que le enviamos a la base de datos
-                    cn.close();
+                    pst.executeUpdate();
+                    cn.close();                                      
                     
                     txt_nombre.setBackground(Color.GREEN);
                     txt_apellido.setBackground(Color.GREEN);
@@ -397,7 +418,7 @@ public class AgregarCandidato extends javax.swing.JFrame {
                     txt_fecha.setBackground(Color.GREEN);
                     choice_reclutadora.setBackground(Color.GREEN);
                     
-                    JOptionPane.showMessageDialog(null, "Registro Exitoso");
+                    JOptionPane.showMessageDialog(null, "Modificacion Exitosa");
                     
                     txt_nombre.setBackground(Color.WHITE);
                     txt_apellido.setBackground(Color.WHITE);
@@ -428,47 +449,105 @@ public class AgregarCandidato extends javax.swing.JFrame {
                     txt_observacion.setText("");
                     txt_fecha.setText("");
                     choice_reclutadora.select(0);
-                    
-                    
-                } else {
-                    
-                    txt_telefono.setBackground(Color.red);
-                    txt_email.setBackground(Color.red);
-                        
-                    JOptionPane.showMessageDialog(null, "El candidato ya fue ingresado");
-                      
-                }  
+                     
             }
              
         } catch (SQLException e) {
             
-            System.err.println("Error con el boton agregar. " + e );
-            JOptionPane.showMessageDialog(null, "Error al agregar el/la candidato/a!!. Contacte al administrador");
+            System.err.println("Error con el boton modificar. " + e );
+            JOptionPane.showMessageDialog(null, "Error al modificar el/la candidato/a!!. Contacte al administrador");
             
         } catch (ClassNotFoundException ex) {
             
             Logger.getLogger(AgregarCandidato.class.getName()).log(Level.SEVERE, null, ex);
             
-        }
-    
-        
+        }   
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         
-        Candidatos newFrame = new Candidatos();
-        newFrame.setVisible(true);                                     //hace visible la vantana
-        this.dispose();
-        
-    }//GEN-LAST:event_jButton2ActionPerformed
+        try {
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+            int A = 0;
+            
+            Class.forName("oracle.jdbc.driver.OracleDriver");
+            String url = "";
+            String usuario = "system";
+            String pass = "admin";
+
+            Connection cn = DriverManager.getConnection(url, usuario, pass);
+            
+            PreparedStatement pst = cn.prepareStatement("select * from candidatos where email = ?");
+            
+            pst.setString(1, txt_email.getText().trim().toLowerCase());
+
+            ResultSet rs = pst.executeQuery();
+
+            
+            if (rs.next()) {
+                
+                txt_nombre.setText(rs.getString("nombre"));
+                txt_apellido.setText(rs.getString("apellido"));
+                txt_telefono.setText(rs.getString("telefono"));
+                txt_email.setText(rs.getString("email"));
+                txt_email.setEditable(false);                                        //inhabilita para editar
+                
+                txt_linkedin.setText(rs.getString("linkedin"));
+         
+                //choice_perfil. Se deben convertir a minusculas
+                for (int i = 0; i < perfil.length; i++) {                         
+                    if(perfil[i].toLowerCase().equals(rs.getString("perfil"))){
+                        choice_perfil.select(i);}}
+                
+                //choice_seniority. Se deben convertir a minusculas.
+                for (int i = 0; i < seniority.length; i++) {                         
+                    if(seniority[i].toLowerCase().equals(rs.getString("seniority"))){
+                        choice_seniority.select(i);}}
+                                
+                //choice_niveldeingles.
+                for (int i = 0; i < niveldeingles.length; i++) {                         
+                    if(niveldeingles[i].equals(rs.getString("niveldeingles"))){
+                        choice_niveldeingles.select(i);}}
+                
+                txt_rate.setText(rs.getString("rate"));
+                
+                //choice_cliente.
+                for (int i = 0; i < cliente.length; i++) {                         
+                    if(cliente[i].equals(rs.getString("cliente"))){
+                        choice_cliente.select(i);}}
+                
+                //choice_estado.                
+                for (int i = 0; i < estado.length; i++) {                         
+                    if(estado[i].equals(rs.getString("estado"))){
+                        choice_estado.select(i);}}
+                
+                txt_observacion.setText(rs.getString("observacion"));
+                txt_fecha.setText(rs.getString("fecha"));
+                
+                //choice_reclutadora.
+                for (int i = 0; i < reclutadora.length; i++) {                         
+                    if(reclutadora[i].equals(rs.getString("reclutador"))){
+                        choice_reclutadora.select(i);}}
+                
+                
+            }else {
+ 
+                JOptionPane.showMessageDialog(null, "No se encontraron resultados");
+                
+            }
+            
+        } catch (SQLException e) {
+            
+            System.err.println("Error con el boton buscar. " + e );
+            JOptionPane.showMessageDialog(null, "Error al realizar la busqueda!!. Contacte al administrador");
+            
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(AgregarCandidato.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
-        Principal newFrame = new Principal();
-        newFrame.setVisible(true);                                     //hace visible la vantana
-        this.dispose();
         
-    }//GEN-LAST:event_jButton3ActionPerformed
+        
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -487,21 +566,20 @@ public class AgregarCandidato extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AgregarCandidato.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ModificarCandidato.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AgregarCandidato.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ModificarCandidato.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AgregarCandidato.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ModificarCandidato.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AgregarCandidato.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ModificarCandidato.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AgregarCandidato().setVisible(true);
+                new ModificarCandidato().setVisible(true);
             }
         });
     }
@@ -516,6 +594,7 @@ public class AgregarCandidato extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

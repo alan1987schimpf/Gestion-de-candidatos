@@ -273,7 +273,8 @@ public class AgregarVacante extends javax.swing.JFrame {
                 pst.setString(6, txt_fechacierre.getText().trim());
                
                 pst.executeUpdate();                                          //se ejecutan las lineas que le enviamos a la base de datos
-
+                cn.close();
+                
                 choice_cliente.select(0); 
                 choice_vacante.select(0);
                 txt_fechacomienzo.setText("");
