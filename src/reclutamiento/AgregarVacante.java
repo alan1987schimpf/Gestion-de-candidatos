@@ -1,18 +1,47 @@
 
 package reclutamiento;
 
+import java.awt.Image;
+import java.awt.Toolkit;
+
 /**
  * @author Giuliana Carnevalle, Bautista Venier y Alan Sebastian Schimpf
  */
 
 public class AgregarVacante extends javax.swing.JFrame {
+    
+        //arreglo con las opciones del campo perfil
+    String cliente [] = {"", "Claro", "Claro Paraguay", "Fiat", "Tips Salud", "Naranja X", "Naranja Paraguay",
+        "Dominion", "PayPal", "Greenlight", "Health Equity", "Nike", "Adidas", "BlockFi", "Health Equity", "ClearCo", "Kforce"}; 
    
+    String vacante [] = {"", "Java", "Angular", "Qa Manual", "Qa Automation", "iOS", "Android",       
+        ".Net", "Fullstack", "Analista Funcional", "Scrum Master", "Python"};
+    
+    String estado [] = {"", "Activo", "En espera", "No Activo"};
+
     /**
      * Creates new form AgregarVacante
      */
     
     public AgregarVacante() {
         initComponents();
+        
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setResizable(false);                                        //el usuario no puede modificar las dimensiones del jframeform
+        setTitle("Agregar Vacante");
+        setLocationRelativeTo(null);
+        
+        for (String arStr1 : cliente) {choice_cliente.add(arStr1); }       //ciclo para llenar el choice con las opciones
+        for (String arStr2 : vacante) {choice_vacante.add(arStr2); }       //ciclo para llenar el choice con las opciones
+        for (String arStr3 : estado) {choice_estado.add(arStr3); }       //ciclo para llenar el choice con las opciones
+        
+    }
+    
+    @Override
+    public Image getIconImage(){                    //cambiamos el icono del jframeform
+    
+        Image retValue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("images/iconoAR.png"));
+        return retValue;
         
     }
 
@@ -209,15 +238,23 @@ public class AgregarVacante extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-             
+                   
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-           
+        
+        Principal newFrame = new Principal();
+        newFrame.setVisible(true);                                     //hace visible la vantana
+        this.dispose();
+     
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-       
+        
+        Vacantes newFrame = new Vacantes();
+        newFrame.setVisible(true);                                     //hace visible la vantana
+        this.dispose();
+        
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void txt_cantidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_cantidadActionPerformed

@@ -1,11 +1,18 @@
 
 package reclutamiento;
 
+import java.awt.Image;
+import java.awt.Toolkit;
+import javax.swing.JTable;
+
+
 /**
  * @author Giuliana Carnevalle, Bautista Venier y Alan Sebastian Schimpf
  */
 
 public class Vacantes extends javax.swing.JFrame {
+    
+    JTable tabla;
 
     /**
      * Creates new form Clientes
@@ -13,6 +20,19 @@ public class Vacantes extends javax.swing.JFrame {
     
     public Vacantes() {
         initComponents();
+        
+        setDefaultCloseOperation(EXIT_ON_CLOSE);                 //evita que las ventanas queden en segundo plano al cerrarlas
+        setResizable(false);                                        //el usuario no puede modificar las dimensiones del jframeform
+        setTitle("Vacantes");
+        setLocationRelativeTo(null);                         //evita que el usuario pueda redimensionar la ventana
+        
+    }
+    
+    @Override
+    public Image getIconImage(){                    //cambiamos el icono del jframeform
+    
+        Image retValue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("images/iconoAR.png"));
+        return retValue;
         
     }
 
@@ -147,19 +167,31 @@ public class Vacantes extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-       
+        
+        AgregarVacante newFrame = new AgregarVacante();
+        newFrame.setVisible(true);                                     //hace visible la vantana
+        this.dispose();
+        
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-         
+        
+        Candidatos newFrame = new Candidatos();
+        newFrame.setVisible(true);                                     //hace visible la vantana
+        this.dispose();    
+        
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-      
+        
+        Principal newFrame = new Principal();
+        newFrame.setVisible(true);                                     //hace visible la vantana
+        this.dispose(); 
+        
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-           
+             
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

@@ -1,6 +1,9 @@
 
 package reclutamiento;
 
+import java.awt.Image;
+import java.awt.Toolkit;
+
 /**
  * @author Giuliana Carnevalle, Bautista Venier y Alan Sebastian Schimpf
  */
@@ -13,6 +16,19 @@ public class Principal extends javax.swing.JFrame {
     
     public Principal() {
         initComponents();
+        
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setResizable(false);                                        //el usuario no puede modificar las dimensiones del jframeform
+        setTitle("Home");
+        setLocationRelativeTo(null);
+        
+    }
+    
+    @Override
+    public Image getIconImage(){                    //cambiamos el icono del jframeform
+    
+        Image retValue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("images/iconoAR.png"));
+        return retValue;
         
     }
 
@@ -86,11 +102,19 @@ public class Principal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-  
+        
+        Vacantes newFrame = new Vacantes();
+        newFrame.setVisible(true);                                     //hace visible la vantana
+        this.dispose();
+     
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-            
+        
+        Candidatos newFrame = new Candidatos();
+        newFrame.setVisible(true);                                     //hace visible la vantana
+        this.dispose();
+        
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     /**

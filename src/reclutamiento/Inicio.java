@@ -34,10 +34,10 @@ public class Inicio extends javax.swing.JFrame {
     public Inicio() {
         initComponents();
         
-        setDefaultCloseOperation(EXIT_ON_CLOSE);                       //al cerrar la ventana no queda en segundo plano
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
         setResizable(false);                                        //el usuario no puede modificar las dimensiones del jframeform
-        setTitle("Acceso al sistema");                             //agregamos el titulo al jframe form
-        setLocationRelativeTo(null);                              //la ventana aparece en el centro de la pantalla
+        setTitle("Acceso al sistema");
+        setLocationRelativeTo(null);
         
     }
     
@@ -141,7 +141,8 @@ public class Inicio extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-             
+        
+        
         user = txt_email.getText().trim();
         password = txt_contraseña.getText().trim();
         
@@ -165,11 +166,11 @@ public class Inicio extends javax.swing.JFrame {
                     
                     String secretKey = "hrzhgua";
                     Inicio mMain = new Inicio();
-                    String cadenaDesencriptada = mMain.decode(secretKey, rs.getString("contraseña"));
+                    String cadenaDesencriptada = mMain.deecnode(secretKey, rs.getString("contraseña"));
                     
                     if (cadenaDesencriptada.equalsIgnoreCase(txt_contraseña.getText())) {
                         
-                        Principal newFrame = new Principal();                         //me lleva a la ventana principal
+                        Principal newFrame = new Principal();
                         newFrame.setVisible(true);                                     //hace visible la vantana
                         this.dispose();
                         
@@ -204,11 +205,13 @@ public class Inicio extends javax.swing.JFrame {
             
             JOptionPane.showMessageDialog(null, "Debes llenar todos los campos");
             
-        }      
+        }
+
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-            
+        
         try {
 
             Class.forName("oracle.jdbc.driver.OracleDriver");
@@ -229,7 +232,7 @@ public class Inicio extends javax.swing.JFrame {
                 String secretKey = "hrzhgua";
                 Inicio mMain = new Inicio();
                 String cadenaAEncriptar = txt_contraseña.getText().trim();
-                String cadenaEncriptada = mMain.encode(secretKey, cadenaAEncriptar);
+                String cadenaEncriptada = mMain.ecnode(secretKey, cadenaAEncriptar);
             
                 pst.setString(1, txt_email.getText().trim());
                 pst.setString(2, cadenaEncriptada);
@@ -290,7 +293,7 @@ public class Inicio extends javax.swing.JFrame {
         });
     }
     
-    public String encode(String secretKey, String cadena) {
+    public String ecnode(String secretKey, String cadena) {
         
         String encriptacion = "";
         
@@ -317,7 +320,7 @@ public class Inicio extends javax.swing.JFrame {
         
     }
         
-    public String decode(String secretKey, String cadenaEncriptada) {
+    public String deecnode(String secretKey, String cadenaEncriptada) {
         
         String desencriptacion = "";
         

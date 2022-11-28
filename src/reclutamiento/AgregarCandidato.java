@@ -1,11 +1,35 @@
 
 package reclutamiento;
 
+import java.awt.Image;
+import java.awt.Toolkit;
+
 /**
  * @author Giuliana Carnevalle, Bautista Venier y Alan Sebastian Schimpf
  */
 
 public class AgregarCandidato extends javax.swing.JFrame {
+    
+    //arreglo con las opciones del campo perfil
+    String perfil [] = {"", "Java", "Angular", "Qa Manual", "Qa Automation", "iOS", "Android",       
+        ".Net", "Fullstack", "Analista Funcional", "Scrum Master", "Python"}; 
+    
+    //arreglo con las opciones del campo seniority
+    String seniority [] = {"", "Trainee", "Jr", "Ssr", "Sr", "Lead"};
+    
+    //arreglo con las opciones del campo nivel de ingles   
+    String niveldeingles [] = {"", "A1", "A2", "B1", "B2", "C1", "C2"};
+    
+    //arreglo con las opciones para el campo cliente
+    String cliente [] = {"", "Claro", "Claro Paraguay", "Naranja X", "Fiat", "Tips Salud",
+        "PayPal", "Greenlight", "Nike", "Adidas", "Kforce", "ClearCo", "Health Equity"};       
+    
+    //arreglo con las opciones para el campo estado
+    String estado [] = {"", "Pre-selección", "Entrevista Interna", "Presentado al cliente",              
+        "Entrevista con el cliente", "Examen médico/psico", "Contratado", "En espera", "No interesado", "No se considera"};
+    
+    String reclutadora [] = {"", "Constanza", "Florencia", "Giuliana",              
+        "Lucia", "Micaela", "Priscila"};
      
     /**
      * Creates new form AgregarCandidato
@@ -13,6 +37,28 @@ public class AgregarCandidato extends javax.swing.JFrame {
     
     public AgregarCandidato() {
         initComponents();
+        
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setResizable(false);                                        //el usuario no puede modificar las dimensiones del jframeform
+        setTitle("Agregar Candidato");
+        setLocationRelativeTo(null);
+        
+        for (String arStr1 : perfil) {choice_perfil.add(arStr1); }       //ciclo para llenar el choice con las opciones
+        for (String arStr2 : seniority) {choice_seniority.add(arStr2); }       //ciclo para llenar el choice con las opciones
+        for (String arStr3 : niveldeingles) {choice_niveldeingles.add(arStr3); }       //ciclo para llenar el choice con las opciones
+        for (String arStr4 : cliente) {choice_cliente.add(arStr4); }       //ciclo para llenar el choice con las opciones
+        for (String arStr5 : estado) {choice_estado.add(arStr5); }       //ciclo para llenar el choice con las opciones
+        for (String arStr6 : reclutadora) {choice_reclutadora.add(arStr6); }       //ciclo para llenar el choice con las opciones
+            
+       
+        
+    }
+    
+    @Override
+    public Image getIconImage(){                    //cambiamos el icono del jframeform
+    
+        Image retValue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("images/iconoAR.png"));
+        return retValue;
         
     }
 
@@ -281,10 +327,18 @@ public class AgregarCandidato extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-      
+        
+        Candidatos newFrame = new Candidatos();
+        newFrame.setVisible(true);                                     //hace visible la vantana
+        this.dispose();
+        
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        
+        Principal newFrame = new Principal();
+        newFrame.setVisible(true);                                     //hace visible la vantana
+        this.dispose();
         
     }//GEN-LAST:event_jButton3ActionPerformed
 
