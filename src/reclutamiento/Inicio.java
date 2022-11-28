@@ -6,6 +6,7 @@ import java.awt.Toolkit;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,6 +17,9 @@ import javax.swing.JOptionPane;
  */
 
 public class Inicio extends javax.swing.JFrame {
+    
+    public static String user = "";
+    String password = "";
 
     /**
      * Creates new form Inicio
@@ -24,10 +28,10 @@ public class Inicio extends javax.swing.JFrame {
     public Inicio() {
         initComponents();
         
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);                       //al cerrar la ventana no queda en segundo plano
         setResizable(false);                                        //el usuario no puede modificar las dimensiones del jframeform
-        setTitle("Acceso al sistema");
-        setLocationRelativeTo(null);
+        setTitle("Acceso al sistema");                             //agregamos el titulo al jframe form
+        setLocationRelativeTo(null);                              //la ventana aparece en el centro de la pantalla
         
     }
     
@@ -132,6 +136,69 @@ public class Inicio extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
              
+        user = txt_email.getText().trim();
+        password = txt_contraseña.getText().trim();
+        
+        if (!user.equals("") && !password.equals("")) {
+            
+            
+            try {
+
+            Class.forName("oracle.jdbc.driver.OracleDriver");
+            String url = "";
+            String usuario = "system";
+            String pass = "admin";
+
+            Connection cn = DriverManager.getConnection(url, usuario, pass);
+            PreparedStatement pst = cn.prepareStatement("select * from usuarios where email = ?");
+            pst.setString(1, txt_email.getText().trim());
+            
+            ResultSet rs = pst.executeQuery(); 
+            
+                if (rs.next()) {
+                    
+                    //String secretKey = "hrzhgua";
+                    //Inicio mMain = new Inicio();
+                    //String cadenaDesencriptada = mMain.deecnode(secretKey, rs.getString("contraseña"));
+                    
+                    if (rs.getString("contraseña").equalsIgnoreCase(txt_contraseña.getText())) {
+                        
+                        Principal newFrame = new Principal();                         //me lleva a la ventana principal
+                        newFrame.setVisible(true);                                     //hace visible la vantana
+                        this.dispose();
+                        
+                    } else {
+                        
+                        JOptionPane.showMessageDialog(null, "Datos de acceso incorrectos");
+                        txt_email.setText("");
+                        txt_contraseña.setText("");
+                        
+                    }
+                    
+                } else {
+                    
+                    JOptionPane.showMessageDialog(null, "Datos de acceso incorrectos");
+                    txt_email.setText("");
+                    txt_contraseña.setText("");
+                    
+                }
+            
+
+            } catch (SQLException e) {
+                
+                System.err.println("Error con el boton iniciar sesion. " + e );
+                JOptionPane.showMessageDialog(null, "Error al iniciar sesion!!. Contacte al administrador");
+                
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(Inicio.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            
+        } else {
+            
+            JOptionPane.showMessageDialog(null, "Debes llenar todos los campos");
+            
+        }      
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
