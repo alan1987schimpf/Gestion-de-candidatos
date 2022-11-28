@@ -1,8 +1,20 @@
 
 package reclutamiento;
 
+import clases.conexion;
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+import java.awt.HeadlessException;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -39,12 +51,7 @@ public class GestionUsuariosAdministradores extends javax.swing.JFrame {
         
         try {
 
-            Class.forName("oracle.jdbc.driver.OracleDriver");
-            String url = "";
-            String usuario = "system";
-            String pass = "admin";
-
-            Connection cn = DriverManager.getConnection(url, usuario, pass);
+            Connection cn = conexion.conectar();
             
             PreparedStatement pst1 = cn.prepareStatement("select * from usuarios");
             
@@ -66,9 +73,12 @@ public class GestionUsuariosAdministradores extends javax.swing.JFrame {
                           
                 } 
                 
+                cn.close();
+                
             }else {
  
                 JOptionPane.showMessageDialog(null, "La tabla esta vacia");
+                cn.close();
                 
             }
             
@@ -79,18 +89,13 @@ public class GestionUsuariosAdministradores extends javax.swing.JFrame {
             System.err.println("Error al cargar la tabla. " + e );
             JOptionPane.showMessageDialog(null, "Error al mostrar la tabla!!. Contacte al administrador");
             
-        } catch (ClassNotFoundException ex) {
-            
-            Logger.getLogger(AgregarCandidato.class.getName()).log(Level.SEVERE, null, ex);
-            
         }
-        
     }
     
     @Override
     public Image getIconImage(){                    //cambiamos el icono del jframeform
     
-        Image retValue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("images/iconoAR.png"));
+        Image retValue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("images/iconoVEC.png"));
         return retValue;
         
     }
@@ -113,6 +118,8 @@ public class GestionUsuariosAdministradores extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
+        jButton6 = new javax.swing.JButton();
+        jButton7 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setIconImage(getIconImage());
@@ -173,6 +180,20 @@ public class GestionUsuariosAdministradores extends javax.swing.JFrame {
             }
         });
 
+        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/iconoPDF.png"))); // NOI18N
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+
+        jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/iconoTabla.png"))); // NOI18N
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -188,8 +209,15 @@ public class GestionUsuariosAdministradores extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(txt_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jButton7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jButton6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(123, 123, 123)
                         .addComponent(jLabel2)
@@ -220,7 +248,12 @@ public class GestionUsuariosAdministradores extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txt_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
 
@@ -237,115 +270,70 @@ public class GestionUsuariosAdministradores extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
 
-        /*try {
+        if (!txt_buscar.getText().isEmpty()) {
+            
+            try {
 
-            Class.forName("oracle.jdbc.driver.OracleDriver");
-            String url = "";
-            String usuario = "system";
-            String pass = "admin";
-
-            Connection cn = DriverManager.getConnection(url, usuario, pass);
-
-            PreparedStatement pst1 = cn.prepareStatement("select * from candidatos where nombre = ?");
-            PreparedStatement pst2 = cn.prepareStatement("select * from candidatos where apellido = ?");
-            PreparedStatement pst3 = cn.prepareStatement("select * from candidatos where perfil = ?");
-            PreparedStatement pst4 = cn.prepareStatement("select * from candidatos where seniority = ?");
-
+            Connection cn = conexion.conectar();
+            
+            PreparedStatement pst1 = cn.prepareStatement("select * from usuarios where email = ?");
+            PreparedStatement pst2 = cn.prepareStatement("select * from usuarios where permiso = ?");
+            
             pst1.setString(1, txt_buscar.getText().trim().toLowerCase());
             pst2.setString(1, txt_buscar.getText().trim().toLowerCase());
-            pst3.setString(1, txt_buscar.getText().trim().toLowerCase());
-            pst4.setString(1, txt_buscar.getText().trim().toLowerCase());
-
+            
             ResultSet rs1 = pst1.executeQuery();
             ResultSet rs2 = pst2.executeQuery();
-            ResultSet rs3 = pst3.executeQuery();
-            ResultSet rs4 = pst4.executeQuery();
-
+            
             DefaultTableModel dfm = new DefaultTableModel();
             tabla = this.jTable1;
             tabla.setModel(dfm);
-
-            dfm.setColumnIdentifiers(new Object[]{"Nombre","Apellido","Telefono","E-mail","Linkedin","Perfil",
-                "Seniority","Nivel de Ingles","Rate","Cliente","Estado","Observaciones","Fecha","Reclutadora"});
-
-        if (rs1.next()) {
-
-            dfm.addRow(new Object[]{rs1.getString("nombre"),rs1.getString("apellido"),rs1.getString("telefono"),
-                rs1.getString("email"),rs1.getString("linkedin"),rs1.getString("perfil"),rs1.getString("seniority"),
-                rs1.getString("niveldeingles"),rs1.getString("rate"),rs1.getString("cliente"),rs1.getString("estado"),
-                rs1.getString("observacion"),rs1.getString("fecha"),rs1.getString("reclutador"),});
-
-        while(rs1.next()){
-
-            dfm.addRow(new Object[]{rs1.getString("nombre"),rs1.getString("apellido"),rs1.getString("telefono"),
-                rs1.getString("email"),rs1.getString("linkedin"),rs1.getString("perfil"),rs1.getString("seniority"),
-                rs1.getString("niveldeingles"),rs1.getString("rate"),rs1.getString("cliente"),rs1.getString("estado"),
-                rs1.getString("observacion"),rs1.getString("fecha"),rs1.getString("reclutador"),});
-
+            
+            dfm.setColumnIdentifiers(new Object[]{"Email","Permiso"});
+            
+            if (rs1.next()) {
+                
+                dfm.addRow(new Object[]{rs1.getString("email"),rs1.getString("permiso")});
+                
+                while(rs1.next()){
+                
+                    dfm.addRow(new Object[]{rs1.getString("email"),rs1.getString("permiso")});
+                          
+                } 
+                
+                cn.close();
+                
+            }else if(rs2.next()){
+            
+                dfm.addRow(new Object[]{rs2.getString("email"),rs2.getString("permiso")});
+                
+                while(rs2.next()){
+                
+                    dfm.addRow(new Object[]{rs2.getString("email"),rs2.getString("permiso")});
+                          
+                }
+                
+                cn.close();
+    
+            }else {
+ 
+                JOptionPane.showMessageDialog(null, "No se encontraron resultados");
+                cn.close();
+                
+            }
+            
+            } catch (SQLException e) {
+            
+                System.err.println("Error con el boton buscar candidato. " + e );
+                JOptionPane.showMessageDialog(null, "Error al realizar la busqueda!!. Contacte al administrador");
+            
+            }
+            
+        } else {
+            
+            JOptionPane.showMessageDialog(null, "Debe ingresar el dato a buscar");
+            
         }
-
-        }else if(rs2.next()){
-
-            dfm.addRow(new Object[]{rs2.getString("nombre"),rs2.getString("apellido"),rs2.getString("telefono"),
-                rs2.getString("email"),rs2.getString("linkedin"),rs2.getString("perfil"),rs2.getString("seniority"),
-                rs2.getString("niveldeingles"),rs2.getString("rate"),rs2.getString("cliente"),rs2.getString("estado"),
-                rs2.getString("observacion"),rs2.getString("fecha"),rs2.getString("reclutador"),});
-
-        while(rs2.next()){
-
-            dfm.addRow(new Object[]{rs2.getString("nombre"),rs2.getString("apellido"),rs2.getString("telefono"),
-                rs2.getString("email"),rs2.getString("linkedin"),rs2.getString("perfil"),rs2.getString("seniority"),
-                rs2.getString("niveldeingles"),rs2.getString("rate"),rs2.getString("cliente"),rs2.getString("estado"),
-                rs2.getString("observacion"),rs2.getString("fecha"),rs2.getString("reclutador"),});
-
-        }
-
-        }else if(rs3.next()){
-
-            dfm.addRow(new Object[]{rs3.getString("nombre"),rs3.getString("apellido"),rs3.getString("telefono"),
-                rs3.getString("email"),rs3.getString("linkedin"),rs3.getString("perfil"),rs3.getString("seniority"),
-                rs3.getString("niveldeingles"),rs3.getString("rate"),rs3.getString("cliente"),rs3.getString("estado"),
-                rs3.getString("observacion"),rs3.getString("fecha"),rs3.getString("reclutador"),});
-
-        while(rs3.next()){
-
-            dfm.addRow(new Object[]{rs3.getString("nombre"),rs3.getString("apellido"),rs3.getString("telefono"),
-                rs3.getString("email"),rs3.getString("linkedin"),rs3.getString("perfil"),rs3.getString("seniority"),
-                rs3.getString("niveldeingles"),rs3.getString("rate"),rs3.getString("cliente"),rs3.getString("estado"),
-                rs3.getString("observacion"),rs3.getString("fecha"),rs3.getString("reclutador"),});
-
-        }
-
-        }else if(rs4.next()){
-
-            dfm.addRow(new Object[]{rs4.getString("nombre"),rs4.getString("apellido"),rs4.getString("telefono"),
-                rs4.getString("email"),rs4.getString("linkedin"),rs4.getString("perfil"),rs4.getString("seniority"),
-                rs4.getString("niveldeingles"),rs4.getString("rate"),rs4.getString("cliente"),rs4.getString("estado"),
-                rs4.getString("observacion"),rs4.getString("fecha"),rs4.getString("reclutador"),});
-
-        while(rs4.next()){
-
-            dfm.addRow(new Object[]{rs4.getString("nombre"),rs4.getString("apellido"),rs4.getString("telefono"),
-                rs4.getString("email"),rs4.getString("linkedin"),rs4.getString("perfil"),rs4.getString("seniority"),
-                rs4.getString("niveldeingles"),rs4.getString("rate"),rs4.getString("cliente"),rs4.getString("estado"),
-                rs4.getString("observacion"),rs4.getString("fecha"),rs4.getString("reclutador"),});
-
-        }
-
-        }else {
-
-            JOptionPane.showMessageDialog(null, "No se encontraron resultados");
-
-        }
-
-        } catch (SQLException e) {
-
-            System.err.println("Error con el boton buscar candidato. " + e );
-            JOptionPane.showMessageDialog(null, "Error al realizar la busqueda!!. Contacte al administrador");
-
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(AgregarCandidato.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
         
     }//GEN-LAST:event_jButton3ActionPerformed
 
@@ -409,6 +397,122 @@ public class GestionUsuariosAdministradores extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jTable1MouseClicked
 
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        
+        Document documento = new Document();
+
+        try {
+
+            String ruta = System.getProperty("user.home");
+            PdfWriter.getInstance(documento, new FileOutputStream(ruta + "/Desktop/Usuarios.pdf"));
+            
+            Paragraph parrafo = new Paragraph();
+            parrafo.setAlignment(Paragraph.ALIGN_CENTER);
+            parrafo.add("Formato creado por Giuliana Carnevalle, Bautista Venier y Alan Sebastian Schimpf © \n\n");
+            parrafo.setFont(FontFactory.getFont("Tahoma", 18, Font.BOLD, BaseColor.DARK_GRAY));
+            parrafo.add("Usuarios \n\n");
+
+            documento.open();
+            documento.add(parrafo);                                   //agrego el parrafo al documento
+
+            PdfPTable tabla = new PdfPTable(2);
+            
+            tabla.addCell("Email");
+            tabla.addCell("Permiso");
+            tabla.addCell(" ");
+            tabla.addCell(" ");
+
+            try {
+
+                Class.forName("oracle.jdbc.driver.OracleDriver");
+                String url = "";
+                String usuario = "system";
+                String pass = "admin";
+            
+                Connection cn = DriverManager.getConnection(url, usuario, pass);
+                
+                PreparedStatement pst = cn.prepareStatement("select * from usuarios");
+                ResultSet rs = pst.executeQuery();
+                
+                if(rs.next()){
+                
+                    do {                        
+                        
+                        tabla.addCell(rs.getString(2));
+                        tabla.addCell(rs.getString(4));
+                        
+                    } while (rs.next());
+                    
+                    documento.add(tabla);
+                
+                }else{
+                
+                    JOptionPane.showMessageDialog(null, "La lista esta vacia");
+                
+                }
+                
+            } catch (DocumentException | SQLException e) {
+                
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(Candidatos.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            documento.close();
+            JOptionPane.showMessageDialog(null, "Reporte creado");
+
+        } catch (HeadlessException e) {
+            
+        } catch (FileNotFoundException | DocumentException ex) {
+            Logger.getLogger(AgregarCandidato.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+
+        try {
+                            
+            txt_buscar.setText("");
+
+            Connection cn = conexion.conectar();
+            
+            PreparedStatement pst1 = cn.prepareStatement("select * from usuarios");
+            
+            ResultSet rs1 = pst1.executeQuery();
+  
+            DefaultTableModel dfm = new DefaultTableModel();
+            tabla = this.jTable1;
+            tabla.setModel(dfm);
+            
+            dfm.setColumnIdentifiers(new Object[]{"Email","Permiso"});
+            
+            if (rs1.next()) {
+                
+                dfm.addRow(new Object[]{rs1.getString("Email"),rs1.getString("Permiso")});
+                
+                while(rs1.next()){
+                
+                    dfm.addRow(new Object[]{rs1.getString("Email"),rs1.getString("Permiso")});
+                          
+                } 
+                
+                cn.close();
+                
+            }else {
+ 
+                JOptionPane.showMessageDialog(null, "La tabla esta vacia");
+                cn.close();
+                
+            }
+            
+        } catch (SQLException e) {
+            
+            System.err.println("Error al cargar la tabla. " + e );
+            JOptionPane.showMessageDialog(null, "Error al mostrar la tabla!!. Contacte al administrador");
+            
+        }
+    }//GEN-LAST:event_jButton7ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -450,6 +554,8 @@ public class GestionUsuariosAdministradores extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;

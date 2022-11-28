@@ -5,12 +5,9 @@ import java.awt.Color;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import java.security.MessageDigest;
 import java.util.Arrays;
@@ -18,6 +15,14 @@ import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import org.apache.commons.codec.binary.Base64;
+import clases.conexion;
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+
 
 /**
  * @author Giuliana Carnevalle, Bautista Venier y Alan Sebastian Schimpf
@@ -46,7 +51,7 @@ public class Inicio extends javax.swing.JFrame {
     @Override
     public Image getIconImage(){                    //cambiamos el icono del jframeform
     
-        Image retValue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("images/iconoAR.png"));
+        Image retValue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("images/iconoVEC.png"));
         return retValue;
         
     }
@@ -60,22 +65,15 @@ public class Inicio extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jButton1 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        txt_email = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        txt_email = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
         txt_contraseña = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setIconImage(getIconImage());
-
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/AR logo.png"))); // NOI18N
-        jLabel1.setText("jLabel1");
-
-        jLabel2.setText("Email:");
-
-        jLabel3.setText("Contraseña:");
 
         jButton1.setText("Iniciar Sesión");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -83,6 +81,13 @@ public class Inicio extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/AR logo.png"))); // NOI18N
+        jLabel1.setText("jLabel1");
+
+        jLabel2.setText("Email:");
+
+        jLabel3.setText("Contraseña:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -99,30 +104,29 @@ public class Inicio extends javax.swing.JFrame {
                             .addComponent(jLabel3))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txt_email, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
-                            .addComponent(txt_contraseña, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)))
+                            .addComponent(txt_email)
+                            .addComponent(txt_contraseña, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(161, 161, 161)
+                        .addGap(170, 170, 170)
                         .addComponent(jButton1)))
-                .addContainerGap(118, Short.MAX_VALUE))
+                .addContainerGap(119, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(169, 169, 169)
+                        .addGap(163, 163, 163)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
                             .addComponent(txt_email, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(57, 57, 57)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(txt_contraseña, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(56, 56, 56)
+                            .addComponent(txt_contraseña, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3))
+                        .addGap(18, 18, 18)
                         .addComponent(jButton1)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -141,12 +145,8 @@ public class Inicio extends javax.swing.JFrame {
             
             try {
 
-            Class.forName("oracle.jdbc.driver.OracleDriver");
-            String url = "";
-            String usuario = "system";
-            String pass = "admin";
-
-            Connection cn = DriverManager.getConnection(url, usuario, pass);
+            Connection cn = conexion.conectar();
+            
             PreparedStatement pst = cn.prepareStatement("select * from usuarios where email = ?");
             pst.setString(1, txt_email.getText().trim());
             
@@ -168,6 +168,7 @@ public class Inicio extends javax.swing.JFrame {
                             SuperAdministrador newFrame = new SuperAdministrador();
                             newFrame.setVisible(true);                                     //hace visible la vantana
                             this.dispose();
+                            cn.close();
                             
                         } else {
                             
@@ -175,6 +176,7 @@ public class Inicio extends javax.swing.JFrame {
                             Principal newFrame = new Principal();
                             newFrame.setVisible(true);                                     //hace visible la vantana
                             this.dispose();
+                            cn.close();
                             
                         }
                         
@@ -190,6 +192,7 @@ public class Inicio extends javax.swing.JFrame {
                         
                         txt_email.setText("");
                         txt_contraseña.setText("");
+                        cn.close();
                         
                     }
                     
@@ -205,6 +208,7 @@ public class Inicio extends javax.swing.JFrame {
                         
                         txt_email.setText("");
                         txt_contraseña.setText("");
+                        cn.close();
                     
                 }
             
@@ -214,8 +218,6 @@ public class Inicio extends javax.swing.JFrame {
                 System.err.println("Error con el boton iniciar sesion. " + e );
                 JOptionPane.showMessageDialog(null, "Error al iniciar sesion!!. Contacte al administrador");
                 
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(Inicio.class.getName()).log(Level.SEVERE, null, ex);
             }
             
             
@@ -257,10 +259,8 @@ public class Inicio extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Inicio().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new Inicio().setVisible(true);
         });
     }
     
@@ -281,7 +281,7 @@ public class Inicio extends javax.swing.JFrame {
             byte[] base64Bytes = Base64.encodeBase64(buf);
             encriptacion = new String(base64Bytes);
             
-        } catch (Exception ex) {
+        } catch (UnsupportedEncodingException | InvalidKeyException | NoSuchAlgorithmException | BadPaddingException | IllegalBlockSizeException | NoSuchPaddingException ex) {
             
             JOptionPane.showMessageDialog(null, "Error al codificar el password");
             
@@ -307,7 +307,7 @@ public class Inicio extends javax.swing.JFrame {
             byte[] plainText = decipher.doFinal(message);
             desencriptacion = new String(plainText, "UTF-8");
 
-        } catch (Exception e) {
+        } catch (UnsupportedEncodingException | InvalidKeyException | NoSuchAlgorithmException | BadPaddingException | IllegalBlockSizeException | NoSuchPaddingException e) {
             
             JOptionPane.showMessageDialog(null, "Error al decodificar el password");
             

@@ -1,16 +1,14 @@
 
 package reclutamiento;
 
+import clases.conexion;
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -52,12 +50,7 @@ public class AgregarVacante extends javax.swing.JFrame {
         
         try {
 
-            Class.forName("oracle.jdbc.driver.OracleDriver");
-            String url = "";
-            String usuario = "system";
-            String pass = "admin";
-
-            Connection cn = DriverManager.getConnection(url, usuario, pass);
+            Connection cn = conexion.conectar();
             
             PreparedStatement pst1 = cn.prepareStatement("select * from vacantes");
             ResultSet rs1 = pst1.executeQuery();
@@ -83,11 +76,13 @@ public class AgregarVacante extends javax.swing.JFrame {
                 MAYOR = mayor + "";                                    //convierto un int en un string
                 txt_identificador.setText(MAYOR);
                 txt_identificador.setEditable(false);
+                cn.close();
                 
             }else {
  
                 txt_identificador.setText("1");
                 txt_identificador.setEditable(false);
+                cn.close();
                 
             }
             
@@ -96,15 +91,13 @@ public class AgregarVacante extends javax.swing.JFrame {
             System.err.println("Error con la busqueda del identificador. " + e );
             JOptionPane.showMessageDialog(null, "Error al buscar el identificador!!. Contacte al administrador");
             
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(AgregarCandidato.class.getName()).log(Level.SEVERE, null, ex);
         } 
     }
     
     @Override
     public Image getIconImage(){                    //cambiamos el icono del jframeform
     
-        Image retValue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("images/iconoAR.png"));
+        Image retValue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("images/iconoVEC.png"));
         return retValue;
         
     }
@@ -303,12 +296,7 @@ public class AgregarVacante extends javax.swing.JFrame {
                 
         try {
 
-            Class.forName("oracle.jdbc.driver.OracleDriver");
-            String url = "";
-            String usuario = "system";
-            String pass = "admin";
-
-            Connection cn = DriverManager.getConnection(url, usuario, pass);
+            Connection cn = conexion.conectar();
 
             if(choice_cliente.getSelectedItem().isEmpty() || choice_vacante.getSelectedItem().isEmpty() 
                     || txt_fechacomienzo.getText().isEmpty() || txt_cantidad.getText().isEmpty() 
@@ -373,8 +361,6 @@ public class AgregarVacante extends javax.swing.JFrame {
             System.err.println("Error con el boton agregar vacante. " + e );
             JOptionPane.showMessageDialog(null, "Error al agregar la vacante!!. Contacte al administrador");
             
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(AgregarCandidato.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         

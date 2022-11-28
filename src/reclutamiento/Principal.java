@@ -27,7 +27,7 @@ public class Principal extends javax.swing.JFrame {
     @Override
     public Image getIconImage(){                    //cambiamos el icono del jframeform
     
-        Image retValue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("images/iconoAR.png"));
+        Image retValue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("images/iconoVEC.png"));
         return retValue;
         
     }

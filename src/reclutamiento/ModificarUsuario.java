@@ -1,16 +1,14 @@
 
 package reclutamiento;
 
+import clases.conexion;
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -45,12 +43,7 @@ public class ModificarUsuario extends javax.swing.JFrame {
         
         try {
 
-            Class.forName("oracle.jdbc.driver.OracleDriver");
-            String url = "";
-            String usuario = "system";
-            String pass = "admin";
-
-            Connection cn = DriverManager.getConnection(url, usuario, pass);
+            Connection cn = conexion.conectar();
             
             PreparedStatement pst1 = cn.prepareStatement("select id from usuarios where email = ?");
             
@@ -60,10 +53,12 @@ public class ModificarUsuario extends javax.swing.JFrame {
             if (rs1.next()) {
                 
                 ID = rs1.getInt("id");
+                cn.close();
                 
             }else{
             
                 JOptionPane.showMessageDialog(null, "El usuario o administrador no existe");
+                cn.close();
             
             }
             
@@ -72,16 +67,13 @@ public class ModificarUsuario extends javax.swing.JFrame {
             System.err.println("Error con la busqueda del identificador. " + e );
             JOptionPane.showMessageDialog(null, "Error al buscar el identificador!!. Contacte al administrador");
             
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(AgregarCandidato.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
     }
     
     @Override
     public Image getIconImage(){                    //cambiamos el icono del jframeform
     
-        Image retValue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("images/iconoAR.png"));
+        Image retValue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("images/iconoVEC.png"));
         return retValue;
         
     }
@@ -197,12 +189,7 @@ public class ModificarUsuario extends javax.swing.JFrame {
         
         try {
             
-            Class.forName("oracle.jdbc.driver.OracleDriver");
-            String url = "";
-            String usuario = "system";
-            String pass = "admin";
-            
-            Connection cn = DriverManager.getConnection(url, usuario, pass);
+            Connection cn = conexion.conectar();
             
             if (txt_email.getText().isEmpty() || choice_permiso.getSelectedItem().isEmpty()) {
                 
@@ -222,6 +209,8 @@ public class ModificarUsuario extends javax.swing.JFrame {
                     txt_email.setBackground(Color.green);
                     choice_permiso.setBackground(Color.green);
                     
+                    cn.close();
+                    
                     JOptionPane.showMessageDialog(null, "Modificacion Exitosa");
                     
                     GestionUsuariosAdministradores newFrame = new GestionUsuariosAdministradores();
@@ -235,13 +224,7 @@ public class ModificarUsuario extends javax.swing.JFrame {
             System.err.println("Error con el boton modificar vacante. " + e );
             JOptionPane.showMessageDialog(null, "Error al modificar la vacante!!. Contacte al administrador");
             
-        } catch (ClassNotFoundException ex) {
-            
-            Logger.getLogger(AgregarCandidato.class.getName()).log(Level.SEVERE, null, ex);
-            
-        }
-        
-        
+        }  
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

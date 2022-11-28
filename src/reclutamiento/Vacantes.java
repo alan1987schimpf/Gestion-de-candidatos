@@ -1,15 +1,13 @@
 
 package reclutamiento;
 
+import clases.conexion;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -43,12 +41,7 @@ public class Vacantes extends javax.swing.JFrame {
         
         try {
 
-            Class.forName("oracle.jdbc.driver.OracleDriver");
-            String url = "";
-            String usuario = "system";
-            String pass = "admin";
-
-            Connection cn = DriverManager.getConnection(url, usuario, pass);
+            Connection cn = conexion.conectar();
             
             PreparedStatement pst1 = cn.prepareStatement("select * from vacantes");
 
@@ -76,21 +69,20 @@ public class Vacantes extends javax.swing.JFrame {
                 
             }
             
+            cn.close();
+            
         } catch (SQLException e) {
             
             System.err.println("Error con el boton Tabla Completa. " + e );
             JOptionPane.showMessageDialog(null, "Error al mostrar la tabla!!. Contacte al administrador");
             
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(AgregarCandidato.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
     }
     
     @Override
     public Image getIconImage(){                    //cambiamos el icono del jframeform
     
-        Image retValue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("images/iconoAR.png"));
+        Image retValue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("images/iconoVEC.png"));
         return retValue;
         
     }
@@ -116,6 +108,7 @@ public class Vacantes extends javax.swing.JFrame {
         jButton4 = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jButton5 = new javax.swing.JButton();
+        jButton6 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -155,21 +148,21 @@ public class Vacantes extends javax.swing.JFrame {
             }
         });
 
-        jButton3.setText("Agregar Vacante");
+        jButton3.setText("Agregar");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Modificar Vacante");
+        jButton2.setText("Modificar");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
             }
         });
 
-        jButton4.setText("Eliminar Vacante");
+        jButton4.setText("Eliminar");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton4ActionPerformed(evt);
@@ -178,10 +171,17 @@ public class Vacantes extends javax.swing.JFrame {
 
         jLabel3.setText("Ej. Cliente, Vacante.");
 
-        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/tabla.png"))); // NOI18N
+        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/iconoTabla.png"))); // NOI18N
         jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton5ActionPerformed(evt);
+            }
+        });
+
+        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/iconoPDF.png"))); // NOI18N
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
             }
         });
 
@@ -217,19 +217,24 @@ public class Vacantes extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(15, 15, 15)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 781, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(12, 12, 12)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(txt_buscar, javax.swing.GroupLayout.DEFAULT_SIZE, 269, Short.MAX_VALUE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel3)
+                                .addGap(12, 12, 12)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addGap(0, 0, Short.MAX_VALUE)
+                                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(txt_buscar, javax.swing.GroupLayout.DEFAULT_SIZE, 269, Short.MAX_VALUE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel3)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(487, 487, 487)
                         .addComponent(jLabel1)
@@ -258,6 +263,8 @@ public class Vacantes extends javax.swing.JFrame {
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel2))
                     .addGroup(layout.createSequentialGroup()
@@ -300,14 +307,11 @@ public class Vacantes extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         
-        try {
+        if (!txt_buscar.getText().isEmpty()) {
+            
+            try {
 
-            Class.forName("oracle.jdbc.driver.OracleDriver");
-            String url = "";
-            String usuario = "system";
-            String pass = "admin";
-
-            Connection cn = DriverManager.getConnection(url, usuario, pass);
+            Connection cn = conexion.conectar();
             
             PreparedStatement pst1 = cn.prepareStatement("select * from vacantes where cliente = ?");
             PreparedStatement pst2 = cn.prepareStatement("select * from vacantes where vacante = ?");
@@ -338,6 +342,8 @@ public class Vacantes extends javax.swing.JFrame {
                             rs1.getString("cantidad"),rs1.getString("estado"),rs1.getString("fechacierre")});
                           
                     } 
+                    
+                    cn.close();
                 
                 }else if(rs2.next()){
             
@@ -354,6 +360,7 @@ public class Vacantes extends javax.swing.JFrame {
                 }else {
  
                     JOptionPane.showMessageDialog(null, "No se encontraron resultados");
+                    cn.close();
                 
                 }
             
@@ -363,13 +370,17 @@ public class Vacantes extends javax.swing.JFrame {
                 
             }
             
-        } catch (SQLException e) {
+            } catch (SQLException e) {
             
-            System.err.println("Error con el boton buscar. " + e );
-            JOptionPane.showMessageDialog(null, "Error al realizar la busqueda!!. Contacte al administrador");
+                System.err.println("Error con el boton buscar. " + e );
+                JOptionPane.showMessageDialog(null, "Error al realizar la busqueda!!. Contacte al administrador");
             
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(AgregarCandidato.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+        } else {
+            
+            JOptionPane.showMessageDialog(null, "Debe ingresar el dato a buscar");
+            
         }
         
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -434,12 +445,7 @@ public class Vacantes extends javax.swing.JFrame {
                             
             txt_buscar.setText("");
 
-            Class.forName("oracle.jdbc.driver.OracleDriver");
-            String url = "";
-            String usuario = "system";
-            String pass = "admin";
-
-            Connection cn = DriverManager.getConnection(url, usuario, pass);
+            Connection cn = conexion.conectar();
             
             PreparedStatement pst1 = cn.prepareStatement("select * from vacantes");
 
@@ -467,16 +473,23 @@ public class Vacantes extends javax.swing.JFrame {
                 
             }
             
+            cn.close();
+            
         } catch (SQLException e) {
             
             System.err.println("Error con el boton Tabla Completa. " + e );
             JOptionPane.showMessageDialog(null, "Error al mostrar la tabla!!. Contacte al administrador");
             
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(AgregarCandidato.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
     }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        
+        PDFvacantes newFrame = new PDFvacantes();
+        newFrame.setVisible(true);                                     //hace visible la vantana
+        this.dispose(); 
+        
+    }//GEN-LAST:event_jButton6ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -522,6 +535,7 @@ public class Vacantes extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

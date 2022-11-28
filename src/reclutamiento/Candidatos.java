@@ -1,15 +1,13 @@
 
 package reclutamiento;
 
+import clases.conexion;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -39,12 +37,7 @@ public class Candidatos extends javax.swing.JFrame {
         
         try {
 
-            Class.forName("oracle.jdbc.driver.OracleDriver");
-            String url = "";
-            String usuario = "system";
-            String pass = "admin";
-
-            Connection cn = DriverManager.getConnection(url, usuario, pass);
+            Connection cn = conexion.conectar();
             
             PreparedStatement pst1 = cn.prepareStatement("select * from candidatos");
             
@@ -72,10 +65,12 @@ public class Candidatos extends javax.swing.JFrame {
                         rs1.getString("observacion"),rs1.getString("fecha"),rs1.getString("reclutador"),});
                           
                 } 
+                cn.close();
                 
             }else {
  
                 JOptionPane.showMessageDialog(null, "La tabla esta vacia");
+                cn.close();
                 
             }
             
@@ -84,18 +79,13 @@ public class Candidatos extends javax.swing.JFrame {
             System.err.println("Error al cargar la tabla. " + e );
             JOptionPane.showMessageDialog(null, "Error al mostrar la tabla!!. Contacte al administrador");
             
-        } catch (ClassNotFoundException ex) {
-            
-            Logger.getLogger(AgregarCandidato.class.getName()).log(Level.SEVERE, null, ex);
-            
-        }
-        
+        }      
     }
     
     @Override
     public Image getIconImage(){                    //cambiamos el icono del jframeform
     
-        Image retValue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("images/iconoAR.png"));
+        Image retValue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("images/iconoVEC.png"));
         return retValue;
         
     }
@@ -122,6 +112,7 @@ public class Candidatos extends javax.swing.JFrame {
         jButton4 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jButton6 = new javax.swing.JButton();
+        jButton7 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -151,7 +142,7 @@ public class Candidatos extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jTable1);
 
-        jButton1.setText("Agregar Candidato");
+        jButton1.setText("Agregar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -168,14 +159,14 @@ public class Candidatos extends javax.swing.JFrame {
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/logo.png"))); // NOI18N
         jLabel4.setText("jLabel4");
 
-        jButton3.setText("Modificar Candidato");
+        jButton3.setText("Modificar");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
             }
         });
 
-        jButton4.setText("Eliminar Candidato");
+        jButton4.setText("Eliminar");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton4ActionPerformed(evt);
@@ -184,10 +175,17 @@ public class Candidatos extends javax.swing.JFrame {
 
         jLabel2.setText("Ej. Nombre, Apellido, Perfil, Seniority");
 
-        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/tabla.png"))); // NOI18N
+        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/iconoTabla.png"))); // NOI18N
         jButton6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton6ActionPerformed(evt);
+            }
+        });
+
+        jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/iconoPDF.png"))); // NOI18N
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
             }
         });
 
@@ -230,14 +228,11 @@ public class Candidatos extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton1))
                     .addGroup(layout.createSequentialGroup()
+                        .addContainerGap(20, Short.MAX_VALUE)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1021, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(8, 8, 8))
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(32, 32, 32)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(txt_buscar)
                                     .addGroup(layout.createSequentialGroup()
@@ -248,7 +243,14 @@ public class Candidatos extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jButton6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                    .addComponent(jButton6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(147, 147, 147)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(8, 8, 8))
+                                    .addComponent(jButton7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -263,7 +265,7 @@ public class Candidatos extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 547, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -273,6 +275,8 @@ public class Candidatos extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel2))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -295,14 +299,11 @@ public class Candidatos extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         
-        try {
+        if (!txt_buscar.getText().isEmpty()) {
+            
+            try {
 
-            Class.forName("oracle.jdbc.driver.OracleDriver");
-            String url = "";
-            String usuario = "system";
-            String pass = "admin";
-
-            Connection cn = DriverManager.getConnection(url, usuario, pass);
+            Connection cn = conexion.conectar();
             
             PreparedStatement pst1 = cn.prepareStatement("select * from candidatos where nombre = ?");
             PreparedStatement pst2 = cn.prepareStatement("select * from candidatos where apellido = ?");
@@ -342,6 +343,8 @@ public class Candidatos extends javax.swing.JFrame {
                           
                 } 
                 
+                cn.close();
+                
             }else if(rs2.next()){
             
                 dfm.addRow(new Object[]{rs2.getString("nombre"),rs2.getString("apellido"),rs2.getString("telefono"),
@@ -357,6 +360,8 @@ public class Candidatos extends javax.swing.JFrame {
                         rs2.getString("observacion"),rs2.getString("fecha"),rs2.getString("reclutador"),});
                           
                 }
+                
+                cn.close();
     
             }else if(rs3.next()){
             
@@ -374,6 +379,8 @@ public class Candidatos extends javax.swing.JFrame {
                           
                 }
                 
+                cn.close();
+                
             }else if(rs4.next()){
             
                 dfm.addRow(new Object[]{rs4.getString("nombre"),rs4.getString("apellido"),rs4.getString("telefono"),
@@ -389,21 +396,29 @@ public class Candidatos extends javax.swing.JFrame {
                         rs4.getString("observacion"),rs4.getString("fecha"),rs4.getString("reclutador"),});
                           
                 }
+                
+                cn.close();
     
             }else {
  
                 JOptionPane.showMessageDialog(null, "No se encontraron resultados");
+                cn.close();
                 
             }
             
-        } catch (SQLException e) {
+            } catch (SQLException e) {
             
-            System.err.println("Error con el boton buscar candidato. " + e );
-            JOptionPane.showMessageDialog(null, "Error al realizar la busqueda!!. Contacte al administrador");
+                System.err.println("Error con el boton buscar candidato. " + e );
+                JOptionPane.showMessageDialog(null, "Error al realizar la busqueda!!. Contacte al administrador");
             
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(AgregarCandidato.class.getName()).log(Level.SEVERE, null, ex);
-        } 
+            }
+            
+        } else {
+            
+            JOptionPane.showMessageDialog(null, "Debe ingresar el dato a buscar");
+            
+        }
+        
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
@@ -479,12 +494,7 @@ public class Candidatos extends javax.swing.JFrame {
                             
             txt_buscar.setText("");
 
-            Class.forName("oracle.jdbc.driver.OracleDriver");
-            String url = "";
-            String usuario = "system";
-            String pass = "admin";
-
-            Connection cn = DriverManager.getConnection(url, usuario, pass);
+            Connection cn = conexion.conectar();
             
             PreparedStatement pst1 = cn.prepareStatement("select * from candidatos");
             
@@ -513,9 +523,12 @@ public class Candidatos extends javax.swing.JFrame {
                           
                 } 
                 
+                cn.close();
+                
             }else {
  
                 JOptionPane.showMessageDialog(null, "La tabla esta vacia");
+                cn.close();
                 
             }
             
@@ -524,12 +537,16 @@ public class Candidatos extends javax.swing.JFrame {
             System.err.println("Error al cargar la tabla. " + e );
             JOptionPane.showMessageDialog(null, "Error al mostrar la tabla!!. Contacte al administrador");
             
-        } catch (ClassNotFoundException ex) {
-            
-            Logger.getLogger(AgregarCandidato.class.getName()).log(Level.SEVERE, null, ex);
-            
         }
     }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        
+        PDFcandidatos newFrame = new PDFcandidatos();
+        newFrame.setVisible(true);                                     //hace visible la vantana
+        this.dispose();
+        
+    }//GEN-LAST:event_jButton7ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -573,6 +590,7 @@ public class Candidatos extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

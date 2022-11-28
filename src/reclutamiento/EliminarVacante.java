@@ -1,14 +1,12 @@
 
 package reclutamiento;
 
+import clases.conexion;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import static reclutamiento.Vacantes.identificadormodificar;
 
@@ -55,7 +53,7 @@ public class EliminarVacante extends javax.swing.JFrame {
     @Override
     public Image getIconImage(){                    //cambiamos el icono del jframeform
     
-        Image retValue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("images/iconoAR.png"));
+        Image retValue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("images/iconoVEC.png"));
         return retValue;
         
     }
@@ -271,12 +269,7 @@ public class EliminarVacante extends javax.swing.JFrame {
 
         try {
             
-            Class.forName("oracle.jdbc.driver.OracleDriver");
-            String url = "";
-            String usuario = "system";
-            String pass = "admin";
-            
-            Connection cn = DriverManager.getConnection(url, usuario, pass);
+            Connection cn = conexion.conectar();
                 
             PreparedStatement pst = cn.prepareStatement("delete from vacantes where identificador = " + identificadormodificar);
             
@@ -292,6 +285,8 @@ public class EliminarVacante extends javax.swing.JFrame {
             
             JOptionPane.showMessageDialog(null, "La vacante fue eliminada");
             
+            cn.close();
+            
             Vacantes newFrame = new Vacantes();
             newFrame.setVisible(true);                                     //hace visible la vantana
             this.dispose();
@@ -300,10 +295,6 @@ public class EliminarVacante extends javax.swing.JFrame {
             
             System.err.println("Error con el boton eliminar vacante. " + e );
             JOptionPane.showMessageDialog(null, "Error al eliminar la vacante!!. Contacte al administrador");
-            
-        } catch (ClassNotFoundException ex) {
-            
-            Logger.getLogger(AgregarCandidato.class.getName()).log(Level.SEVERE, null, ex);
             
         }
     }//GEN-LAST:event_jButton1ActionPerformed

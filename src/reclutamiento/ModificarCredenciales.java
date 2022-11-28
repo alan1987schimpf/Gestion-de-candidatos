@@ -1,19 +1,23 @@
 
 package reclutamiento;
 
+import clases.conexion;
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidKeyException;
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Arrays;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import javax.swing.JOptionPane;
@@ -45,12 +49,8 @@ public class ModificarCredenciales extends javax.swing.JFrame {
         
         try {
 
-            Class.forName("oracle.jdbc.driver.OracleDriver");
-            String url = "";
-            String usuario = "system";
-            String pass = "admin";
-
-            Connection cn = DriverManager.getConnection(url, usuario, pass);
+            Connection cn = conexion.conectar();
+            
             PreparedStatement pst = cn.prepareStatement("select * from usuarios");
 
             ResultSet rs = pst.executeQuery();
@@ -73,20 +73,18 @@ public class ModificarCredenciales extends javax.swing.JFrame {
                 
                 cn.close();
                 
-            } catch (SQLException e) {
+        } catch (SQLException e) {
                 
-                System.err.println("Error con el boton modificar credenciales. " + e );
-                JOptionPane.showMessageDialog(null, "Error al buscar las credenciales!!. Contacte al administrador");
+            System.err.println("Error con el boton modificar credenciales. " + e );
+            JOptionPane.showMessageDialog(null, "Error al buscar las credenciales!!. Contacte al administrador");
                 
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(Inicio.class.getName()).log(Level.SEVERE, null, ex);
-            }   
+        }   
     }
     
     @Override
     public Image getIconImage(){                    //cambiamos el icono del jframeform
     
-        Image retValue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("images/iconoAR.png"));
+        Image retValue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("images/iconoVEC.png"));
         return retValue;
         
     }
@@ -206,12 +204,7 @@ public class ModificarCredenciales extends javax.swing.JFrame {
         
         try {
 
-            Class.forName("oracle.jdbc.driver.OracleDriver");
-            String url = "";
-            String usuario = "system";
-            String pass = "admin";
-
-            Connection cn = DriverManager.getConnection(url, usuario, pass);
+            Connection cn = conexion.conectar();
 
             if(txt_email.getText().isEmpty() || txt_contraseña.getText().isEmpty()){
             
@@ -239,6 +232,8 @@ public class ModificarCredenciales extends javax.swing.JFrame {
                     user = txt_email.getText().trim();
                     password = txt_contraseña.getText().trim();     
                     
+                    cn.close();
+                    
                     JOptionPane.showMessageDialog(null, "Modificacion Exitosa");
                     
                     if (permiso.equalsIgnoreCase("superadministrador")) {
@@ -262,8 +257,6 @@ public class ModificarCredenciales extends javax.swing.JFrame {
             System.err.println("Error con el boton modificar. " + e );
             JOptionPane.showMessageDialog(null, "Error al modificar credenciales!!. Contacte al administrador");
             
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Inicio.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -322,7 +315,7 @@ public class ModificarCredenciales extends javax.swing.JFrame {
             byte[] plainText = decipher.doFinal(message);
             desencriptacion = new String(plainText, "UTF-8");
 
-        } catch (Exception e) {
+        } catch (UnsupportedEncodingException | InvalidKeyException | NoSuchAlgorithmException | BadPaddingException | IllegalBlockSizeException | NoSuchPaddingException e) {
             
             JOptionPane.showMessageDialog(null, "Error al decodificar el password");
             
@@ -347,7 +340,7 @@ public class ModificarCredenciales extends javax.swing.JFrame {
             byte[] base64Bytes = Base64.encodeBase64(buf);
             encriptacion = new String(base64Bytes);
             
-        } catch (Exception ex) {
+        } catch (UnsupportedEncodingException | InvalidKeyException | NoSuchAlgorithmException | BadPaddingException | IllegalBlockSizeException | NoSuchPaddingException ex) {
             
             JOptionPane.showMessageDialog(null, "Error al codificar el password");
             

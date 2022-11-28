@@ -1,16 +1,14 @@
 
 package reclutamiento;
 
+import clases.conexion;
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import static reclutamiento.Inicio.user;
 
@@ -39,12 +37,7 @@ public class AgregarUsuario extends javax.swing.JFrame {
         
         try {
 
-            Class.forName("oracle.jdbc.driver.OracleDriver");
-            String url = "";
-            String usuario = "system";
-            String pass = "admin";
-
-            Connection cn = DriverManager.getConnection(url, usuario, pass);
+            Connection cn = conexion.conectar();
             
             PreparedStatement pst1 = cn.prepareStatement("select id from usuarios");
             ResultSet rs1 = pst1.executeQuery();
@@ -75,16 +68,13 @@ public class AgregarUsuario extends javax.swing.JFrame {
             System.err.println("Error con la busqueda del identificador. " + e );
             JOptionPane.showMessageDialog(null, "Error al abrir la ventana!!. Contacte al administrador");
             
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(AgregarCandidato.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
+        }  
     }
     
     @Override
     public Image getIconImage(){                    //cambiamos el icono del jframeform
     
-        Image retValue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("images/iconoAR.png"));
+        Image retValue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("images/iconoVEC.png"));
         return retValue;
         
     }
@@ -210,12 +200,8 @@ public class AgregarUsuario extends javax.swing.JFrame {
         
         try {
 
-            Class.forName("oracle.jdbc.driver.OracleDriver");
-            String url = "";
-            String usuario = "system";
-            String pass = "admin";
-
-            Connection cn = DriverManager.getConnection(url, usuario, pass);
+            Connection cn = conexion.conectar();
+            
             PreparedStatement pst = cn.prepareStatement("select * from usuarios where email = ?");
             pst.setString(1, txt_email.getText().trim());
             
@@ -244,7 +230,8 @@ public class AgregarUsuario extends javax.swing.JFrame {
                     pst1.setString(4, choice_permiso.getSelectedItem().toLowerCase().trim());
 
                     pst1.executeUpdate();                                          //se ejecutan las lineas que le enviamos a la base de datos
-                
+                    cn.close();
+                    
                     txt_email.setBackground(Color.green);
                     txt_contraseña.setBackground(Color.green);
                     choice_permiso.setBackground(Color.green);
@@ -281,10 +268,7 @@ public class AgregarUsuario extends javax.swing.JFrame {
             System.err.println("Error con el boton registrar. " + e );
             JOptionPane.showMessageDialog(null, "Error al registrar usuario!!. Contacte al administrador");
             
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Inicio.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
