@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
- * @author Alan Schimpf
+ * @author Giuliana Carnevalle, Bautista Venier y Alan Sebastian Schimpf
  */
 
 public class ModificarCandidato extends javax.swing.JFrame {
@@ -71,7 +71,7 @@ public class ModificarCandidato extends javax.swing.JFrame {
         return retValue;
         
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -118,6 +118,7 @@ public class ModificarCandidato extends javax.swing.JFrame {
         jButton4 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setIconImage(getIconImage());
 
         jLabel2.setText("Nombre:");
 
@@ -397,7 +398,8 @@ public class ModificarCandidato extends javax.swing.JFrame {
                     pst.setString(10, choice_estado.getSelectedItem());
                     pst.setString(11, txt_observacion.getText().trim());
                     pst.setString(12, txt_fecha.getText().trim());
-                    pst.setString(13, choice_reclutadora.getSelectedItem());           
+                    pst.setString(13, choice_reclutadora.getSelectedItem());    
+                    
                     pst.setString(14, txt_email.getText().trim());
 
                     pst.executeUpdate();
@@ -530,7 +532,7 @@ public class ModificarCandidato extends javax.swing.JFrame {
                 
             }else {
  
-                JOptionPane.showMessageDialog(null, "No se encontraron resultados");
+                JOptionPane.showMessageDialog(null, "El candidato no existe");
                 
             }
             

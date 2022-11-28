@@ -21,6 +21,13 @@ import javax.swing.table.DefaultTableModel;
 public class Vacantes extends javax.swing.JFrame {
     
     JTable tabla;
+    public static String clientemodificar = "";
+    public static String vacantemodificar = "";
+    public static String fechadecomienzomodificar = "";
+    public static String cantidadmodificar = "";
+    public static String estadomodificar = "";
+    public static String fechacierremodificar = "";
+    public static String identificadormodificar = "";
 
     /**
      * Creates new form Clientes
@@ -52,24 +59,24 @@ public class Vacantes extends javax.swing.JFrame {
             tabla = this.jTable1;
             tabla.setModel(dfm);
             
-            dfm.setColumnIdentifiers(new Object[]{"Cliente","Vacante","Fecha de comienzo",
+            dfm.setColumnIdentifiers(new Object[]{"Identificador","Cliente","Vacante","Fecha de comienzo",
                 "Cantidad","Estado","Fecha de cierre"});
             
             if (rs1.next()) {
                 
-                dfm.addRow(new Object[]{rs1.getString("cliente"),rs1.getString("vacante"),rs1.getString("fechacomienzo"),
+                dfm.addRow(new Object[]{rs1.getString("identificador"),rs1.getString("cliente"),rs1.getString("vacante"),rs1.getString("fechacomienzo"),
                         rs1.getString("cantidad"),rs1.getString("estado"),rs1.getString("fechacierre")});
                 
                 while(rs1.next()){
                 
-                    dfm.addRow(new Object[]{rs1.getString("cliente"),rs1.getString("vacante"),rs1.getString("fechacomienzo"),
+                    dfm.addRow(new Object[]{rs1.getString("identificador"),rs1.getString("cliente"),rs1.getString("vacante"),rs1.getString("fechacomienzo"),
                         rs1.getString("cantidad"),rs1.getString("estado"),rs1.getString("fechacierre")});
                           
                 } 
                 
             }else {
  
-                JOptionPane.showMessageDialog(null, "No se encontraron resultados");
+                JOptionPane.showMessageDialog(null, "La tabla esta vacia");
                 
             }
             
@@ -109,6 +116,7 @@ public class Vacantes extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         txt_buscar = new javax.swing.JTextField();
         jButton3 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -122,15 +130,20 @@ public class Vacantes extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Cliente", "Vacante", "Fecha de comienzo", "Cantidad", "Estado", "Fecha de cierre"
+                "Identificador", "Cliente", "Vacante", "Fecha de comienzo", "Cantidad", "Estado", "Fecha de cierre"
             }
         ));
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/logo.png"))); // NOI18N
@@ -147,6 +160,13 @@ public class Vacantes extends javax.swing.JFrame {
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("Modificar Vacante");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
             }
         });
 
@@ -193,6 +213,8 @@ public class Vacantes extends javax.swing.JFrame {
                         .addGap(487, 487, 487)
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton3)))
                 .addContainerGap())
         );
@@ -202,7 +224,8 @@ public class Vacantes extends javax.swing.JFrame {
                 .addGap(27, 27, 27)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jButton3))
+                    .addComponent(jButton3)
+                    .addComponent(jButton2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -270,36 +293,44 @@ public class Vacantes extends javax.swing.JFrame {
             tabla = this.jTable1;
             tabla.setModel(dfm);
             
-            dfm.setColumnIdentifiers(new Object[]{"Cliente","Vacante","Fecha de comienzo",
+            dfm.setColumnIdentifiers(new Object[]{"Identificador","Cliente","Vacante","Fecha de comienzo",
                 "Cantidad","Estado","Fecha de cierre"});
             
-            if (rs1.next()) {
-                
-                dfm.addRow(new Object[]{rs1.getString("cliente"),rs1.getString("vacante"),rs1.getString("fechacomienzo"),
-                        rs1.getString("cantidad"),rs1.getString("estado"),rs1.getString("fechacierre")});
-                
-                while(rs1.next()){
-                
-                    dfm.addRow(new Object[]{rs1.getString("cliente"),rs1.getString("vacante"),rs1.getString("fechacomienzo"),
-                        rs1.getString("cantidad"),rs1.getString("estado"),rs1.getString("fechacierre")});
-                          
-                } 
-                
-            }else if(rs2.next()){
+            if(!txt_buscar.getText().isEmpty()){
             
-                dfm.addRow(new Object[]{rs2.getString("cliente"),rs2.getString("vacante"),rs2.getString("fechacomienzo"),
-                        rs2.getString("cantidad"),rs2.getString("estado"),rs2.getString("fechacierre")});
+                if (rs1.next()) {
                 
-                while(rs2.next()){
+                    dfm.addRow(new Object[]{rs1.getString("identificador"),rs1.getString("cliente"),rs1.getString("vacante"),rs1.getString("fechacomienzo"),
+                            rs1.getString("cantidad"),rs1.getString("estado"),rs1.getString("fechacierre")});
                 
-                    dfm.addRow(new Object[]{rs2.getString("cliente"),rs2.getString("vacante"),rs2.getString("fechacomienzo"),
-                        rs2.getString("cantidad"),rs2.getString("estado"),rs2.getString("fechacierre")});
+                    while(rs1.next()){
+                
+                        dfm.addRow(new Object[]{rs1.getString("identificador"),rs1.getString("cliente"),rs1.getString("vacante"),rs1.getString("fechacomienzo"),
+                            rs1.getString("cantidad"),rs1.getString("estado"),rs1.getString("fechacierre")});
                           
-                }
+                    } 
+                
+                }else if(rs2.next()){
+            
+                    dfm.addRow(new Object[]{rs2.getString("identificador"),rs2.getString("cliente"),rs2.getString("vacante"),rs2.getString("fechacomienzo"),
+                            rs2.getString("cantidad"),rs2.getString("estado"),rs2.getString("fechacierre")});
+                
+                    while(rs2.next()){
+                
+                        dfm.addRow(new Object[]{rs2.getString("identificador"),rs2.getString("cliente"),rs2.getString("vacante"),rs2.getString("fechacomienzo"),
+                            rs2.getString("cantidad"),rs2.getString("estado"),rs2.getString("fechacierre")});
+                          
+                    }
     
-            }else {
+                }else {
  
-                JOptionPane.showMessageDialog(null, "No se encontraron resultados");
+                    JOptionPane.showMessageDialog(null, "No se encontraron resultados");
+                
+                }
+            
+            }else{
+            
+                JOptionPane.showMessageDialog(null, "Debe ingresar un cliente o una vacante");
                 
             }
             
@@ -313,6 +344,44 @@ public class Vacantes extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        
+        ModificarVacante newFrame = new ModificarVacante();
+        newFrame.setVisible(true);                                     //hace visible la vantana
+        this.dispose(); 
+        
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        
+        int fila = jTable1.getSelectedRow();              //toma el valor de la fila seleccionada
+        int col = jTable1.getSelectedColumn();          //toma el valor de la celda seleccionada
+        
+        String valorCelda = (String) jTable1.getValueAt(fila,col);
+        
+        if (col == 1) {
+            
+            identificadormodificar = (String) jTable1.getValueAt(fila,0);
+            clientemodificar = valorCelda;
+            vacantemodificar = (String) jTable1.getValueAt(fila,2);
+            fechadecomienzomodificar = (String) jTable1.getValueAt(fila,3);
+            cantidadmodificar = (String) jTable1.getValueAt(fila,4);
+            estadomodificar = (String) jTable1.getValueAt(fila,5);
+            fechacierremodificar = (String) jTable1.getValueAt(fila,6);
+            
+            
+            
+        } else {
+            
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un cliente");
+            
+        }
+        
+        
+        
+        
+    }//GEN-LAST:event_jTable1MouseClicked
 
     /**
      * @param args the command line arguments
@@ -354,6 +423,7 @@ public class Vacantes extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

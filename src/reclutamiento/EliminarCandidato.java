@@ -1,6 +1,8 @@
 
 package reclutamiento;
 
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -11,7 +13,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
- * @author Alan Schimpf
+ * @author Giuliana Carnevalle, Bautista Venier y Alan Sebastian Schimpf
  */
 
 public class EliminarCandidato extends javax.swing.JFrame {
@@ -31,6 +33,14 @@ public class EliminarCandidato extends javax.swing.JFrame {
         Candidatos eliminar = new Candidatos();
         txt_email.setText(eliminar.valor);
          
+    }
+    
+    @Override
+    public Image getIconImage(){                    //cambiamos el icono del jframeform
+    
+        Image retValue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("images/iconoAR.png"));
+        return retValue;
+        
     }
 
     /**
@@ -52,6 +62,7 @@ public class EliminarCandidato extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setIconImage(getIconImage());
 
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/flechaatras.jpg"))); // NOI18N
         jButton2.addActionListener(new java.awt.event.ActionListener() {
